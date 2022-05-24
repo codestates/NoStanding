@@ -2,7 +2,7 @@
 name: Issue Task Card (Front)
 about: Issue Task Card
 title: "[TASK] (F)"
-labels: ''
+labels: 'Frontend, Urgency: High, Urgency: Low, Urgency: Middle'
 assignees: gamemakerr, Sun970324
 
 ---

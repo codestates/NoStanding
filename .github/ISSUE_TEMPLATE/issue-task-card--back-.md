@@ -2,7 +2,7 @@
 name: Issue Task Card (Back)
 about: Issue Task Card
 title: "[TASK] (B)"
-labels: ''
+labels: 'Backend, Urgency: High, Urgency: Low, Urgency: Middle'
 assignees: BaGyun0107, Sangkan-K
 
 ---

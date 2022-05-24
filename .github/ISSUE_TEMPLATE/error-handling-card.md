@@ -2,7 +2,7 @@
 name: Error Handling Card
 about: 에러 핸들링 카드
 title: "[Error]"
-labels: ''
+labels: Error
 assignees: BaGyun0107, gamemakerr, Sangkan-K, Sun970324
 
 ---
