@@ -2,7 +2,7 @@
 name: KPT
 about: KPT
 title: "[KPT] 0주차 0요일"
-labels: KPT
+labels: ''
 assignees: BaGyun0107, gamemakerr, Sangkan-K, Sun970324
 
 ---

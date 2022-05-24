@@ -2,8 +2,8 @@
 name: Error Handling Card
 about: 에러 핸들링 카드
 title: "[Error]"
-labels: Error
-assignees: Sun970324, BaGyun0107, Sangkan-K, gamemakerr
+labels: ''
+assignees: BaGyun0107, gamemakerr, Sangkan-K, Sun970324
 
 ---
 
