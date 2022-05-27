@@ -1,5 +1,5 @@
 module.exports = {
-    post : {
-        
-    }
-}
+  post: (req, res) => {
+    res.send('');
+  },
+};

@@ -1,5 +1,5 @@
 module.exports = {
-  get : {
-      
+  get : (req,res) => {
+    res.send('')
   }
 }

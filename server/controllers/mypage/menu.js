@@ -1,8 +1,8 @@
 module.exports = {
-  get : {
-
+  get: (req, res) => {
+    res.send('');
   },
-  patch : {
-      
-  }
-}
+  patch: (req, res) => {
+    res.send('');
+  },
+};
