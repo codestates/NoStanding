@@ -6,9 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codestates/NoStanding.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codestates/NoStanding/issues"
+  },
+  "homepage": "https://github.com/codestates/NoStanding#readme",
   "dependencies": {
-    "axios": "^0.27.2"
+    "express": "^4.18.1"
   }
 }
