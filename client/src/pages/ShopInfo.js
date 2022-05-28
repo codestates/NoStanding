@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import styled from 'styled-components'
 
 const MainImg =styled.img`
@@ -28,10 +28,11 @@ const Bookbutton = styled.button`
  
 `
 function ShopInfo() {
+  const [img,setImg] = useState('')
   return (
     <div>
       <Imgcontainer>
-        <MainImg></MainImg>
+        <MainImg src='img/사진1.jpeg'></MainImg>
         <Imgselectbox></Imgselectbox>
       </Imgcontainer>
       <Box>
