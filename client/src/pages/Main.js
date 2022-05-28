@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
-
-
+import {Link} from 'react-router-dom'
+ 
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -44,7 +44,9 @@ function Main() {
         </FlexRow>
       </FlexCol>
       <div>
+        <Link to='/ShopInfo'>
         <SearchList></SearchList>
+        </Link>
       </div>
     </>
   );
