@@ -3,9 +3,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
-const { swaggerUi, specs } = require("./swagger")
-
-
+const { swaggerUi, specs } = require('./swagger');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,9 +25,7 @@ app.use('/', mainRouter);
 app.use('/', userRouter);
 app.use('/mypage', mypageRouter);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs))
-
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 const PORT = process.env.HTTP_PORT || 4000;
 

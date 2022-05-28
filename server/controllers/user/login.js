@@ -1,30 +1,35 @@
-const { User } = require("../../models");
+const { User } = require('../../models');
 const {
   generateAccessToken,
   sendAccessToken,
-} = require("../../middlewares/token");
+} = require('../../middlewares/token');
 const util = require('util');
 const crypto = require('crypto');
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
-
 module.exports = {
   post: async (req, res) => {
     try {
-    const { user_name, password } = req.body
+      const { user_name, password } = req.body;
 
-    //유저아이디와 패스워드의 입력값이 비었을 때
-    if(!user_name || !password) {
-      req.status(400).send({ message: '아이디와 비밀번호 입력은 필수 입니다.' })
-    }
+      //유저아이디와 패스워드의 입력값이 비었을 때
+      if (!user_name || !password) {
+        req
+          .status(400)
+          .send({ message: '아이디와 비밀번호 입력은 필수 입니다.' });
+      }
 
-    const userNameInfo = await User.findOne({
-      where: {
-        user_name: user_name,
-      },
-    });
-    //데이터베이스에 없는 아이디일 때
-      if (!userNameInfo) { req.status(400).send({ message: '입력하신 아이디가 존재하지않습니다.' })};
+      const userNameInfo = await User.findOne({
+        where: {
+          user_name: user_name,
+        },
+      });
+      //데이터베이스에 없는 아이디일 때
+      if (!userNameInfo) {
+        req
+          .status(400)
+          .send({ message: '입력하신 아이디가 존재하지않습니다.' });
+      }
 
       //미리 저장해둔 user_salt 컬럼을 불러온다.
       const userSalt = userNameInfo.dataValues.user_salt;
@@ -37,27 +42,26 @@ module.exports = {
       const userInfo = await User.findOne({
         where: {
           user_name: user_name,
-          pssword: hashedPassword
+          pssword: hashedPassword,
         },
       });
-      
-      if (!userInfo) {
-        res.status(400).send({ message: "로그인에 실패하였습니다."})
-      } else {
 
+      if (!userInfo) {
+        res.status(400).send({ message: '로그인에 실패하였습니다.' });
+      } else {
         //패스워드 지우기
         delete userInfo.dataValues.password;
-  
+
         const accessToken = generateAccessToken(userInfo.dataValues);
         sendAccessToken(res, accessToken);
-  
+
         return res.json({
           data: { userInfo: userInfo },
-          message: "로그인에 성공하였습니다",
+          message: '로그인에 성공하였습니다',
         });
       }
     } catch (err) {
-      return res.status(500).send({ message: "서버 에러" });
+      return res.status(500).send({ message: '서버 에러' });
     }
   },
 };
