@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import Banner from '../components/Banner';
+import SearchList from '../components/SearchList';
 
 
-const Img = styled.img`
-  width: 100%;
-  height: 25vh;
-`;
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,14 +11,20 @@ const FlexCol = styled.div`
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  border: 2px solid black;
+  height: 5vh;
+  align-items: center;
+  div{
+    width: auto;
+  }
 `
 function Main() {
   return (
     <>
       <div>
-        <Img src="img/test.jpeg"></Img>
-        <div> {'<'} </div>
-        <div> {'>'} </div>
+       <Banner></Banner>
       </div>
       <FlexCol>
         <FlexRow>
@@ -40,7 +44,7 @@ function Main() {
         </FlexRow>
       </FlexCol>
       <div>
-        <div>컴포넌트</div>
+        <SearchList></SearchList>
       </div>
     </>
   );
