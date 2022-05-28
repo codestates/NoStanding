@@ -16,6 +16,7 @@ const Arrows = styled.div`
   margin: 5em;
   opacity: 0.6;
 `;
+
 function Banner() {
   return (
     <>

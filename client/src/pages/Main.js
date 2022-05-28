@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
 
-
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -16,15 +15,16 @@ const FlexRow = styled.div`
   border: 2px solid black;
   height: 5vh;
   align-items: center;
-  div{
+  div {
     width: auto;
   }
-`
+`;
+
 function Main() {
   return (
     <>
       <div>
-       <Banner></Banner>
+        <Banner />
       </div>
       <FlexCol>
         <FlexRow>
