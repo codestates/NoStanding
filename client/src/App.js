@@ -1,11 +1,15 @@
 import Header from './components/Header';
+import GlobalStyles from './GlobalStyles';
 import Main from './pages/Main';
+
 function App() {
+  
   return (
-    <div>
+    <>
+    <GlobalStyles />
       <Header />
       <Main />
-    </div>
+    </>
   );
 }
 
