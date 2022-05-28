@@ -5,12 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
   background-image: url(${(props) => props.img});
-  background-size: 100% 25vh;
+  background-size: 100% 35vh;
   width: 100%;
-  height: 26vh;
+  height: 35vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 const Arrows = styled.div`
   margin: 5em;
