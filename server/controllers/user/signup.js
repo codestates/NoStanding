@@ -21,6 +21,7 @@ module.exports = {
       } = req.body;
       //ismaster가 false 일 때
       if (ismaster === false) {
+        //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
           res
             .status(400)
@@ -44,6 +45,7 @@ module.exports = {
         });
         //DB와 req.body가 중복된다면 실패처리하기
         if (userNameInfo) {
+          //
           res.status(403).send({ message: '중복되는 아이디가 존재합니다.' });
         }
         if (nickNameInfo) {
@@ -74,6 +76,7 @@ module.exports = {
         }
       }
       if (ismaster === true) {
+        // 점주로 회원가입
         if (
           !user_name ||
           !password ||

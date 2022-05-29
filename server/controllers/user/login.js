@@ -14,7 +14,7 @@ module.exports = {
 
       //유저아이디와 패스워드의 입력값이 비었을 때
       if (!user_name || !password) {
-        req
+        res
           .status(400)
           .send({ message: '아이디와 비밀번호 입력은 필수 입니다.' });
       }
@@ -26,7 +26,7 @@ module.exports = {
       });
       //데이터베이스에 없는 아이디일 때
       if (!userNameInfo) {
-        req
+        res
           .status(400)
           .send({ message: '입력하신 아이디가 존재하지않습니다.' });
       }
