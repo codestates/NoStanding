@@ -1,4 +1,4 @@
 module.exports = {
-  main : require('./main'),
-  shop : require('./shop')
-}
+  main: require('./main'),
+  shop: require('./shop'),
+};

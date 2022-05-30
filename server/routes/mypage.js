@@ -321,11 +321,4 @@ router.delete('/userinfo/:user_id', mypage.userinfo.delete);
  *          description: 회원 탈퇴 실패
  */
 
-
-
-
-
-
-
-
 module.exports = router;

@@ -2,7 +2,7 @@ module.exports = {
   post: async (req, res) => {
     try {
       //쿠키 만료
-      res.cookie('accessToken', null, { 
+      res.cookie('accessToken', null, {
         maxAge: 0,
       });
       // 로그아웃 성공
@@ -11,5 +11,5 @@ module.exports = {
       console.log(err);
       return res.status(500).json({ message: '서버에러' });
     }
-  }
+  },
 };
