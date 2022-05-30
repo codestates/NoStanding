@@ -48,8 +48,8 @@ router.get('/search/:text', main.search.get);
  * paths:
  *  /category:
  *    get:
- *      summary: "메인 페이지 카테고리 조회"
- *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
+ *      summary: "메인 페이지 카테고리 별 데이터 조회"
+ *      description: ""
  *      tags: [main]
  *      responses:
  *        "200":
@@ -61,10 +61,10 @@ router.get('/search/:text', main.search.get);
 /**
  * @swagger
  * paths:
- *  /search/:text:
+ *  /search/:text :
  *    get:
- *      summary: "메인 페이지 검색 조회"
- *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
+ *      summary: "메인 페이지 검색 데이터 조회"
+ *      description: ""
  *      tags: [main]
  *      responses:
  *        "200":
