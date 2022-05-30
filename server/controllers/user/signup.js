@@ -21,6 +21,7 @@ module.exports = {
       } = req.body;
       //ismaster가 false 일 때
       if (ismaster === false) {
+        //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
           res
             .status(400)
@@ -44,6 +45,7 @@ module.exports = {
         });
         //DB와 req.body가 중복된다면 실패처리하기
         if (userNameInfo) {
+          //
           res.status(403).send({ message: '중복되는 아이디가 존재합니다.' });
         }
         if (nickNameInfo) {
@@ -59,7 +61,7 @@ module.exports = {
           // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
           const hashedPassword = key.toString('base64');
 
-          await Users.create({
+          await User.create({
             userSalt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
@@ -74,6 +76,7 @@ module.exports = {
         }
       }
       if (ismaster === true) {
+        // 점주로 회원가입
         if (
           !user_name ||
           !password ||
@@ -128,7 +131,7 @@ module.exports = {
           // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
           const hashedPassword = key.toString('base64');
 
-          await Users.create({
+          await User.create({
             // shop_name, master_address,
             userSalt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
