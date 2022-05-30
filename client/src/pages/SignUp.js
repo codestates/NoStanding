@@ -68,6 +68,10 @@ function SingUp() {
           <input type="text" />
         </FlexRow>
         <FlexRow>
+          <div>카테고리(option) : </div>
+          <input type="text" />
+        </FlexRow>
+        <FlexRow>
           <div>주소지(option) : </div>
           <input type="text" />
         </FlexRow>

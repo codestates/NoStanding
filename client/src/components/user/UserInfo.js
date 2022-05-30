@@ -53,14 +53,6 @@ function UserInfo() {
           <input type="text" />
         </Flex>
         <Flex direction="row">
-          <div>가게이름 :</div>
-          <input type="text" />
-        </Flex>
-        <Flex direction="row">
-          <div>가게 주소 :</div>
-          <input type="text" />
-        </Flex>
-        <Flex direction="row">
           <div>핸드폰 번호 인증 :</div>
           <input type="text" />
         </Flex>
