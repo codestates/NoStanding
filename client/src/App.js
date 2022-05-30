@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Mypage from './pages/Mypage';
 import Shopinfo from './pages/ShopInfo';
 import Signup from './pages/SignUp';
-import ChoiceSignUP from './pages/ChoiceSignUp';
 import styled from 'styled-components';
 
 const Body = styled.div`
@@ -23,10 +22,9 @@ function App() {
         <Body>
           <Routes>
             <Route exact path="/" element={<Main />} />
-            <Route path="/Mypage" element={<Mypage />} />
+            <Route path="/Mypage/*" element={<Mypage />} />
             <Route path="/Shopinfo" element={<Shopinfo />} />
-            <Route path="/Signup" element={<Signup />} />
-            <Route path="/ChoiceSignUp" element={<ChoiceSignUP />} />
+            <Route path="/Signup" element={<Signup />} />  
           </Routes>
         </Body>
       </Router>
