@@ -18,12 +18,14 @@ app.use(
 const mainRouter = require('./routes/main');
 const mypageRouter = require('./routes/mypage');
 const userRouter = require('./routes/user');
+const oauthRouter = require('./routes/oauth');
 
 app.use(cookieParser());
 
 app.use('/', mainRouter);
 app.use('/', userRouter);
 app.use('/mypage', mypageRouter);
+app.use('/oauth', oauthRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
