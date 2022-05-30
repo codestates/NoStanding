@@ -75,7 +75,7 @@ function SideBar() {
         </div>
         <div>
           <h2>내 정보</h2>
-          <Link to="masterreservation">
+          <Link to="masterreview">
             <div>내 가게 관리</div>
           </Link>
           <Link to="masteruserinfo">
