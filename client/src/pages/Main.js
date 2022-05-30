@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
-import {Link} from 'react-router-dom'
- 
+import { Link } from 'react-router-dom';
+
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -16,15 +16,16 @@ const FlexRow = styled.div`
   border: 2px solid black;
   height: 5vh;
   align-items: center;
-  div{
+  div {
     width: auto;
   }
-`
+`;
+
 function Main() {
   return (
     <>
       <div>
-       <Banner></Banner>
+        <Banner />
       </div>
       <FlexCol>
         <FlexRow>
@@ -44,8 +45,8 @@ function Main() {
         </FlexRow>
       </FlexCol>
       <div>
-        <Link to='/ShopInfo'>
-        <SearchList></SearchList>
+        <Link to="/ShopInfo">
+          <SearchList></SearchList>
         </Link>
       </div>
     </>

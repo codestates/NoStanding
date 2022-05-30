@@ -40,7 +40,6 @@ function Header() {
           <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
         </Search>
         <Menu>
-          
           <button>로그인</button>
           <Link to='/ChoiceSignUp'>
           <button>회원가입</button>
@@ -50,8 +49,7 @@ function Header() {
           </Link>
           <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
         </Menu>
-      </Navbar>
-        
+      </Navbar>  
     </header>
   )
 }
