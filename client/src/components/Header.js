@@ -41,7 +41,7 @@ function Header() {
         </Search>
         <Menu>
           <button>로그인</button>
-          <Link to='/ChoiceSignUp'>
+          <Link to='/Signup'>
           <button>회원가입</button>
           </Link>
           <Link to='/Mypage'>
