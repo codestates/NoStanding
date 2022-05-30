@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define(
     'User',
@@ -7,6 +8,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+      },
+      user_salt: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
       },
       user_name: {
         type: DataTypes.STRING(45),
@@ -25,6 +30,14 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
       },
       shop_name: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
+      },
+      shop_category: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
+      },
+      shop_category_city: {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
