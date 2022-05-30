@@ -1,10 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-
+import Alarm from '../Alarm';
 
 function Notification() {
   return (
-    <div></div>
+    <>
+      <Alarm />
+    </>
   )
 }
 
