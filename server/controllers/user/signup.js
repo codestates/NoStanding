@@ -14,6 +14,8 @@ module.exports = {
         nickname,
         phone_number,
         shop_name,
+        shop_category,
+        shop_category_city,
         master_address,
         email,
         profile,
@@ -84,6 +86,8 @@ module.exports = {
           !phone_number ||
           !email ||
           !shop_name ||
+          !shop_category ||
+          !shop_category_city ||
           !master_address
         ) {
           res
@@ -139,6 +143,8 @@ module.exports = {
             nickname: nickname,
             phone_number: phone_number,
             shop_name: shop_name,
+            shop_category: shop_category,
+            shop_category_city: shop_category_city,
             master_address: master_address,
             email: email,
             profile: profile,

@@ -15,7 +15,6 @@ module.exports = {
       const searchList = await db.sequelize.query(query, {
         replacements: { text: text },
         type: QueryTypes.SELECT,
-        raw: true,
       });
 
       res.status(201).send({
