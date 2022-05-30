@@ -1,5 +1,5 @@
 module.exports = {
-  get: (req, res) => {
+  post: async (req, res) => {
     res.send('');
   },
 };

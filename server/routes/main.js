@@ -1,5 +1,5 @@
-const router = require("express").Router();
-const main = require("../controllers/main");
+const router = require('express').Router();
+const main = require('../controllers/main');
 
 /**
  * @swagger
@@ -8,8 +8,8 @@ const main = require("../controllers/main");
  *   description: 메인 페이지 조회
  */
 
-router.get("/", main.main.get);
-router.get("/shop/:id", main.shop.get);
+router.get('/', main.main.get);
+router.get('/shop/:id', main.shop.get);
 
 /**
  * @swagger

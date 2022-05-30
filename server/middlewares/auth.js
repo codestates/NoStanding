@@ -1,5 +1,5 @@
-const { isAuthorized } = require("./token");
-const { User } = require("../models");
+const { isAuthorized } = require('./token');
+const { User } = require('../models');
 
 module.exports = {
   userAuth: async (req, res) => {
@@ -20,7 +20,7 @@ module.exports = {
       // accessToken이 유효하고 사용자 정보가 올바른 경우 사용자 정보 리턴
       return userInfo;
     } catch (err) {
-      return res.status(500).json({ message: "Server Error!" });
+      return res.status(500).json({ message: 'Server Error!' });
     }
   },
 };

@@ -13,6 +13,9 @@
   },
   "author": "",
   "license": "ISC",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "bugs": {
     "url": "https://github.com/codestates/NoStanding/issues"
   },
