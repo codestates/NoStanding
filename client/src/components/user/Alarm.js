@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import ReviewInfo from './ReviewInfo';
 
+const Div = styled.div`
+  border-bottom: 2px solid black;
+`
 const Container = styled.div`
   border: 2px solid black;
   display: flex;
@@ -11,21 +13,14 @@ const Container = styled.div`
 const H2 = styled.h2`
   margin: 1em;
 `;
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`;
-
-function Review() {
-  return (
+function Alarm() {
+  return(
     <Container>
       <Div>
-        <H2>내가 쓴 후기</H2>
+        <H2>알림</H2>
       </Div>
-      <div>
-        <ReviewInfo />
-      </div>
+      <Div>메세지</Div>
     </Container>
-  );
+  )
 }
-
-export default Review;
+export default Alarm

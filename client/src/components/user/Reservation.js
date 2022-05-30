@@ -25,6 +25,10 @@ const ChooseDiv = styled.div`
   width: 50%;
   text-align: center;
 `;
+const Span = styled.span`
+  height: 100%;
+  border: 1px solid black;
+`
 function Reservation() {
   return (
     <Container>
@@ -33,6 +37,7 @@ function Reservation() {
       </Div>
       <Flex direction="row">
         <ChooseDiv>현재 예약 내역</ChooseDiv>
+        <Span></Span>
         <ChooseDiv>이전 예약 내역</ChooseDiv>
       </Flex>
       <div>

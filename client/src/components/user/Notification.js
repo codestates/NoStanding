@@ -1,8 +1,11 @@
 import React from 'react';
+import Alarm from './Alarm';
 
 function Notification() {
   return (
-    <div>알림</div>
+    <>
+      <Alarm />
+    </>
   )
 }
 

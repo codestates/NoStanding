@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -9,26 +10,26 @@ const Img = styled.img`
   width: 8em;
   height: 8em;
   margin: 1em;
-`
+`;
 const Div = styled.div`
   margin: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
-function ReservationInfo() {
+`;
+function ReviewInfo() {
   return (
     <Container>
       <div>
-        <Img src='img/test2.png' />
+        <Img src="img/test2.png" />
       </div>
       <Div>
         <div>가게이름</div>
-        <div>주소</div>
-        <div>예약시간</div>
-        <button>예약 취소</button>
+        <div>시간/날짜</div>
+        <div>유저 사진</div>
+        <div>리뷰</div>
       </Div>
     </Container>
   );
 }
-export default ReservationInfo;
+export default ReviewInfo;
