@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import store from '../store';
 
 const RowDiv = styled.div`
   margin: 5px;
@@ -74,7 +74,15 @@ const A = styled.a`
 
 
 function LoginModal({controlClose}) {
+  console.log(store.getState());
   
+  // useEffect((() => {
+  //   axios.post('https://localhost:4000/login', {
+  //     user_name:123,
+  //     password:123
+  //   })
+  //   .then((resp) => console.log(resp))
+  // }),[])
   // const [loginInfo, setLoginInfo] = useState({
   //   userId: '',
   //   password: '',
