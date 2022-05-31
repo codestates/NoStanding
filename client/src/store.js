@@ -9,7 +9,20 @@ const loginInfo = createSlice({
     },
   },
 });
-const store = configureStore({reducer: loginInfo.reducer})
 
+const loginState = createSlice({
+  name: 'userLoginReducer',
+  initialState: false,
+  reducers: {
+    getUserLogin: (state, action) => {
+      state = true;
+    },
+    getUserLogout: (state, action)=>{
+      state =false;
+    }
+  },
+});
+const store = configureStore({reducer: {loginInfo:loginInfo.reducer, loginState:loginState.reducer}})
+export const { getUserLogin, getUserLogout} = loginState.actions;
 export const { getUserInfo } = loginInfo.actions;
 export default store
