@@ -14,6 +14,8 @@ module.exports = {
         nickname,
         phone_number,
         shop_name,
+        shop_category,
+        shop_category_city,
         master_address,
         email,
         profile,
@@ -62,7 +64,7 @@ module.exports = {
           const hashedPassword = key.toString('base64');
 
           await User.create({
-            userSalt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
+            user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
             nickname: nickname,
@@ -84,6 +86,8 @@ module.exports = {
           !phone_number ||
           !email ||
           !shop_name ||
+          !shop_category ||
+          !shop_category_city ||
           !master_address
         ) {
           res
@@ -133,12 +137,14 @@ module.exports = {
 
           await User.create({
             // shop_name, master_address,
-            userSalt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
+            user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
             nickname: nickname,
             phone_number: phone_number,
             shop_name: shop_name,
+            shop_category: shop_category,
+            shop_category_city: shop_category_city,
             master_address: master_address,
             email: email,
             profile: profile,
