@@ -5,7 +5,7 @@ import {fa0} from '@fortawesome/free-regular-svg-icons'
 import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 import Login from './Login.js'
-
+import axios from 'axios';
 const Navbar = styled.nav`
    background-color: aqua;
    display: flex;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import store from '../store';
-
+import { connect } from 'react-redux';
 const RowDiv = styled.div`
   margin: 5px;
   display: flex;
@@ -50,7 +50,6 @@ const OauthLogin = styled.div`
   border-radius: 10px;
 `;
 
-
 const Xbutton = styled.button`
   height: 1vw;
   width: 1vw;
@@ -71,43 +70,7 @@ const A = styled.a`
   width: 60%;
 `;
 
-
-
-function LoginModal({controlClose}) {
-  console.log(store.getState());
-  
-  // useEffect((() => {
-  //   axios.post('https://localhost:4000/login', {
-  //     user_name:123,
-  //     password:123
-  //   })
-  //   .then((resp) => console.log(resp))
-  // }),[])
-  // const [loginInfo, setLoginInfo] = useState({
-  //   userId: '',
-  //   password: '',
-  // });
-  // const [errMessage, setErrMessage] = useState('');
-  // const handleLoginInfo = (key) => (e) => {
-  //   setLoginInfo({ ...loginInfo, [key]: e.target.value });
-  // };
-  // const handleLogin = (e) => {
-  //   if (!loginInfo.userId || !loginInfo.password) {
-  //     setErrMessage('잘못된 정보입니다');
-  //   } else {
-  //     axios
-  //       .post('https://localhost:4000/auth/login', loginInfo)
-  //       .then(() => handleLoginSuccess())
-  //       .then(() => {
-  //         return axios.get(
-  //           `https://localhost:4000/user/mypage/${loginInfo.userId}`
-  //         );
-  //       })
-  //       .then((res) => setuserInfo(res.data.data.userInfo))
-  //     controlClose(false);
-  //   }
-  // };
-
+function LoginModal({ controlClose }) {
   return (
     <Modal
       ariaHideApp={false}
@@ -149,15 +112,8 @@ function LoginModal({controlClose}) {
           </ColumnDiv>
 
           <ColumnDiv>
-            <Input
-              type="text"
-              placeholder="아이디를 입력하세요"
-              
-            ></Input>
-            <Input
-              type="password"
-              
-            ></Input>
+            <Input type="text" placeholder="아이디를 입력하세요"></Input>
+            <Input type="password"></Input>
           </ColumnDiv>
         </RowDiv>
 
@@ -168,14 +124,11 @@ function LoginModal({controlClose}) {
           </RowDiv>
           <A>아이디/비밀번호 찾기</A>
         </RowDiv>
-        <OauthLogin primary="0" >
-          로그인
-        </OauthLogin>
+        <OauthLogin primary="0">로그인</OauthLogin>
         <OauthLogin primary="1">카카오톡 로그인</OauthLogin>
         <OauthLogin>구글 로그인</OauthLogin>
       </ColumnDiv>
     </Modal>
   );
 }
-
 export default LoginModal;
