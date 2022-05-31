@@ -25,7 +25,7 @@ module.exports = {
       if (ismaster === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
-          res
+          return res
             .status(400)
             .send({ message: '필수항목을 모두 입력해주셔야 합니다.' });
         }
@@ -48,13 +48,19 @@ module.exports = {
         //DB와 req.body가 중복된다면 실패처리하기
         if (userNameInfo) {
           //
-          res.status(403).send({ message: '중복되는 아이디가 존재합니다.' });
+          return res
+            .status(403)
+            .send({ message: '중복되는 아이디가 존재합니다.' });
         }
         if (nickNameInfo) {
-          res.stauts(403).send({ message: '중복되는 닉네임이 있습니다.' });
+          return res
+            .stauts(403)
+            .send({ message: '중복되는 닉네임이 있습니다.' });
         }
         if (emailInfo) {
-          res.status(403).send({ message: '중복되는 이메일이 있습니다.' });
+          return res
+            .status(403)
+            .send({ message: '중복되는 이메일이 있습니다.' });
         } else {
           // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
           const salt = crypto.randomBytes(64).toString('base64');
@@ -64,9 +70,9 @@ module.exports = {
           const hashedPassword = key.toString('base64');
 
           await User.create({
-            userSalt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
+            user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             nickname: nickname,
             phone_number: phone_number,
             email: email,
@@ -74,7 +80,7 @@ module.exports = {
             ismaster: false,
           });
 
-          res.status(201).send({ message: '회원가입 완료' });
+          return res.status(201).send({ message: '회원가입 완료' });
         }
       }
       if (ismaster === true) {
@@ -90,7 +96,7 @@ module.exports = {
           !shop_category_city ||
           !master_address
         ) {
-          res
+          return res
             .status(400)
             .send({ message: '필수항목을 모두 입력해주셔야 합니다.' });
         }
@@ -117,16 +123,24 @@ module.exports = {
         });
         //DB와 req.body가 중복된다면 실패처리하기
         if (userNameInfo) {
-          res.status(403).send({ message: '중복되는 아이디가 존재합니다.' });
+          return res
+            .status(403)
+            .send({ message: '중복되는 아이디가 존재합니다.' });
         }
         if (nickNameInfo) {
-          res.stauts(403).send({ message: '중복되는 닉네임이 있습니다.' });
+          return res
+            .stauts(403)
+            .send({ message: '중복되는 닉네임이 있습니다.' });
         }
         if (emailInfo) {
-          res.status(403).send({ message: '중복되는 이메일이 있습니다.' });
+          return res
+            .status(403)
+            .send({ message: '중복되는 이메일이 있습니다.' });
         }
         if (shopNameInfo) {
-          res.status(403).send({ message: '중복되는 가게이름이 존재합니다.' });
+          return res
+            .status(403)
+            .send({ message: '중복되는 가게이름이 존재합니다.' });
         } else {
           // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
           const salt = crypto.randomBytes(64).toString('base64');
@@ -137,7 +151,7 @@ module.exports = {
 
           await User.create({
             // shop_name, master_address,
-            userSalt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
+            user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
             nickname: nickname,
@@ -150,7 +164,7 @@ module.exports = {
             profile: profile,
             ismaster: true,
           });
-          res.status(201).send({ message: '회원가입 완료' });
+          return res.status(201).send({ message: '회원가입 완료' });
         }
       }
     } catch (err) {
