@@ -102,6 +102,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
         getUserInfo(userInfo);
         setIslogin(true);
         getUserLogin();
+        
       })
       .catch((err)=>{
         console.log('err\n',err.response)

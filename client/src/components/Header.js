@@ -35,6 +35,7 @@ const Mypagebutton = styled.button``;
 
 function Header({ userInfo, loginState, logout }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [shop,setShop] = useState('')
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };

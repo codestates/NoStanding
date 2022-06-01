@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
+
+
   const Container = styled.div`
   width: 23vw;
   height: 30vh;
@@ -36,13 +39,14 @@ import styled from 'styled-components';
       margin: 0 10px 0 10px;
     }
   `
-function SearchList() {
+function SearchList({shopInfo}) {
+   console.log(shopInfo)
   return (
     <Container>
     <Star>☆</Star>
-      <Img>사진</Img>
-      <ShopName>가게 이름</ShopName>
-      <ShopAddress>주소</ShopAddress>
+      <Img ></Img>
+      <ShopName>{shopInfo[0].shop_name}</ShopName>
+      <ShopAddress>{shopInfo[0].shop_category_city}</ShopAddress>
       <FlexRow>
         <div>별점</div>
         <div>리뷰수</div>
