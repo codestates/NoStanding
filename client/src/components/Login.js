@@ -95,7 +95,8 @@ function LoginModal({controlClose,getUserInfo,getUserLogin}) {
    })
    .then((resp)=>{
      getUserInfo(resp.data.data.userInfo)
-    //  getUserLogin();
+     setIslogin(true)
+     getUserLogin();
     }).then((el)=>console.log(store.getState()))
  }
   console.log('getstate\n',store.getState());
