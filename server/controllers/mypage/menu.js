@@ -2,9 +2,17 @@ const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
 const { Menu } = require('../../models');
+const { userAuth } = require('../../middlewares/auth');
 
 module.exports = {
   get: async (req, res) => {
+    const userInfo = await userAuth(req, res);
+    if (!userInfo) {
+      return res.status(400).json({ message: '유저정보 없음' });
+    }
+    delete userInfo.dataValues.password;
+    delete userInfo.dataValues.user_salt;
+
     const { user_name } = req.params;
     const shopInfo = await Models.Shop.findOne({
       include: [
@@ -31,6 +39,13 @@ module.exports = {
     res.status(200).send({ data: shopInfo });
   },
   post: async (req, res) => {
+    const userInfo = await userAuth(req, res);
+    if (!userInfo) {
+      return res.status(400).json({ message: '유저정보 없음' });
+    }
+    delete userInfo.dataValues.password;
+    delete userInfo.dataValues.user_salt;
+
     const { shop_id, image_src, menu_category, name, price } = req.body;
     const menuInfo = await Menu.findOne({
       where: {
@@ -59,6 +74,13 @@ module.exports = {
     }
   },
   patch: async (req, res) => {
+    const userInfo = await userAuth(req, res);
+    if (!userInfo) {
+      return res.status(400).json({ message: '유저정보 없음' });
+    }
+    delete userInfo.dataValues.password;
+    delete userInfo.dataValues.user_salt;
+
     const { shop_id, image_src, menu_category, name, price } = req.body;
     const menuInfo = await Menu.findOne({
       where: {
