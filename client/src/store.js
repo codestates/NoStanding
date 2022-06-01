@@ -12,13 +12,13 @@ const loginInfo = createSlice({
 
 const loginState = createSlice({
   name: 'userLoginReducer',
-  initialState: false,
+  initialState: {userLoginState:false},
   reducers: {
     getUserLogin: (state, action) => {
-      state = true;
+      state.userLoginState = true;
     },
     getUserLogout: (state, action)=>{
-      state =false;
+      state.userLoginState =false;
     }
   },
 });

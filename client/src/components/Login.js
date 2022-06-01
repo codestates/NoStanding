@@ -83,16 +83,20 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   };
   const loginHandler = () => {
     axios
-      .post('http://localhost:4000/login', {
+      .post(`${process.env.REACT_APP_API_URL}/login`, {
         user_name: id,
         password: password,
+      }, {
+        withCredentials:true
       })
       .then((resp) => {
         getUserInfo(resp.data.data.userInfo);
-        //  getUserLogin();
+        setIslogin(true);
+        getUserLogin();
       })
       .then((el) => console.log(store.getState()));
   };
+
   return (
     <Modal
       ariaHideApp={false}
@@ -126,13 +130,11 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
       <Xbutton onClick={() => controlClose(false)}>X</Xbutton>
       <ColumnDiv>
         <Logoimage src="img/logo.png"></Logoimage>
-
         <RowDiv>
           <ColumnDiv>
             <div>아이디</div>
             <div>비밀번호</div>
           </ColumnDiv>
-
           <ColumnDiv>
             <Input
               type="text"
@@ -142,7 +144,6 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
             <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
           </ColumnDiv>
         </RowDiv>
-
         <RowDiv>
           <RowDiv primary>
             <input type="checkbox"></input>
@@ -160,8 +161,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   );
 }
 
-// const dispatch = useDispatch();
-const currentState = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getUserInfo: (userInfo) => {
       dispatch(getUserInfo(userInfo));
@@ -171,4 +171,4 @@ const currentState = (dispatch) => {
     },
   };
 };
-export default connect(null, currentState)(LoginModal);
+export default connect(null, mapDispatchToProps)(LoginModal);

@@ -18,9 +18,7 @@ module.exports = {
           .send({ message: '아이디와 비밀번호 입력은 필수 입니다.' });
       }
       const userNameInfo = await User.findOne({
-        where: {
-          user_name: user_name,
-        },
+        where: { user_name: user_name },
       });
       //데이터베이스에 없는 아이디일 때
       if (!userNameInfo) {
@@ -52,7 +50,7 @@ module.exports = {
         const accessToken = generateAccessToken(userInfo.dataValues);
         sendAccessToken(res, accessToken);
 
-        return res.json({
+        return res.status(200).send({
           data: { userInfo: userInfo },
           message: '로그인에 성공하였습니다',
         });
