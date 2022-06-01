@@ -20,9 +20,7 @@ module.exports = {
       }
 
       const userNameInfo = await User.findOne({
-        where: {
-          user_name: user_name,
-        },
+        where: { user_name: user_name },
       });
       //데이터베이스에 없는 아이디일 때
       if (!userNameInfo) {
@@ -58,7 +56,7 @@ module.exports = {
         const accessToken = generateAccessToken(userInfo.dataValues);
         sendAccessToken(res, accessToken);
 
-        return res.json({
+        return res.status(200).send({
           data: { userInfo: userInfo },
           message: '로그인에 성공하였습니다',
         });
