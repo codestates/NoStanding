@@ -92,7 +92,7 @@ function LoginModal({controlClose,getUserInfo,getUserLogin}) {
    axios.post('http://localhost:4000/login',{
      user_name:id,
      password:password
-   })
+   },{withCredentials:true})
    .then((resp)=>{
      getUserInfo(resp.data.data.userInfo)
      setIslogin(true)
