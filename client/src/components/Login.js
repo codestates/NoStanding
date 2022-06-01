@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import store, { getUserInfo,getUserLogin } from '../store';
+import {connect,useDispatch} from 'react-redux'
+
 
 
 const RowDiv = styled.div`
@@ -73,8 +76,39 @@ const A = styled.a`
 
 
 
-function LoginModal({controlClose}) {
+function LoginModal({controlClose,getUserInfo,getUserLogin}) {
+  console.log(getUserInfo)
+  const [id,setId]=useState('')
+  const [password,setPassword]=useState('')
+  const [isLogin,setIslogin]= useState(false)
+
+  const idSetter=(e)=>{
+     setId(e.target.value)
+  }
+  const passwordSetter=(e)=>{
+    setPassword(e.target.value)
+ }
+ const loginHandler =()=>{
+   axios.post('http://localhost:4000/login',{
+     user_name:id,
+     password:password
+   })
+   .then((resp)=>{
+     getUserInfo(resp.data.data.userInfo)
+     setIslogin(true)
+     getUserLogin();
+    }).then((el)=>console.log(store.getState()))
+ }
+  console.log('getstate\n',store.getState());
   
+    
+  // useEffect((() => {
+  //   axios.post('https://localhost:4000/login', {
+  //     user_name:123,
+  //     password:123
+  //   })
+  //   .then((resp) => console.log(resp))
+  // }),[])
   // const [loginInfo, setLoginInfo] = useState({
   //   userId: '',
   //   password: '',
@@ -103,7 +137,7 @@ function LoginModal({controlClose}) {
   return (
     <Modal
       ariaHideApp={false}
-      isOpen={true}
+      isOpen={isLogin ? false:true}
       onRequestClose={() => controlClose(false)}
       style={{
         overlay: {
@@ -144,11 +178,11 @@ function LoginModal({controlClose}) {
             <Input
               type="text"
               placeholder="아이디를 입력하세요"
-              
+              onChange={(e)=>idSetter(e)}
             ></Input>
             <Input
               type="password"
-              
+              onChange={(e)=>passwordSetter(e)}
             ></Input>
           </ColumnDiv>
         </RowDiv>
@@ -160,7 +194,7 @@ function LoginModal({controlClose}) {
           </RowDiv>
           <A>아이디/비밀번호 찾기</A>
         </RowDiv>
-        <OauthLogin primary="0" >
+        <OauthLogin primary="0" onClick={loginHandler}>
           로그인
         </OauthLogin>
         <OauthLogin primary="1">카카오톡 로그인</OauthLogin>
@@ -170,4 +204,14 @@ function LoginModal({controlClose}) {
   );
 }
 
-export default LoginModal;
+// const dispatch = useDispatch();
+const currentState=(dispatch)=>{
+  
+  return {getUserInfo:(userInfo)=>{
+    dispatch(getUserInfo(userInfo))
+  },getUserLogin:()=>{
+    dispatch(getUserLogin())
+  }
+}
+}
+export default connect(null,currentState)(LoginModal);
