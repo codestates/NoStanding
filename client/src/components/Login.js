@@ -70,67 +70,6 @@ const A = styled.a`
   width: 60%;
 `;
 
-<<<<<<< HEAD
-
-
-function LoginModal({controlClose,getUserInfo,getUserLogin}) {
-  console.log(getUserInfo)
-  const [id,setId]=useState('')
-  const [password,setPassword]=useState('')
-  const [isLogin,setIslogin]= useState(false)
-
-  const idSetter=(e)=>{
-     setId(e.target.value)
-  }
-  const passwordSetter=(e)=>{
-    setPassword(e.target.value)
- }
- const loginHandler =()=>{
-   axios.post('http://localhost:4000/login',{
-     user_name:id,
-     password:password
-   },{withCredentials:true})
-   .then((resp)=>{
-     getUserInfo(resp.data.data.userInfo)
-     setIslogin(true)
-     getUserLogin();
-    }).then((el)=>console.log(store.getState()))
- }
-  console.log('getstate\n',store.getState());
-  
-    
-  // useEffect((() => {
-  //   axios.post('https://localhost:4000/login', {
-  //     user_name:123,
-  //     password:123
-  //   })
-  //   .then((resp) => console.log(resp))
-  // }),[])
-  // const [loginInfo, setLoginInfo] = useState({
-  //   userId: '',
-  //   password: '',
-  // });
-  // const [errMessage, setErrMessage] = useState('');
-  // const handleLoginInfo = (key) => (e) => {
-  //   setLoginInfo({ ...loginInfo, [key]: e.target.value });
-  // };
-  // const handleLogin = (e) => {
-  //   if (!loginInfo.userId || !loginInfo.password) {
-  //     setErrMessage('잘못된 정보입니다');
-  //   } else {
-  //     axios
-  //       .post('https://localhost:4000/auth/login', loginInfo)
-  //       .then(() => handleLoginSuccess())
-  //       .then(() => {
-  //         return axios.get(
-  //           `https://localhost:4000/user/mypage/${loginInfo.userId}`
-  //         );
-  //       })
-  //       .then((res) => setuserInfo(res.data.data.userInfo))
-  //     controlClose(false);
-  //   }
-  // };
-=======
 function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -157,7 +96,6 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
       })
       .then((el) => console.log(store.getState()));
   };
->>>>>>> 6adae47d5c96359e393b4a1103bf912b14f917fb
 
   return (
     <Modal

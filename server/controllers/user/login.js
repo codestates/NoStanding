@@ -38,7 +38,7 @@ module.exports = {
       const userInfo = await User.findOne({
         where: {
           user_name: user_name,
-          pssword: hashedPassword,
+          password: hashedPassword,
         },
       });
       if (!userInfo) {
