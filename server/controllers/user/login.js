@@ -35,6 +35,7 @@ module.exports = {
       const key = await pbkdf2Promise(password, userSalt, 305943, 64, 'sha512');
       // 문자열로 변환 후 변수에 저장
       const hashedPassword = key.toString('base64');
+
       //입력한 값과 해싱한 패스워드를 넣어 일치하는 유저정보를 가져온다.
       const userInfo = await User.findOne({
         where: {
@@ -42,7 +43,6 @@ module.exports = {
           pssword: hashedPassword,
         },
       });
-
       if (!userInfo) {
         res.status(400).send({ message: '로그인에 실패하였습니다.' });
       } else {
