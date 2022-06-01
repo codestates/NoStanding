@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import store, { getUserInfo,getUserLogin } from '../store';
-import {connect,useDispatch} from 'react-redux'
-
-
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import store, { getUserInfo, getUserLogin } from "../store";
+import { connect, useDispatch } from "react-redux";
+require("dotenv").config();
 
 const RowDiv = styled.div`
   margin: 5px;
   display: flex;
   width: 50%;
   flex-direction: row;
-  justify-content: ${(props) => (props.primary ? 'none' : 'space-around')};
+  justify-content: ${(props) => (props.primary ? "none" : "space-around")};
 `;
 const ColumnDiv = styled.div`
   display: flex;
@@ -32,27 +31,26 @@ const OauthLogin = styled.div`
   height: 4vh;
   width: 33vw;
   background-color: ${(props) =>
-    props.primary === '1'
-      ? 'yellow'
-      : props.primary === '2'
-      ? 'green'
-      : props.primary === '0'
-      ? 'black'
-      : 'tomato'};
+    props.primary === "1"
+      ? "yellow"
+      : props.primary === "2"
+      ? "green"
+      : props.primary === "0"
+      ? "black"
+      : "tomato"};
   color: ${(props) =>
-    props.primary === '1'
-      ? 'black'
-      : props.primary === '2'
-      ? 'black'
-      : props.primary === '0'
-      ? 'white'
-      : 'black'};
+    props.primary === "1"
+      ? "black"
+      : props.primary === "2"
+      ? "black"
+      : props.primary === "0"
+      ? "white"
+      : "black"};
   text-align: center;
   flex: auto;
   padding-top: 20px;
   border-radius: 10px;
 `;
-
 
 const Xbutton = styled.button`
   height: 1vw;
@@ -74,93 +72,60 @@ const A = styled.a`
   width: 60%;
 `;
 
+function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
+  console.log(getUserInfo);
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLogin, setIslogin] = useState(false);
 
-
-function LoginModal({controlClose,getUserInfo,getUserLogin}) {
-  console.log(getUserInfo)
-  const [id,setId]=useState('')
-  const [password,setPassword]=useState('')
-  const [isLogin,setIslogin]= useState(false)
-
-  const idSetter=(e)=>{
-     setId(e.target.value)
-  }
-  const passwordSetter=(e)=>{
-    setPassword(e.target.value)
- }
- const loginHandler =()=>{
-   axios.post('http://localhost:4000/login',{
-     user_name:id,
-     password:password
-   })
-   .then((resp)=>{
-     getUserInfo(resp.data.data.userInfo)
-     setIslogin(true)
-     getUserLogin();
-    }).then((el)=>console.log(store.getState()))
- }
-  console.log('getstate\n',store.getState());
-  
-    
-  // useEffect((() => {
-  //   axios.post('https://localhost:4000/login', {
-  //     user_name:123,
-  //     password:123
-  //   })
-  //   .then((resp) => console.log(resp))
-  // }),[])
-  // const [loginInfo, setLoginInfo] = useState({
-  //   userId: '',
-  //   password: '',
-  // });
-  // const [errMessage, setErrMessage] = useState('');
-  // const handleLoginInfo = (key) => (e) => {
-  //   setLoginInfo({ ...loginInfo, [key]: e.target.value });
-  // };
-  // const handleLogin = (e) => {
-  //   if (!loginInfo.userId || !loginInfo.password) {
-  //     setErrMessage('잘못된 정보입니다');
-  //   } else {
-  //     axios
-  //       .post('https://localhost:4000/auth/login', loginInfo)
-  //       .then(() => handleLoginSuccess())
-  //       .then(() => {
-  //         return axios.get(
-  //           `https://localhost:4000/user/mypage/${loginInfo.userId}`
-  //         );
-  //       })
-  //       .then((res) => setuserInfo(res.data.data.userInfo))
-  //     controlClose(false);
-  //   }
-  // };
+  const idSetter = (e) => {
+    setId(e.target.value);
+  };
+  const passwordSetter = (e) => {
+    setPassword(e.target.value);
+  };
+  const loginHandler = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/login`, {
+        user_name: id,
+        password: password,
+      })
+      .then((resp) => {
+        getUserInfo(resp.data.data.userInfo);
+        setIslogin(true);
+        getUserLogin();
+      })
+      .then((el) => console.log(store.getState()));
+  };
+  console.log("getstate\n", store.getState());
 
   return (
     <Modal
       ariaHideApp={false}
-      isOpen={isLogin ? false:true}
+      isOpen={isLogin ? false : true}
       onRequestClose={() => controlClose(false)}
       style={{
         overlay: {
-          position: 'fixed',
+          position: "fixed",
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(255, 255, 255, 0.75)',
+          backgroundColor: "rgba(255, 255, 255, 0.75)",
         },
         content: {
-          position: 'absolute',
-          top: '40px',
-          left: '29%',
-          right: '32%',
-          bottom: '30%',
-          border: '1px solid #ccc',
-          background: '#fff',
-          overflow: 'auto',
-          WebkitOverflowScrolling: 'touch',
-          borderRadius: '4px',
-          outline: 'none',
-          padding: '20px',
+          position: "absolute",
+          top: "40px",
+          left: "29%",
+          right: "32%",
+          bottom: "30%",
+          border: "1px solid #ccc",
+          background: "#fff",
+          overflow: "auto",
+          WebkitOverflowScrolling: "touch",
+          borderRadius: "4px",
+          outline: "none",
+          padding: "20px",
         },
       }}
     >
@@ -178,12 +143,9 @@ function LoginModal({controlClose,getUserInfo,getUserLogin}) {
             <Input
               type="text"
               placeholder="아이디를 입력하세요"
-              onChange={(e)=>idSetter(e)}
+              onChange={(e) => idSetter(e)}
             ></Input>
-            <Input
-              type="password"
-              onChange={(e)=>passwordSetter(e)}
-            ></Input>
+            <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
           </ColumnDiv>
         </RowDiv>
 
@@ -205,13 +167,14 @@ function LoginModal({controlClose,getUserInfo,getUserLogin}) {
 }
 
 // const dispatch = useDispatch();
-const currentState=(dispatch)=>{
-  
-  return {getUserInfo:(userInfo)=>{
-    dispatch(getUserInfo(userInfo))
-  },getUserLogin:()=>{
-    dispatch(getUserLogin())
-  }
-}
-}
-export default connect(null,currentState)(LoginModal);
+const currentState = (dispatch) => {
+  return {
+    getUserInfo: (userInfo) => {
+      dispatch(getUserInfo(userInfo));
+    },
+    getUserLogin: () => {
+      dispatch(getUserLogin());
+    },
+  };
+};
+export default connect(null, currentState)(LoginModal);
