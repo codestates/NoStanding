@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import Login from './Login.js';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {getUserLogout} from '../store';
+import { getUserLogout } from '../store';
 const Navbar = styled.nav`
   background-color: aqua;
   display: flex;
@@ -33,18 +33,16 @@ const Search = styled.div`
 `;
 const Mypagebutton = styled.button``;
 
-function Header({userInfo, loginState, logout}) {
-  console.log(loginState);
+function Header({ userInfo, loginState, logout }) {
   const [isOpen, setIsOpen] = useState(false);
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
   const clickLogoutBtn = () => {
-    axios.post(`${process.env.REACT_APP_API_URL}/logout`)
-    .then((resp) => {
-      logout()
-    })
-  }
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/logout`)
+      .then((resp) => logout());
+  };
   const controlClose = (val) => {
     setIsOpen(val);
   };
@@ -63,8 +61,8 @@ function Header({userInfo, loginState, logout}) {
         <Menu>
           {loginState ? (
             <>
-            <div>환영합니다 {userInfo.user_name}님</div>
-            <button onClick={clickLogoutBtn}>로그아웃</button>
+              <div>환영합니다 {userInfo.user_name}님</div>
+              <button onClick={clickLogoutBtn}>로그아웃</button>
             </>
           ) : (
             <>
@@ -87,13 +85,14 @@ function Header({userInfo, loginState, logout}) {
 function mapStateToProps(state) {
   return {
     userInfo: state.loginInfo.userInfo,
-    loginState: state.loginState.userLoginState
+    loginState: state.loginState.userLoginState,
   };
 }
 function mapDispatchToProps(dispatch) {
-    return {logout: () => {
+  return {
+    logout: () => {
       dispatch(getUserLogout());
-    }
-  }
+    },
+  };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
