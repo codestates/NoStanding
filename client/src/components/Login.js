@@ -98,7 +98,8 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
       })
       
       .then((resp) => {
-        getUserInfo(resp.data.data.userInfo);
+        const userInfo = resp.data.data.userInfo
+        getUserInfo(userInfo);
         setIslogin(true);
         getUserLogin();
       })
