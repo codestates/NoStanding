@@ -52,15 +52,15 @@ module.exports = {
   },
 
   post: async (req, res) => {
-    const { user_id, menu_id, date } = res.body;
+    const { user_id, menu_id, date } = req.body;
 
     const reservationListPrev = await Reservation.findAll({
       where: {
         user_id: user_id,
       },
     });
-
-    Reservation.create({
+    console.log('이전:' + reservationListPrev);
+    await Reservation.create({
       user_id: user_id,
       menu_id: menu_id,
       date: date,
@@ -70,8 +70,9 @@ module.exports = {
       where: {
         user_id: user_id,
       },
-      order: 'id DESC',
     });
+
+    console.log('현재:' + reservationListCur);
 
     const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
     Join User U On S.user_id = U.id where M.id = ${menu_id}`;
@@ -100,7 +101,7 @@ module.exports = {
       res.status(400).send({ message: '예약 추가 실패' });
     } else {
       res.status(200).send({
-        data: [reservationListCur[0], reservationMaster],
+        data: [reservationListCur, reservationMaster],
         message: '예약 추가 완료',
       });
     }
