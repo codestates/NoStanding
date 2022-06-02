@@ -35,7 +35,7 @@ const Img = styled.img`
 
 function Header({ userInfo, loginState, logout, shopsearch }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchedshop, setSearchedshop] = useState('test');
+  const [searchedshop, setSearchedshop] = useState('');
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };

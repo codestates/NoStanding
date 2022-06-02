@@ -41,7 +41,10 @@ const ListView = styled.ul`
   justify-content: center;
 `;
 function Main({searchWord}) {
-  console.log(searchWord);
+  const url = new URL(window.location.href);
+  console.log(url);
+  const authorizationCode = url.searchParams.get('code');
+  console.log(authorizationCode);
   const category = ['음식', '카페', '미용'];
   const categoryCity = [
     '서울',
@@ -59,7 +62,13 @@ function Main({searchWord}) {
   const [chooseCategoryCity, setChooseCategoryCity] = useState('');
   const [backgroundOn, setBackgroundOn] = useState('');
   const [backgroundCity, setBackgroundCity] = useState('');
-
+  useEffect(() => {
+    if(authorizationCode) {
+      axios.post(`${process.env.REACT_APP_API_URL}/oauth/kakao`, {
+        authorizationCode
+      }, {withCredentials:true})
+    }
+  },[authorizationCode])
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
@@ -81,13 +90,19 @@ function Main({searchWord}) {
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
           )
-          .then((resp) => setShop(resp.data.data))
+          .then((resp) => {
+          console.log(resp.data.data)
+          setShop(resp.data.data)
+  })
       : chooseCategory === ''
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
           )
-          .then((resp) => setShop(resp.data.data))
+          .then((resp) => {
+            console.log(resp.data.data);
+            setShop(resp.data.data)
+          })
       : chooseCategoryCity === ''
       ? axios
           .get(
