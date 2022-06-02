@@ -112,9 +112,15 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   };
   const clickOauthBtn = (val) => {
     const url = process.env.REACT_APP_CLI_URL;
-    window.location.assign(
-      `https://kauth.kakao.com/oauth/authorize?client_id=42009e870cdf666e6d0d8ae29350f9cb&redirect_uri=http://localhost:3000&response_type=code&scope=account_email`
-    );
+    if (val === "kakao") {
+      window.location.assign(
+        `https://kauth.kakao.com/oauth/authorize?client_id=42009e870cdf666e6d0d8ae29350f9cb&redirect_uri=http://localhost:3000/callbackkakao&response_type=code&scope=account_email`
+      );
+    } else if (val === "google") {
+      window.location.assign(
+        `https://accounts.google.com/o/oauth2/auth?client_id=136738573059-qo57hsrstcie7fu7btivdccae2bbtkpk.apps.googleusercontent.com&redirect_uri=http://localhost:3000/callbackgoogle&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+openid`
+      );
+    }
   };
 
   return (
@@ -183,7 +189,9 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
         <OauthLogin onClick={() => clickOauthBtn("kakao")} primary="1">
           카카오톡 로그인
         </OauthLogin>
-        <OauthLogin>구글 로그인</OauthLogin>
+        <OauthLogin onClick={() => clickOauthBtn("google")}>
+          구글 로그인
+        </OauthLogin>
       </ColumnDiv>
     </Modal>
   );
