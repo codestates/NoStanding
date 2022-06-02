@@ -6,8 +6,15 @@ const { userAuth } = require('../../middlewares/auth');
 module.exports = {
   get: async (req, res) => {
     try {
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
+
       const { user_name } = req.params;
-      const shopInfo = await Models.Shop.findOne({
+      const shopInfo = await Models.Shop.findAll({
         //상호명 운영시간 전화번호 휴무일 가게소개
         include: [
           {
@@ -33,6 +40,13 @@ module.exports = {
   },
   post: async (req, res) => {
     try {
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
+
       const {
         user_id,
         shop_name,
