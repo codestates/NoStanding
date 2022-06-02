@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBook,
-  faAddressCard,
-  faMagnifyingGlass,
-  faBell,
-} from '@fortawesome/free-solid-svg-icons';
-import { fa0 } from '@fortawesome/free-regular-svg-icons';
+import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Login from './Login.js';
@@ -37,7 +31,7 @@ const Img = styled.img`
   width: 120px;
   height: 50px;
   margin-left: 1rem;
-`
+`;
 
 function Header({ userInfo, loginState, logout,shopsearch }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,8 +63,7 @@ function Header({ userInfo, loginState, logout,shopsearch }) {
       <Navbar>
         <Logo>
           <Link to="/">
-            {/* <FontAwesomeIcon icon={faBook} size="4x"></FontAwesomeIcon> */}
-            <Img src='img/nostandinglogo2.jpeg' />
+            <Img src="img/nostandinglogo2.jpeg" />
           </Link>
         </Logo>
         <Search>
