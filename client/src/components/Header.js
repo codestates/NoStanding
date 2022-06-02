@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Login from './Login.js';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getUserLogout } from '../store';
+import { getUserLogout, getShopSearch } from '../store';
 const Navbar = styled.nav`
   background-color: #fff;
   display: flex;
@@ -33,8 +33,9 @@ const Img = styled.img`
   margin-left: 1rem;
 `;
 
-function Header({ userInfo, loginState, logout }) {
+function Header({ userInfo, loginState, logout, shopsearch }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchedshop, setSearchedshop] = useState('test');
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
@@ -46,6 +47,13 @@ function Header({ userInfo, loginState, logout }) {
   const controlClose = (val) => {
     setIsOpen(val);
   };
+  const searchText = (e) => {
+    setSearchedshop(e.target.value);
+  };
+  const searchShop = (e) => {
+  shopsearch(searchedshop)
+  };
+
   return (
     <header>
       <Navbar>
@@ -55,8 +63,14 @@ function Header({ userInfo, loginState, logout }) {
           </Link>
         </Logo>
         <Search>
-          <input placeholder="가게이름을 입력하세요."></input>
-          <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
+          <input
+            placeholder="가게이름을 입력하세요."
+            onChange={searchText}
+          ></input>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            onClick={searchShop}
+          ></FontAwesomeIcon>
         </Search>
         <Menu>
           {loginState ? (
@@ -86,6 +100,7 @@ function mapStateToProps(state) {
   return {
     userInfo: state.loginInfo.userInfo,
     loginState: state.loginState.userLoginState,
+    searchShop: state.shopSearch.shopSearchInfo,
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -93,6 +108,10 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(getUserLogout());
     },
+    shopsearch: (resp) => {
+      dispatch(getShopSearch(resp));
+    },
   };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

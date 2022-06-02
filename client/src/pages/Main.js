@@ -4,6 +4,7 @@ import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 const FlexCol = styled.div`
   display: flex;
@@ -26,18 +27,21 @@ const FlexRow = styled.div`
   }
 `;
 const CategoryList = styled.div`
-  background-color: ${(props) => String(props.idx) === props.backgroundOn? 'rgba(0, 0, 0, 0.2)':null};
+  background-color: ${(props) =>
+    String(props.idx) === props.backgroundOn ? 'rgba(0, 0, 0, 0.2)' : null};
 `;
 const CategortCityList = styled.div`
-background-color: ${(props) => String(props.idx) === props.backgroundCity? 'rgba(0, 0, 0, 0.2)':null};
-`
+  background-color: ${(props) =>
+    String(props.idx) === props.backgroundCity ? 'rgba(0, 0, 0, 0.2)' : null};
+`;
 const ListView = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 `;
-function Main() {
+function Main({searchWord}) {
+  console.log(searchWord);
   const category = ['음식', '카페', '미용'];
   const categoryCity = [
     '서울',
@@ -64,6 +68,14 @@ function Main() {
   }, []);
 
   useEffect(() => {
+    axios
+    .get(
+      `${process.env.REACT_APP_API_URL}/search/${searchWord}`
+    )
+    .then((resp) => console.log(resp.data.data)) //setShop(resp.data.data)
+  },[searchWord])
+
+  useEffect(() => {
     chooseCategory !== '' && chooseCategory !== ''
       ? axios
           .get(
@@ -88,24 +100,24 @@ function Main() {
   }, [chooseCategory, chooseCategoryCity]);
 
   const clickCategory = (value, idx) => {
-    idx = String(idx)
-    if(value !== chooseCategory){
-    setChooseCategory(value);
-    setBackgroundOn(idx)
-    }else {
+    idx = String(idx);
+    if (value !== chooseCategory) {
+      setChooseCategory(value);
+      setBackgroundOn(idx);
+    } else {
       setChooseCategory('');
-    setBackgroundOn('')
+      setBackgroundOn('');
     }
   };
 
   const clickCategoryCity = (value, idx) => {
-    idx = String(idx)
-    if(value !== chooseCategoryCity){
-    setChooseCategoryCity(value);
-    setBackgroundCity(idx)
-    }else {
+    idx = String(idx);
+    if (value !== chooseCategoryCity) {
+      setChooseCategoryCity(value);
+      setBackgroundCity(idx);
+    } else {
       setChooseCategoryCity('');
-    setBackgroundCity('')
+      setBackgroundCity('');
     }
   };
   return (
@@ -117,7 +129,12 @@ function Main() {
         <FlexRow>
           {category.map((category, idx) => {
             return (
-              <CategoryList key={idx} idx={idx} backgroundOn={backgroundOn} onClick={() => clickCategory(category,idx)}>
+              <CategoryList
+                key={idx}
+                idx={idx}
+                backgroundOn={backgroundOn}
+                onClick={() => clickCategory(category, idx)}
+              >
                 {category}
               </CategoryList>
             );
@@ -130,7 +147,7 @@ function Main() {
                 key={idx}
                 idx={idx}
                 backgroundCity={backgroundCity}
-                onClick={() => clickCategoryCity(category,idx)}
+                onClick={() => clickCategoryCity(category, idx)}
               >
                 {category}
               </CategortCityList>
@@ -156,5 +173,11 @@ function Main() {
     </>
   );
 }
+function mapStateToProps(state) {
+  console.log(state.shopSearch.shopSearchInfo);
+  return {
+    searchWord: state.shopSearch.shopSearchInfo
+  }
+}
 
-export default Main;
+export default connect(mapStateToProps)(Main);
