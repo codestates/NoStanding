@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Banner from '../components/Banner';
-import SearchList from '../components/SearchList';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Banner from "../components/Banner";
+import SearchList from "../components/SearchList";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { connect } from "react-redux";
 
 const FlexCol = styled.div`
   display: flex;
@@ -28,11 +28,11 @@ const FlexRow = styled.div`
 `;
 const CategoryList = styled.div`
   background-color: ${(props) =>
-    String(props.idx) === props.backgroundOn ? 'rgba(0, 0, 0, 0.2)' : null};
+    String(props.idx) === props.backgroundOn ? "rgba(0, 0, 0, 0.2)" : null};
 `;
 const CategortCityList = styled.div`
   background-color: ${(props) =>
-    String(props.idx) === props.backgroundCity ? 'rgba(0, 0, 0, 0.2)' : null};
+    String(props.idx) === props.backgroundCity ? "rgba(0, 0, 0, 0.2)" : null};
 `;
 const ListView = styled.ul`
   display: flex;
@@ -40,35 +40,41 @@ const ListView = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
 `;
-function Main({searchWord}) {
+function Main({ searchWord }) {
   const url = new URL(window.location.href);
   console.log(url);
-  const authorizationCode = url.searchParams.get('code');
+  const authorizationCode = url.searchParams.get("code");
   console.log(authorizationCode);
-  const category = ['음식', '카페', '미용'];
+  const category = ["음식", "카페", "미용"];
   const categoryCity = [
-    '서울',
-    '부산',
-    '인천',
-    '대구',
-    '광주',
-    '대전',
-    '울산',
-    '제주',
+    "서울",
+    "부산",
+    "인천",
+    "대구",
+    "광주",
+    "대전",
+    "울산",
+    "제주",
   ];
   const [shop, setShop] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [chooseCategory, setChooseCategory] = useState('');
-  const [chooseCategoryCity, setChooseCategoryCity] = useState('');
-  const [backgroundOn, setBackgroundOn] = useState('');
-  const [backgroundCity, setBackgroundCity] = useState('');
+  const [chooseCategory, setChooseCategory] = useState("");
+  const [chooseCategoryCity, setChooseCategoryCity] = useState("");
+  const [backgroundOn, setBackgroundOn] = useState("");
+  const [backgroundCity, setBackgroundCity] = useState("");
+
   useEffect(() => {
-    if(authorizationCode) {
-      axios.post(`${process.env.REACT_APP_API_URL}/oauth/kakao`, {
-        authorizationCode
-      }, {withCredentials:true})
+    if (authorizationCode) {
+      axios.post(
+        `${process.env.REACT_APP_API_URL}/oauth/kakao`,
+        {
+          authorizationCode,
+        },
+        { withCredentials: true }
+      );
     }
-  },[authorizationCode])
+  }, [authorizationCode]);
+
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
@@ -78,32 +84,30 @@ function Main({searchWord}) {
 
   useEffect(() => {
     axios
-    .get(
-      `${process.env.REACT_APP_API_URL}/search/${searchWord}`
-    )
-    .then((resp) => console.log(resp.data.data)) //setShop(resp.data.data)
-  },[searchWord])
+      .get(`${process.env.REACT_APP_API_URL}/search/${searchWord}`)
+      .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
+  }, [searchWord]);
 
   useEffect(() => {
-    chooseCategory !== '' && chooseCategory !== ''
+    chooseCategory !== "" && chooseCategory !== ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
           )
           .then((resp) => {
-          console.log(resp.data.data)
-          setShop(resp.data.data)
-  })
-      : chooseCategory === ''
+            console.log(resp.data.data);
+            setShop(resp.data.data);
+          })
+      : chooseCategory === ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
           )
           .then((resp) => {
             console.log(resp.data.data);
-            setShop(resp.data.data)
+            setShop(resp.data.data);
           })
-      : chooseCategoryCity === ''
+      : chooseCategoryCity === ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
@@ -120,8 +124,8 @@ function Main({searchWord}) {
       setChooseCategory(value);
       setBackgroundOn(idx);
     } else {
-      setChooseCategory('');
-      setBackgroundOn('');
+      setChooseCategory("");
+      setBackgroundOn("");
     }
   };
 
@@ -131,8 +135,8 @@ function Main({searchWord}) {
       setChooseCategoryCity(value);
       setBackgroundCity(idx);
     } else {
-      setChooseCategoryCity('');
-      setBackgroundCity('');
+      setChooseCategoryCity("");
+      setBackgroundCity("");
     }
   };
   return (
@@ -191,8 +195,8 @@ function Main({searchWord}) {
 function mapStateToProps(state) {
   console.log(state.shopSearch.shopSearchInfo);
   return {
-    searchWord: state.shopSearch.shopSearchInfo
-  }
+    searchWord: state.shopSearch.shopSearchInfo,
+  };
 }
 
 export default connect(mapStateToProps)(Main);
