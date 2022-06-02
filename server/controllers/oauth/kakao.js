@@ -1,3 +1,4 @@
+const axios = require('axios');
 module.exports = {
   post: async (req, res) => {
     try {
@@ -5,7 +6,6 @@ module.exports = {
       const { authorizationCode } = req.body;
       if (!authorizationCode)
         return res.status(400).json({ message: 'Bad Request!' });
-
       /* OAuth 2.0 */
       const redirectUri = `${process.env.CLIENT_ORIGIN}/callbackKakao`;
       const url = `https://kauth.kakao.com/oauth/token?code=${authorizationCode}&client_id=${process.env.KAKAO_CLIENT_ID}&client_secret=${process.env.KAKAO_CLIENT_SECRET}&redirect_uri=${redirectUri}&grant_type=authorization_code`;
