@@ -18,7 +18,6 @@ module.exports = {
         shop_category_city,
         master_address,
         email,
-        profile,
         ismaster,
       } = req.body;
       //ismaster가 false 일 때
@@ -76,7 +75,6 @@ module.exports = {
             nickname: nickname,
             phone_number: phone_number,
             email: email,
-            profile: profile,
             ismaster: false,
           });
 
@@ -161,7 +159,6 @@ module.exports = {
             shop_category_city: shop_category_city,
             master_address: master_address,
             email: email,
-            profile: profile,
             ismaster: true,
           });
           return res.status(201).send({ message: '회원가입 완료' });

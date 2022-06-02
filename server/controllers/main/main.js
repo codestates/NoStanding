@@ -28,7 +28,7 @@ module.exports = {
           attributes: [],
         },
       ],
-      attributes: ['image_src'],
+      attributes: ['id', 'image_src'],
     });
     res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
   },
