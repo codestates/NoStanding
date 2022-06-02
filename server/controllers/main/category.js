@@ -1,62 +1,54 @@
-const { Shop, User } = require('../../models');
+const { sequelize } = require('../../models');
+const initModels = require('../../models/init-models');
+const Models = initModels(sequelize);
 const { Op } = require('sequelize');
-const { QueryTypes } = require('sequelize');
+
 const db = require('../../models');
 
 module.exports = {
   get: async (req, res) => {
-    const { shop_category, shop_category_city } = req.body;
-
-    const query = `SELECT * FROM User U join Shop S ON U.id = S.user_id`;
-
-    const shoplist = await db.sequelize.query(query, {
-      type: QueryTypes.SELECT,
-    });
-
-    const shopInfo = await shoplist.findAll({
-      where: {
-        [Op.and]: [
-          shop_category ? { shop_category: shop_category } : null,
-          shop_category_city
-            ? { shop_category_city: shop_category_city }
-            : null,
+    // 가게 이름 , 주소 ,
+    try {
+      const { shop_category, shop_category_city } = req.query;
+      console.log('params :' + req.query.shop_category);
+      const shopInfo = await Models.Shop.findAll({
+        include: [
+          {
+            model: Models.User,
+            as: 'user',
+            where: {
+              [Op.and]: [
+                shop_category ? { shop_category: shop_category } : null,
+                shop_category_city
+                  ? { shop_category_city: shop_category_city }
+                  : null,
+              ],
+            },
+            attributes: [
+              'shop_category',
+              'shop_name',
+              'shop_category_city',
+              'master_address',
+            ],
+          },
+          {
+            model: Models.Bookmark,
+            as: 'Bookmarks',
+            attributes: ['ismarked'],
+          },
+          {
+            model: Models.Review,
+            as: 'Reviews',
+            attributes: [],
+          },
         ],
-      },
-    });
+        attributes: [],
+      });
 
-    if (!shopInfo) {
-      res.status(404).send({ message: '해당 자료 없음' });
-    } else {
-      res.status(200).send({ data: shopInfo, message: '검색 성공' });
+      res.status(200).send({ data: shopInfo, message: '정보 전달 완료' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ message: 'Server Error' });
     }
   },
 };
-
-// module.exports = {
-//   get: async (req, res) => {
-//     const { shop_category, shop_category_city } = req.body;
-
-//     const shopInfo = await User.findAll({
-//       include: [
-//         {
-//           model: Shop,
-//           attributes: ['business_hour', 'image_src', 'phone_number', 'holiday', 'map', 'contents'],
-//         },
-//       ],
-//       where: {
-//         [Op.and]: [
-//           shop_category ? { shop_category: shop_category } : null,
-//           shop_category_city
-//             ? { shop_category_city: shop_category_city }
-//             : null,
-//         ],
-//       },
-//     });
-
-//     if (!shopInfo) {
-//       res.status(404).send({ message: '해당 자료 없음' });
-//     } else {
-//       res.status(200).send({ data: shopInfo, message: '검색 성공' });
-//     }
-//   },
-// };

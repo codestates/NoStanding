@@ -14,7 +14,7 @@ module.exports = {
 
       // accessToken에 담긴 정보가 유효한 정보인지 판별
       const { user_name } = accessTokenData;
-      const userInfo = await User.findOne({ where: { user_name } });
+      const userInfo = await User.findOne({ where: { user_name: user_name } });
       if (!userInfo) return false;
 
       // accessToken이 유효하고 사용자 정보가 올바른 경우 사용자 정보 리턴

@@ -20,9 +20,7 @@ module.exports = {
       }
 
       const userNameInfo = await User.findOne({
-        where: {
-          user_name: user_name,
-        },
+        where: { user_name: user_name },
       });
       //데이터베이스에 없는 아이디일 때
       if (!userNameInfo) {
@@ -33,11 +31,14 @@ module.exports = {
 
       //미리 저장해둔 user_salt 컬럼을 불러온다.
       const userSalt = userNameInfo.dataValues.user_salt;
+      console.log('유저솔트\n',userSalt)
       //req.body의 패스워드값을 userInfo에 담긴 userSalt로 똑같이 해싱한다.
       const key = await pbkdf2Promise(password, userSalt, 305943, 64, 'sha512');
+      console.log('키\n',key)
       // 문자열로 변환 후 변수에 저장
       const hashedPassword = key.toString('base64');
-
+      console.log('해쉬된비밀번호\n',hashedPassword)
+      
       //입력한 값과 해싱한 패스워드를 넣어 일치하는 유저정보를 가져온다.
       const userInfo = await User.findOne({
         where: {
@@ -45,7 +46,7 @@ module.exports = {
           password: hashedPassword,
         },
       });
-
+      console.log('유저인포\n',userInfo)
       if (!userInfo) {
         return res.status(400).send({ message: '로그인에 실패하였습니다.' });
       } else {
@@ -55,7 +56,7 @@ module.exports = {
         const accessToken = generateAccessToken(userInfo.dataValues);
         sendAccessToken(res, accessToken);
 
-        return res.json({
+        return res.status(200).send({
           data: { userInfo: userInfo },
           message: '로그인에 성공하였습니다',
         });

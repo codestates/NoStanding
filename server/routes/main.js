@@ -72,5 +72,4 @@ router.get('/search/:text', main.search.get);
  *        "400":
  *          description: 자료 조회 실패
  */
-
 module.exports = router;

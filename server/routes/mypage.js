@@ -57,29 +57,31 @@ const mypage = require('../controllers/mypage');
  *   description: 유저 정보 조회 수정
  */
 
-router.get('/reservation/:user_id', mypage.reservation.get);
-router.post('/reservation/:user_id', mypage.reservation.post);
-router.delete('/reservation/:user_id', mypage.reservation.delete);
+router.get('/reservation/:user_name', mypage.reservation.get);
+router.post('/reservation/:user_name', mypage.reservation.post);
+router.delete('/reservation/:user_name', mypage.reservation.delete);
 
-router.get('/bookmark/:user_id', mypage.bookmark.get);
+router.get('/bookmark/:user_name', mypage.bookmark.get);
 
-router.get('/img/:user_id', mypage.img.get);
-router.post('/img/:user_id', mypage.img.post);
+router.get('/img/:user_name', mypage.img.get);
+router.post('/img/:user_name', mypage.img.post);
+router.patch('/img/:user_name', mypage.img.patch);
 
-router.get('/menu/:user_id', mypage.menu.get);
-router.patch('/menu/:user_id', mypage.menu.patch);
+router.get('/menu/:user_name', mypage.menu.get);
+router.post('/menu/:user_name', mypage.menu.post);
+router.patch('/menu/:user_name', mypage.menu.patch);
 
-router.get('/notification/:user_id', mypage.notification.get);
+router.get('/notification/:user_name', mypage.notification.get);
 
-router.get('/review/:user_id', mypage.review.get);
-router.post('/review/:user_id', mypage.review.post);
+router.get('/review/:user_name', mypage.review.get);
+router.post('/review/:user_name', mypage.review.post);
 
-router.get('/shopinfo/:user_id', mypage.shopinfo.get);
-router.post('/shopinfo/:user_id', mypage.shopinfo.post);
+router.get('/shopinfo/:user_name', mypage.shopinfo.get);
+router.post('/shopinfo/:user_name', mypage.shopinfo.post);
 
-router.get('/userinfo/:user_id', mypage.userinfo.get);
-router.patch('/userinfo/:user_id', mypage.userinfo.patch);
-router.delete('/userinfo/:user_id', mypage.userinfo.delete);
+router.get('/userinfo/:user_name', mypage.userinfo.get);
+router.patch('/userinfo/:user_name', mypage.userinfo.patch);
+router.delete('/userinfo/:user_name', mypage.userinfo.delete);
 
 /**
  * @swagger
