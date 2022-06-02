@@ -4,7 +4,7 @@ const Models = initModels(sequelize);
 
 module.exports = {
   get: async (req, res) => {
-    const shopInfo = await Models.Shop.findOne({
+    const shopInfo = await Models.Shop.findAll({
       // 리뷰리뷰수, 리뷰별점
       include: [
         {
