@@ -14,7 +14,7 @@ module.exports = {
       delete userInfo.dataValues.user_salt;
 
       const { user_name } = req.params;
-      const shopInfo = await Models.Shop.findOne({
+      const shopInfo = await Models.Shop.findAll({
         include: [
           {
             model: Models.User,
