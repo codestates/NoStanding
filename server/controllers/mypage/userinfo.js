@@ -39,7 +39,6 @@ module.exports = {
           shop_category_city,
           master_address,
           email,
-          profile,
           ismaster,
         } = req.body;
 
@@ -135,7 +134,6 @@ module.exports = {
               shop_category_city,
               master_address,
               email,
-              profile: profile ? profile : userInfo.dataValues.profile,
             },
             { where: { id: userInfo.dataValues.id } },
           );
