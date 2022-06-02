@@ -10,7 +10,7 @@ module.exports = {
     // 가게 이름 , 주소 ,
     try {
       const { shop_category, shop_category_city } = req.query;
-      console.log('params :' + req.query.shop_category);
+
       const shopInfo = await Models.Shop.findAll({
         include: [
           {
