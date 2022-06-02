@@ -5,6 +5,7 @@ import SearchList from '../components/SearchList';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
