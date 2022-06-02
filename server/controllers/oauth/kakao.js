@@ -11,11 +11,12 @@ module.exports = {
     try {
       // 요청이 잘못된 경우, 다음 에러메시지를 반환한다.
       const { authorizationCode } = req.body;
+      const redirectUri = `${process.env.CLIENT_ORIGIN}/callbackkakao`;
 
       if (!authorizationCode)
         return res.status(400).json({ message: 'Bad Request!' });
 
-      const url = `https://kauth.kakao.com/oauth/token?code=${authorizationCode}&client_id=${process.env.KAKAO_CLIENT_ID}&client_secret=${process.env.KAKAO_CLIENT_SECRET}&redirect_uri=${process.env.CLIENT_ORIGIN}&grant_type=authorization_code`;
+      const url = `https://kauth.kakao.com/oauth/token?code=${authorizationCode}&client_id=${process.env.KAKAO_CLIENT_ID}&client_secret=${process.env.KAKAO_CLIENT_SECRET}&redirect_uri=${redirectUri}&grant_type=authorization_code`;
       // authorizationCode로 kakao_token 을 받아온다.
       const response = await axios.post(url);
       const { access_token } = response.data;
@@ -29,11 +30,9 @@ module.exports = {
 
       const { email } = kakaoUserInfo.data.kakao_account;
       const userInfo = await User.findOne({ where: { email: email } });
-      console.log('코드코드코드코드코드코드코드코드코드' + userInfo);
-      const userEmail = userInfo.dataValues.email;
-
+      const userEmail = email;
+      //이메일 @ 뒤 자르기
       let newUsername = userEmail.split('@')[0];
-
       /* Users 테이블에 존재하지 않는 email이라면 회원가입 진행 */
       if (!userInfo) {
         /* 해당 닉네임이 중복이라면 아래 코드 실행 */
