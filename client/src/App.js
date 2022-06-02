@@ -6,6 +6,8 @@ import Mypage from './pages/Mypage';
 import Shopinfo from './pages/ShopInfo';
 import Signup from './pages/SignUp';
 import styled from 'styled-components';
+import CallbackGoogle from './pages/CallbackGoogle';
+import CallbackKakao from './pages/CallbackKakao';
 
 const Body = styled.div`
   height: auto;
@@ -24,7 +26,9 @@ function App() {
             <Route exact path="/" element={<Main />} />
             <Route path="/Mypage/*" element={<Mypage />} />
             <Route path="/Shopinfo/:id" element={<Shopinfo />} />
-            <Route path="/Signup" element={<Signup />} />  
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/callbackkakao" element={<CallbackKakao />} />  
+            <Route path="/callbackgoogle" element={<CallbackGoogle />} />  
           </Routes>
         </Body>
       </Router>
