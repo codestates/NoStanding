@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-import store, { getUserInfo,getUserLogin } from '../store';
-import {connect,useDispatch} from 'react-redux'
-
-
+import store, { getUserInfo, getUserLogin } from '../store';
+import { connect } from 'react-redux';
 
 const RowDiv = styled.div`
   margin: 5px;
@@ -24,7 +21,7 @@ const ColumnDiv = styled.div`
 
 const Logoimage = styled.img`
   margin: 10px;
-  width: 16vh;
+  width: 30vh;
   height: 16vh;
 `;
 const OauthLogin = styled.div`
@@ -53,7 +50,6 @@ const OauthLogin = styled.div`
   border-radius: 10px;
 `;
 
-
 const Xbutton = styled.button`
   height: 1vw;
   width: 1vw;
@@ -74,70 +70,57 @@ const A = styled.a`
   width: 60%;
 `;
 
+function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLogin, setIslogin] = useState(false);
 
+  const idSetter = (e) => {
+    setId(e.target.value);
+  };
+  const passwordSetter = (e) => {
+    setPassword(e.target.value);
+  };
+  const clearForm = () => {
+    setId('');
+    setPassword('');
+  };
+  const loginHandler = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          user_name: id,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      )
 
-function LoginModal({controlClose,getUserInfo,getUserLogin}) {
-  console.log(getUserInfo)
-  const [id,setId]=useState('')
-  const [password,setPassword]=useState('')
-  const [isLogin,setIslogin]= useState(false)
-
-  const idSetter=(e)=>{
-     setId(e.target.value)
+      .then((resp) => {
+        const userInfo = resp.data.data.userInfo;
+        getUserInfo(userInfo);
+        setIslogin(true);
+        getUserLogin();
+      })
+      .catch((err) => {
+        console.log('err\n', err.response);
+        alert(err.response.data.message);
+      });
+    clearForm();
+  };
+  const clickOauthBtn = (val) => {
+    const url = process.env.REACT_APP_CLI_URL
+      window.location.assign(
+      `https://kauth.kakao.com/oauth/authorize?client_id=42009e870cdf666e6d0d8ae29350f9cb&redirect_uri=http://localhost:3000&response_type=code&scope=account_email`,
+    )
   }
-  const passwordSetter=(e)=>{
-    setPassword(e.target.value)
- }
- const loginHandler =()=>{
-   axios.post('http://localhost:4000/login',{
-     user_name:id,
-     password:password
-   })
-   .then((resp)=>{
-     getUserInfo(resp.data.data.userInfo)
-     setIslogin(true)
-     getUserLogin();
-    }).then((el)=>console.log(store.getState()))
- }
-  console.log('getstate\n',store.getState());
-  
-    
-  // useEffect((() => {
-  //   axios.post('https://localhost:4000/login', {
-  //     user_name:123,
-  //     password:123
-  //   })
-  //   .then((resp) => console.log(resp))
-  // }),[])
-  // const [loginInfo, setLoginInfo] = useState({
-  //   userId: '',
-  //   password: '',
-  // });
-  // const [errMessage, setErrMessage] = useState('');
-  // const handleLoginInfo = (key) => (e) => {
-  //   setLoginInfo({ ...loginInfo, [key]: e.target.value });
-  // };
-  // const handleLogin = (e) => {
-  //   if (!loginInfo.userId || !loginInfo.password) {
-  //     setErrMessage('잘못된 정보입니다');
-  //   } else {
-  //     axios
-  //       .post('https://localhost:4000/auth/login', loginInfo)
-  //       .then(() => handleLoginSuccess())
-  //       .then(() => {
-  //         return axios.get(
-  //           `https://localhost:4000/user/mypage/${loginInfo.userId}`
-  //         );
-  //       })
-  //       .then((res) => setuserInfo(res.data.data.userInfo))
-  //     controlClose(false);
-  //   }
-  // };
 
   return (
     <Modal
       ariaHideApp={false}
-      isOpen={isLogin ? false:true}
+      isOpen={isLogin ? false : true}
       onRequestClose={() => controlClose(false)}
       style={{
         overlay: {
@@ -166,27 +149,26 @@ function LoginModal({controlClose,getUserInfo,getUserLogin}) {
     >
       <Xbutton onClick={() => controlClose(false)}>X</Xbutton>
       <ColumnDiv>
-        <Logoimage src="img/logo.png"></Logoimage>
-
+        <Logoimage src="img/nostandinglogo2.jpeg"></Logoimage>
         <RowDiv>
           <ColumnDiv>
             <div>아이디</div>
             <div>비밀번호</div>
           </ColumnDiv>
-
           <ColumnDiv>
             <Input
               type="text"
               placeholder="아이디를 입력하세요"
-              onChange={(e)=>idSetter(e)}
+              onChange={(e) => idSetter(e)}
+              value={id}
             ></Input>
             <Input
               type="password"
-              onChange={(e)=>passwordSetter(e)}
+              onChange={(e) => passwordSetter(e)}
+              value={password}
             ></Input>
           </ColumnDiv>
         </RowDiv>
-
         <RowDiv>
           <RowDiv primary>
             <input type="checkbox"></input>
@@ -197,21 +179,21 @@ function LoginModal({controlClose,getUserInfo,getUserLogin}) {
         <OauthLogin primary="0" onClick={loginHandler}>
           로그인
         </OauthLogin>
-        <OauthLogin primary="1">카카오톡 로그인</OauthLogin>
+        <OauthLogin onClick={()=>clickOauthBtn('kakao')} primary="1">카카오톡 로그인</OauthLogin>
         <OauthLogin>구글 로그인</OauthLogin>
       </ColumnDiv>
     </Modal>
   );
 }
 
-// const dispatch = useDispatch();
-const currentState=(dispatch)=>{
-  
-  return {getUserInfo:(userInfo)=>{
-    dispatch(getUserInfo(userInfo))
-  },getUserLogin:()=>{
-    dispatch(getUserLogin())
-  }
-}
-}
-export default connect(null,currentState)(LoginModal);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserInfo: (userInfo) => {
+      dispatch(getUserInfo(userInfo));
+    },
+    getUserLogin: () => {
+      dispatch(getUserLogin());
+    },
+  };
+};
+export default connect(null, mapDispatchToProps)(LoginModal);
