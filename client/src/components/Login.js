@@ -24,7 +24,7 @@ const ColumnDiv = styled.div`
 
 const Logoimage = styled.img`
   margin: 10px;
-  width: 16vh;
+  width: 30vh;
   height: 16vh;
 `;
 const OauthLogin = styled.div`
@@ -146,7 +146,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
     >
       <Xbutton onClick={() => controlClose(false)}>X</Xbutton>
       <ColumnDiv>
-        <Logoimage src="img/logo.png"></Logoimage>
+        <Logoimage src="img/nostandinglogo2.jpeg"></Logoimage>
         <RowDiv>
           <ColumnDiv>
             <div>아이디</div>

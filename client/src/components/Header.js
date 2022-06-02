@@ -14,10 +14,11 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { getUserLogout } from '../store';
 const Navbar = styled.nav`
-  background-color: aqua;
+  background-color: #fff;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 1em;
 `;
 const Logo = styled.div``;
 
@@ -32,6 +33,11 @@ const Search = styled.div`
   justify-content: center;
 `;
 const Mypagebutton = styled.button``;
+const Img = styled.img`
+  width: 120px;
+  height: 50px;
+  margin-left: 1rem;
+`
 
 function Header({ userInfo, loginState, logout }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +58,8 @@ function Header({ userInfo, loginState, logout }) {
       <Navbar>
         <Logo>
           <Link to="/">
-            <FontAwesomeIcon icon={faBook} size="4x"></FontAwesomeIcon>
+            {/* <FontAwesomeIcon icon={faBook} size="4x"></FontAwesomeIcon> */}
+            <Img src='img/nostandinglogo2.jpeg' />
           </Link>
         </Logo>
         <Search>

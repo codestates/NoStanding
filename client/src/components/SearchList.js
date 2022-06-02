@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 
   const Container = styled.li`
-  width: 23vw;
-  height: 30vh;
+  width: 22.2vw;
+  height: 33vh;
   border: 2px solid black;
   margin: 15px;
   display: flex;
