@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 
 
-  const Container = styled.div`
+  const Container = styled.li`
   width: 23vw;
   height: 30vh;
   border: 2px solid black;
@@ -40,13 +40,12 @@ import styled from 'styled-components';
     }
   `
 function SearchList({shopInfo}) {
-   console.log(shopInfo)
   return (
     <Container>
     <Star>☆</Star>
       <Img ></Img>
-      <ShopName>{shopInfo[0].shop_name}</ShopName>
-      <ShopAddress>{shopInfo[0].shop_category_city}</ShopAddress>
+      <ShopName>{shopInfo.user.shop_name}</ShopName>
+      <ShopAddress>{shopInfo.user.shop_category_city}</ShopAddress>
       <FlexRow>
         <div>별점</div>
         <div>리뷰수</div>

@@ -1,10 +1,9 @@
-import React ,{useEffect,useState}from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
 
 const FlexCol = styled.div`
   display: flex;
@@ -22,19 +21,21 @@ const FlexRow = styled.div`
     width: auto;
   }
 `;
-
+const ListView = styled.ul`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+`
 function Main() {
-  const [shop,setShop]=useState([])
-
-  useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_API_URL}/`)
-    .then((resp)=>{
-      const {image_src} =resp.data.data
-      const {shop_category, shop_name, shop_category_city, master_address} = resp.data.data.user
-      setShop([{image_src:image_src,shop_category:shop_category,shop_name:shop_name,shop_category_city:shop_category_city,master_address:master_address}])
-      
-    })
-  },[])
+  const [shop, setShop] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
+      setShop(resp.data.data);
+      setIsLoading(false);
+      console.log(resp.data.data);
+    });
+  }, []);
   return (
     <>
       <div>
@@ -57,11 +58,16 @@ function Main() {
           <div>제주</div>
         </FlexRow>
       </FlexCol>
-      <div>
-        <Link to="/ShopInfo">
-          <SearchList shopInfo={shop}></SearchList>
-        </Link>
-      </div>
+      <ListView>
+        {isLoading ? (
+          <div>is Loading...</div>
+        ) : shop.map((shop, idx) => {
+          return <Link to={`/ShopInfo/:${idx}`}>
+          <SearchList key={idx} shopInfo={shop}></SearchList>;
+          </Link>
+        })
+        }
+      </ListView>
     </>
   );
 }
