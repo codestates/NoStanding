@@ -23,9 +23,10 @@ const FlexRow = styled.div`
 `;
 const ListView = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
-`
+  justify-content: center;
+`;
 function Main() {
   const [shop, setShop] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,12 +62,17 @@ function Main() {
       <ListView>
         {isLoading ? (
           <div>is Loading...</div>
-        ) : shop.map((shop, idx) => {
-          return <Link to={`/ShopInfo/:${idx}`}>
-          <SearchList key={idx} shopInfo={shop}></SearchList>;
-          </Link>
-        })
-        }
+        ) : (
+          shop.map((shop) => {
+            return (
+              <div key={shop.id}>
+                <Link to={`/ShopInfo/${shop.id}`}>
+                  <SearchList shopInfo={shop}></SearchList>
+                </Link>
+              </div>
+            );
+          })
+        )}
       </ListView>
     </>
   );
