@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
@@ -41,10 +41,7 @@ const ListView = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
 `;
-function Main({searchWord}) {
-  const navigate = useNavigate()
-  const url = new URL(window.location.href);
-  const authorizationCode = url.searchParams.get('code');
+function Main({ searchWord }) {
   const category = ['음식', '카페', '미용'];
   const categoryCity = [
     '서울',
@@ -64,26 +61,6 @@ function Main({searchWord}) {
   const [backgroundCity, setBackgroundCity] = useState('');
 
   useEffect(() => {
-    callbackCheck();
-  }, [authorizationCode]);
-  
-  const callbackCheck = async () => {
-    try {
-      if (authorizationCode) {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/oauth/kakao`,
-          { authorizationCode },
-          { withCredentials: true },
-        );
-        console.log(response);
-      }
-      navigate('/')
-    } catch (err) {
-      console.log(err);
-      navigate('/')
-    }
-  };
-  useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
       setIsLoading(false);
@@ -91,12 +68,12 @@ function Main({searchWord}) {
   }, []);
 
   useEffect(() => {
+    if(searchWord !== '') {
     axios
-    .get(
-      `${process.env.REACT_APP_API_URL}/search/${searchWord}`
-    )
-    .then((resp) => console.log(resp.data.data)) //setShop(resp.data.data)
-  },[searchWord])
+      .get(`${process.env.REACT_APP_API_URL}/search/${searchWord}`)
+      .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
+    }
+  }, [searchWord]);
 
   useEffect(() => {
     chooseCategory !== '' && chooseCategory !== ''
@@ -105,17 +82,15 @@ function Main({searchWord}) {
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
           )
           .then((resp) => {
-          console.log(resp.data.data)
-          setShop(resp.data.data)
-  })
+            setShop(resp.data.data);
+          })
       : chooseCategory === ''
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
           )
           .then((resp) => {
-            console.log(resp.data.data);
-            setShop(resp.data.data)
+            setShop(resp.data.data);
           })
       : chooseCategoryCity === ''
       ? axios
@@ -203,10 +178,9 @@ function Main({searchWord}) {
   );
 }
 function mapStateToProps(state) {
-  console.log(state.shopSearch.shopSearchInfo);
   return {
-    searchWord: state.shopSearch.shopSearchInfo
-  }
+    searchWord: state.shopSearch.shopSearchInfo,
+  };
 }
 
 export default connect(mapStateToProps)(Main);
