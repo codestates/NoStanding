@@ -22,7 +22,19 @@ const loginState = createSlice({
     }
   },
 });
-const store = configureStore({reducer: {loginInfo:loginInfo.reducer, loginState:loginState.reducer}})
+
+const shopSearch =createSlice({
+  name:'userShopSearch',
+  initialState:{shopSearchInfo:[]},
+  reducers:{
+    getShopSearch: (state,action) =>{
+      state.shopSearchInfo=action.payload;
+    }
+  }
+
+})
+const store = configureStore({reducer: {loginInfo:loginInfo.reducer, loginState:loginState.reducer,shopSearch:shopSearch.reducer}})
+export const {getShopSearch}= shopSearch.actions;
 export const { getUserLogin, getUserLogout} = loginState.actions;
 export const { getUserInfo } = loginInfo.actions;
 export default store

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import Login from './Login.js';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { getUserLogout } from '../store';
+import store,{ getUserLogout,getShopSearch } from '../store';
 const Navbar = styled.nav`
   background-color: #fff;
   display: flex;
@@ -39,9 +39,10 @@ const Img = styled.img`
   margin-left: 1rem;
 `
 
-function Header({ userInfo, loginState, logout }) {
+function Header({ userInfo, loginState, logout,shopsearch }) {
   const [isOpen, setIsOpen] = useState(false);
   const [shop,setShop] = useState('')
+  const [searchedshop,setSearchedshop]=useState('test')
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
@@ -53,6 +54,16 @@ function Header({ userInfo, loginState, logout }) {
   const controlClose = (val) => {
     setIsOpen(val);
   };
+  const searchText = (e)=>{
+    setSearchedshop(e.target.value)
+  }
+  const searchShop =(e)=>{
+    
+    axios
+     .get(`${process.env.REACT_APP_API_URL}/search/${searchedshop}`)
+     .then((resp)=>shopsearch(resp.data.data))
+     .then((resp)=>console.log(store.getState()))
+  }
   return (
     <header>
       <Navbar>
@@ -63,8 +74,8 @@ function Header({ userInfo, loginState, logout }) {
           </Link>
         </Logo>
         <Search>
-          <input placeholder="가게이름을 입력하세요."></input>
-          <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
+          <input placeholder="가게이름을 입력하세요."onChange={searchText}></input>
+          <FontAwesomeIcon icon={faMagnifyingGlass} onClick={searchShop}></FontAwesomeIcon>
         </Search>
         <Menu>
           {loginState ? (
@@ -94,6 +105,7 @@ function mapStateToProps(state) {
   return {
     userInfo: state.loginInfo.userInfo,
     loginState: state.loginState.userLoginState,
+    searchShop: state.shopSearch.shopSearchInfo
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -101,6 +113,10 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(getUserLogout());
     },
+    shopsearch:(resp)=>{
+      dispatch(getShopSearch(resp));
+    }
   };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
