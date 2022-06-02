@@ -10,7 +10,7 @@ module.exports = {
         {
           model: Models.User,
           as: 'user',
-          attributes: ['shop_name', 'master_address'],
+          attributes: ['shop_name', 'master_address', 'user_name'],
         },
         {
           model: Models.Bookmark,
@@ -20,7 +20,13 @@ module.exports = {
         {
           model: Models.Review,
           as: 'Reviews',
-          attributes: ['contents'],
+          attributes: [
+            'image_src',
+            'score',
+            'contents',
+            'createdAt',
+            'updatedAt',
+          ],
         },
         {
           model: Models.Menu,

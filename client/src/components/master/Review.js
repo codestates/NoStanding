@@ -1,7 +1,7 @@
-import React,{useState} from 'react';
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faArrowAltCircleRight} from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   border: 2px solid black;
@@ -15,26 +15,26 @@ const H2 = styled.h2`
 const Div = styled.div`
   border-bottom: 2px solid black;
 `;
-const ReviewBox =styled.div`
+const ReviewBox = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: solid gray 2px;
-`
-const ReviwButton =styled.button`
+`;
+const ReviwButton = styled.button`
   position: absolute;
   transform: translateX(3750%);
-`
+`;
 const Rereviewbox = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: solid gray 2px;
-`
+`;
 function Review() {
-  const [open,isOpen] = useState(false)
-  const RereviewOpen = ()=>{
-    isOpen(!open)
-  }
-   return (
+  const [open, isOpen] = useState(false);
+  const RereviewOpen = () => {
+    isOpen(!open);
+  };
+  return (
     <Container>
       <Div>
         <H2>내 가게 후기</H2>
@@ -45,15 +45,16 @@ function Review() {
         <div>너무 맛있어요!! 다음에도 꼭 시킬게요</div>
         <div>2022.05.30</div>
       </ReviewBox>
-      {open ? 
-      <Rereviewbox>
-        <FontAwesomeIcon icon={faArrowAltCircleRight}  />
-        <div>업주1</div>
-        <div>감사합니다 다음에도 이용해주세요</div>
-        <div>2022.05.30</div>
-      </Rereviewbox>:null}
+      {open ? (
+        <Rereviewbox>
+          <FontAwesomeIcon icon={faArrowAltCircleRight} />
+          <div>업주1</div>
+          <div>감사합니다 다음에도 이용해주세요</div>
+          <div>2022.05.30</div>
+        </Rereviewbox>
+      ) : null}
       <ReviewBox>
-        <ReviwButton >답글</ReviwButton>
+        <ReviwButton>답글</ReviwButton>
         <div>팡팡맨</div>
         <div>너무 맛있어요!! 다음에도 꼭 시킬게요</div>
         <div>2022.05.30</div>
@@ -77,8 +78,7 @@ function Review() {
         <div>2022.05.30</div>
       </ReviewBox>
     </Container>
-     
-   )
+  );
 }
 
-export default Review
+export default Review;

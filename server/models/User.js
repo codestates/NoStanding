@@ -49,10 +49,6 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
-      profile: {
-        type: DataTypes.STRING(45),
-        allowNull: true,
-      },
       ismaster: {
         type: DataTypes.TINYINT,
         allowNull: true,
