@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import Banner from '../components/Banner';
 import SearchList from '../components/SearchList';
@@ -41,10 +42,9 @@ const ListView = styled.ul`
   justify-content: center;
 `;
 function Main({searchWord}) {
+  const navigate = useNavigate()
   const url = new URL(window.location.href);
-  console.log(url);
   const authorizationCode = url.searchParams.get('code');
-  console.log(authorizationCode);
   const category = ['음식', '카페', '미용'];
   const categoryCity = [
     '서울',
@@ -62,13 +62,27 @@ function Main({searchWord}) {
   const [chooseCategoryCity, setChooseCategoryCity] = useState('');
   const [backgroundOn, setBackgroundOn] = useState('');
   const [backgroundCity, setBackgroundCity] = useState('');
+
   useEffect(() => {
-    if(authorizationCode) {
-      axios.post(`${process.env.REACT_APP_API_URL}/oauth/kakao`, {
-        authorizationCode
-      }, {withCredentials:true})
+    callbackCheck();
+  }, [authorizationCode]);
+  
+  const callbackCheck = async () => {
+    try {
+      if (authorizationCode) {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/oauth/kakao`,
+          { authorizationCode },
+          { withCredentials: true },
+        );
+        console.log(response);
+      }
+      navigate('/')
+    } catch (err) {
+      console.log(err);
+      navigate('/')
     }
-  },[authorizationCode])
+  };
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
