@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import store, { getUserInfo, getUserLogin } from '../store';
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import store, { getUserInfo, getUserLogin } from "../store";
 
 function CallbackKakao(getUserLogin, getUserInfo) {
   const navigate = useNavigate();
   const url = new URL(window.location.href);
-  const authorizationCode = url.searchParams.get('code');
+  const authorizationCode = url.searchParams.get("code");
   useEffect(() => {
     callbackCheck();
   }, [authorizationCode]);
@@ -21,17 +21,17 @@ function CallbackKakao(getUserLogin, getUserInfo) {
           { withCredentials: true }
         );
         console.log(response); // getUserInfo(response)
-        getUserLogin()
-        alert('카카오로그인성공')
-        navigate('/');
+        getUserLogin();
+        alert("카카오로그인성공");
+        navigate("/");
       }
       console.log(store.getState());
     } catch (err) {
       console.log(err);
-      navigate('/');
+      navigate("/");
     }
   };
-  return <div>카카오로그인</div>
+  return <div>카카오로그인</div>;
 }
 
 function mapDispatchToProps(dispatch) {
