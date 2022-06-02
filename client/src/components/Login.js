@@ -5,6 +5,9 @@ import axios from 'axios';
 import store, { getUserInfo, getUserLogin } from '../store';
 import { connect } from 'react-redux';
 
+
+
+
 const RowDiv = styled.div`
   margin: 5px;
   display: flex;
@@ -81,6 +84,10 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   const passwordSetter = (e) => {
     setPassword(e.target.value);
   };
+  const clearForm =()=>{
+    setId('')
+    setPassword('')
+  }
   const loginHandler = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/login`, {
@@ -89,13 +96,22 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
       }, {
         withCredentials:true
       })
+      
       .then((resp) => {
         const userInfo = resp.data.data.userInfo
         getUserInfo(userInfo);
         setIslogin(true);
         getUserLogin();
+        
       })
-      .then((el) => console.log(store.getState()));
+      .catch((err)=>{
+        console.log('err\n',err.response)
+        alert(err.response.data.message)
+          
+        
+      })
+      clearForm();
+      
   };
 
   return (
@@ -141,8 +157,9 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
               type="text"
               placeholder="아이디를 입력하세요"
               onChange={(e) => idSetter(e)}
+              value={id}
             ></Input>
-            <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
+            <Input type="password" onChange={(e) => passwordSetter(e)} value={password}></Input>
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
