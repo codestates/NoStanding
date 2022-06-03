@@ -11,11 +11,12 @@ module.exports = {
     try {
       // 요청이 잘못된 경우, 다음 에러메시지를 반환한다.
       const { authorizationCode } = req.body;
+      const redirectUri = `${process.env.CLIENT_ORIGIN}/callbackgoogle`;
 
       if (!authorizationCode)
         return res.status(400).json({ message: 'Bad Request!' });
 
-      const url = `https://www.googleapis.com/oauth2/v4/token?code=${authorizationCode}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${process.env.CLIENT_ORIGIN}&grant_type=authorization_code`;
+      const url = `https://www.googleapis.com/oauth2/v4/token?code=${authorizationCode}&client_id=${process.env.GOOGLE_CLIENT_ID}&client_secret=${process.env.GOOGLE_CLIENT_SECRET}&redirect_uri=${redirectUri}&grant_type=authorization_code`;
       // authorizationCode로 google_token 을 받아온다.
       const response = await axios.post(url);
       const { access_token } = response.data;
