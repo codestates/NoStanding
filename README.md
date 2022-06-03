@@ -26,7 +26,7 @@
 
 # 사용 스택
 
-![NoStanding](https://user-images.githubusercontent.com/95732945/170417742-e265b54d-0738-481f-b5ed-48ff992f4f8a.png)
+![NoStanding](https://user-images.githubusercontent.com/95732945/170860155-6d836071-d9ff-44d9-be2c-a4ac0e3c77db.png)
 
 
 
