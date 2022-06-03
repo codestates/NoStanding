@@ -9,7 +9,7 @@ module.exports = {
         {
           model: Models.User,
           as: 'user',
-          attributes: ['user_name', 'profile', 'shop_name'],
+          attributes: ['user_name', 'shop_name'],
         },
         {
           model: Models.Shop,

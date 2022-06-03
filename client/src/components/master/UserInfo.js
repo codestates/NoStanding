@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 const Div = styled.div`
   border-bottom: 2px solid black;
 `;
