@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from './components/Header';
+import GlobalStyles from './GlobalStyles';
+import Main from './pages/Main';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Mypage from './pages/Mypage';
+import Shopinfo from './pages/ShopInfo';
+import Signup from './pages/SignUp';
+import styled from 'styled-components';
+import CallbackGoogle from './pages/CallbackGoogle';
+import CallbackKakao from './pages/CallbackKakao';
+
+const Body = styled.div`
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 6vw;
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <GlobalStyles />
+        <Header />
+        <Body>
+          <Routes>
+            <Route exact path="/" element={<Main />} />
+            <Route path="/Mypage/*" element={<Mypage />} />
+            <Route path="/Shopinfo/:id" element={<Shopinfo />} />
+            <Route path="/Signup" element={<Signup />} />
+            <Route path="/callbackkakao" element={<CallbackKakao />} />  
+            <Route path="/callbackgoogle" element={<CallbackGoogle />} />  
+          </Routes>
+        </Body>
+      </Router>
+    </>
   );
 }
 
