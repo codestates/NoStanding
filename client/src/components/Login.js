@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -71,6 +72,7 @@ const A = styled.a`
 `;
 
 function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIslogin] = useState(false);
@@ -81,6 +83,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   const passwordSetter = (e) => {
     setPassword(e.target.value);
   };
+
   const clearForm = () => {
     setId("");
     setPassword("");
@@ -122,6 +125,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
       );
     }
   };
+
 
   return (
     <Modal
@@ -166,14 +170,16 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
               type="text"
               placeholder="아이디를 입력하세요"
               onChange={(e) => idSetter(e)}
+
               value={id}
             ></Input>
             <Input
               type="password"
               onChange={(e) => passwordSetter(e)}
               value={password}
+
             ></Input>
-            <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
+            
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
@@ -197,6 +203,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   );
 }
 
+
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserInfo: (userInfo) => {
@@ -207,4 +214,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
 export default connect(null, mapDispatchToProps)(LoginModal);
