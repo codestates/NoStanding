@@ -65,44 +65,32 @@ module.exports = {
 
       const reservationPrev = await Reservation.findOne({
         where: {
+          user_id: user_id,
           menu_id: menu_id,
           date: date,
         },
       });
+      console.log(reservationPrev);
       if (!reservationPrev) {
+        const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
+        Join User U On S.user_id = U.id where M.id = ${menu_id}`;
+
+        const masterInfo = await db.sequelize.query(query, {
+          type: QueryTypes.SELECT,
+        });
+
         await Reservation.create({
           user_id: user_id,
           menu_id: menu_id,
           date: date,
         });
 
-        const reservationList = await Reservation.findAll({
-          where: {
-            user_id: user_id,
-          },
-        });
-
-        const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
-    Join User U On S.user_id = U.id where M.id = ${menu_id}`;
-
-        const masterInfo = await db.sequelize.query(query, {
-          type: QueryTypes.SELECT,
-        });
-        console.log(masterInfo);
         await Reservation.create({
-          user_id: masterInfo.id,
+          user_id: masterInfo[0].user_id,
           menu_id: menu_id,
           date: date,
         });
-
-        const reservationMaster = await Reservation.findAll({
-          where: {
-            user_id: masterInfo.id,
-          },
-        });
-
         res.status(200).send({
-          data: [reservationList, reservationMaster],
           message: '예약 추가 완료',
         });
       } else {
@@ -114,7 +102,53 @@ module.exports = {
     }
   },
 
-  delete: async (req, res) => {},
+  delete: async (req, res) => {
+    try {
+      const { user_id, menu_id, date } = req.body;
+
+      const reservationPrev = await Reservation.findOne({
+        where: {
+          user_id: user_id,
+          menu_id: menu_id,
+          date: date,
+        },
+      });
+
+      if (reservationPrev) {
+        const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
+        Join User U On S.user_id = U.id where M.id = ${menu_id}`;
+
+        const masterInfo = await db.sequelize.query(query, {
+          type: QueryTypes.SELECT,
+        });
+        console.log(masterInfo[0]);
+
+        await Reservation.destroy({
+          where: {
+            user_id: user_id,
+            menu_id: menu_id,
+            date: date,
+          },
+        });
+
+        await Reservation.destroy({
+          where: {
+            user_id: masterInfo[0].user_id,
+            menu_id: menu_id,
+            date: date,
+          },
+        });
+        res.status(200).send({
+          message: '예약 삭제 완료',
+        });
+      } else {
+        res.status(400).send({ message: '예약 없음' });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ message: 'Server Error' });
+    }
+  },
 };
 
 // user
