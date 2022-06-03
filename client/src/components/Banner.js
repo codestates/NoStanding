@@ -4,7 +4,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Container = styled.div`
-  background-image: url(${(props) => props.img});
+  background-image: url(${props => props.img});
   background-size: 100% 35vh;
   width: 100%;
   height: 35vh;

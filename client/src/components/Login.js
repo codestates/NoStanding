@@ -5,15 +5,12 @@ import axios from 'axios';
 import store, { getUserInfo, getUserLogin } from '../store';
 import { connect } from 'react-redux';
 
-
-
-
 const RowDiv = styled.div`
   margin: 5px;
   display: flex;
   width: 50%;
   flex-direction: row;
-  justify-content: ${(props) => (props.primary ? 'none' : 'space-around')};
+  justify-content: ${props => (props.primary ? 'none' : 'space-around')};
 `;
 const ColumnDiv = styled.div`
   display: flex;
@@ -31,7 +28,7 @@ const OauthLogin = styled.div`
   margin: 4px;
   height: 4vh;
   width: 33vw;
-  background-color: ${(props) =>
+  background-color: ${props =>
     props.primary === '1'
       ? 'yellow'
       : props.primary === '2'
@@ -39,7 +36,7 @@ const OauthLogin = styled.div`
       : props.primary === '0'
       ? 'black'
       : 'tomato'};
-  color: ${(props) =>
+  color: ${props =>
     props.primary === '1'
       ? 'black'
       : props.primary === '2'
@@ -78,40 +75,52 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   const [password, setPassword] = useState('');
   const [isLogin, setIslogin] = useState(false);
 
-  const idSetter = (e) => {
+  const idSetter = e => {
     setId(e.target.value);
   };
-  const passwordSetter = (e) => {
+  const passwordSetter = e => {
     setPassword(e.target.value);
   };
-  const clearForm =()=>{
-    setId('')
-    setPassword('')
-  }
+  const clearForm = () => {
+    setId('');
+    setPassword('');
+  };
   const loginHandler = () => {
     axios
-      .post(`${process.env.REACT_APP_API_URL}/login`, {
-        user_name: id,
-        password: password,
-      }, {
-        withCredentials:true
-      })
-      
-      .then((resp) => {
-        const userInfo = resp.data.data.userInfo
+      .post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          user_name: id,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+
+      .then(resp => {
+        const userInfo = resp.data.data.userInfo;
         getUserInfo(userInfo);
         setIslogin(true);
         getUserLogin();
-        
       })
-      .catch((err)=>{
-        console.log('err\n',err.response)
-        alert(err.response.data.message)
-          
-        
-      })
-      clearForm();
-      
+      .catch(err => {
+        console.log('err\n', err.response);
+        alert(err.response.data.message);
+      });
+    clearForm();
+  };
+  const clickOauthBtn = val => {
+    const url = process.env.REACT_APP_CLI_URL;
+    if (val === 'kakao') {
+      window.location.assign(
+        `https://kauth.kakao.com/oauth/authorize?client_id=42009e870cdf666e6d0d8ae29350f9cb&redirect_uri=http://localhost:3000/callbackkakao&response_type=code&scope=account_email`,
+      );
+    } else if (val === 'google') {
+      window.location.assign(
+        `https://accounts.google.com/o/oauth2/auth?client_id=136738573059-qo57hsrstcie7fu7btivdccae2bbtkpk.apps.googleusercontent.com&redirect_uri=http://localhost:3000/callbackgoogle&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+openid`,
+      );
+    }
   };
 
   return (
@@ -156,10 +165,15 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
             <Input
               type="text"
               placeholder="아이디를 입력하세요"
-              onChange={(e) => idSetter(e)}
+              onChange={e => idSetter(e)}
               value={id}
             ></Input>
-            <Input type="password" onChange={(e) => passwordSetter(e)} value={password}></Input>
+            <Input
+              type="password"
+              onChange={e => passwordSetter(e)}
+              value={password}
+            ></Input>
+            <Input type="password" onChange={e => passwordSetter(e)}></Input>
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
@@ -172,16 +186,20 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
         <OauthLogin primary="0" onClick={loginHandler}>
           로그인
         </OauthLogin>
-        <OauthLogin primary="1">카카오톡 로그인</OauthLogin>
-        <OauthLogin>구글 로그인</OauthLogin>
+        <OauthLogin onClick={() => clickOauthBtn('kakao')} primary="1">
+          카카오톡 로그인
+        </OauthLogin>
+        <OauthLogin onClick={() => clickOauthBtn('google')}>
+          구글 로그인
+        </OauthLogin>
       </ColumnDiv>
     </Modal>
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    getUserInfo: (userInfo) => {
+    getUserInfo: userInfo => {
       dispatch(getUserInfo(userInfo));
     },
     getUserLogin: () => {

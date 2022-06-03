@@ -6,7 +6,7 @@ function Notification() {
     <>
       <Alarm />
     </>
-  )
+  );
 }
 
-export default Notification
+export default Notification;

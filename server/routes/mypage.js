@@ -73,8 +73,8 @@ router.patch('/menu/:user_name', mypage.menu.patch);
 
 router.get('/notification/:user_name', mypage.notification.get);
 
-router.get('/review/:user_name', mypage.review.get);
-router.post('/review/:user_name', mypage.review.post);
+router.get('/re_review/:user_name', mypage.re_review.get);
+router.post('/re_review/:user_name', mypage.re_review.post);
 
 router.get('/shopinfo/:user_name', mypage.shopinfo.get);
 router.post('/shopinfo/:user_name', mypage.shopinfo.post);
@@ -176,6 +176,21 @@ router.delete('/userinfo/:user_name', mypage.userinfo.delete);
 /**
  * @swagger
  * paths:
+ *  mypage/img/:user_id:
+ *    patch:
+ *      summary: "가게 사진 수정"
+ *      description: ""
+ *      tags: [mypage_img]
+ *      responses:
+ *        "200":
+ *          description: 사진 추가 성공
+ *        "400":
+ *          description: 사진 추가 실패
+ */
+
+/**
+ * @swagger
+ * paths:
  *  mypage/menu/:user_id:
  *    get:
  *      summary: "가게 메뉴 조회"
@@ -206,6 +221,21 @@ router.delete('/userinfo/:user_name', mypage.userinfo.delete);
 /**
  * @swagger
  * paths:
+ *  mypage/menu/:user_id:
+ *    patch:
+ *      summary: "가게 메뉴 수정"
+ *      description: ""
+ *      tags: [mypage_menu]
+ *      responses:
+ *        "200":
+ *          description: 메뉴 추가 성공
+ *        "400":
+ *          description: 메뉴 추가 실패
+ */
+
+/**
+ * @swagger
+ * paths:
  *  mypage/notification/:user_id:
  *    get:
  *      summary: "알림 조회"
@@ -221,11 +251,11 @@ router.delete('/userinfo/:user_name', mypage.userinfo.delete);
 /**
  * @swagger
  * paths:
- *  mypage/review/:user_id:
+ *  mypage/re_review/:user_id:
  *    get:
  *      summary: "리뷰 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
- *      tags: [mypage_review]
+ *      tags: [mypage_re_review]
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
@@ -236,11 +266,11 @@ router.delete('/userinfo/:user_name', mypage.userinfo.delete);
 /**
  * @swagger
  * paths:
- *  mypage/review/:user_id:
+ *  mypage/re_review/:user_id:
  *    post:
  *      summary: "리뷰 추가"
- *      description: ""
- *      tags: [mypage_review]
+ *      description: "점주가 답글달 때, Post방식으로 요청"
+ *      tags: [mypage_re_review]
  *      responses:
  *        "200":
  *          description: 리뷰 추가 성공

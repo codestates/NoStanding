@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import Login from './Login.js';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import store,{ getUserLogout,getShopSearch } from '../store';
+import { getUserLogout, getShopSearch } from '../store';
 const Navbar = styled.nav`
   background-color: #fff;
   display: flex;
@@ -33,31 +33,27 @@ const Img = styled.img`
   margin-left: 1rem;
 `;
 
-function Header({ userInfo, loginState, logout,shopsearch }) {
+function Header({ userInfo, loginState, logout, shopsearch }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [shop,setShop] = useState('')
-  const [searchedshop,setSearchedshop]=useState('test')
+  const [searchedshop, setSearchedshop] = useState('');
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
   const clickLogoutBtn = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/logout`)
-      .then((resp) => logout());
+      .then(resp => logout());
   };
-  const controlClose = (val) => {
+  const controlClose = val => {
     setIsOpen(val);
   };
-  const searchText = (e)=>{
-    setSearchedshop(e.target.value)
-  }
-  const searchShop =(e)=>{
-    
-    axios
-     .get(`${process.env.REACT_APP_API_URL}/search/${searchedshop}`)
-     .then((resp)=>shopsearch(resp.data.data))
-     .then((resp)=>console.log(store.getState()))
-  }
+  const searchText = e => {
+    setSearchedshop(e.target.value);
+  };
+  const searchShop = e => {
+    shopsearch(searchedshop);
+  };
+
   return (
     <header>
       <Navbar>
@@ -67,8 +63,14 @@ function Header({ userInfo, loginState, logout,shopsearch }) {
           </Link>
         </Logo>
         <Search>
-          <input placeholder="가게이름을 입력하세요."onChange={searchText}></input>
-          <FontAwesomeIcon icon={faMagnifyingGlass} onClick={searchShop}></FontAwesomeIcon>
+          <input
+            placeholder="가게이름을 입력하세요."
+            onChange={searchText}
+          ></input>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            onClick={searchShop}
+          ></FontAwesomeIcon>
         </Search>
         <Menu>
           {loginState ? (
@@ -98,7 +100,7 @@ function mapStateToProps(state) {
   return {
     userInfo: state.loginInfo.userInfo,
     loginState: state.loginState.userLoginState,
-    searchShop: state.shopSearch.shopSearchInfo
+    searchShop: state.shopSearch.shopSearchInfo,
   };
 }
 function mapDispatchToProps(dispatch) {
@@ -106,9 +108,9 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(getUserLogout());
     },
-    shopsearch:(resp)=>{
+    shopsearch: resp => {
       dispatch(getShopSearch(resp));
-    }
+    },
   };
 }
 

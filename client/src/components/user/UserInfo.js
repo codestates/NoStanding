@@ -14,7 +14,7 @@ const H2 = styled.h2`
 `;
 const Flex = styled.div`
   display: flex;
-  flex-direction: ${(props) => props.direction};
+  flex-direction: ${props => props.direction};
   justify-content: center;
   align-items: center;
   margin: 1em;
