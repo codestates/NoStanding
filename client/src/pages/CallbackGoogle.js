@@ -1,15 +1,17 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import store, { getUserInfo, getUserLogin } from '../store';
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import store, { getUserInfo, getUserLogin } from "../store";
 
-function CallbackGoogle(getUserLogin, getUserInfo) {
+function CallbackGoogle({ getUserLogin, getUserInfo }) {
   const navigate = useNavigate();
   const url = new URL(window.location.href);
-  const authorizationCode = url.searchParams.get('code');
-  console.log(authorizationCode);
-  
+  const authorizationCode = url.searchParams.get("code");
+  useEffect(() => {
+    callbackCheck();
+  }, [authorizationCode]);
+
   const callbackCheck = async () => {
     try {
       if (authorizationCode) {
@@ -17,15 +19,20 @@ function CallbackGoogle(getUserLogin, getUserInfo) {
           .post(
             `${process.env.REACT_APP_API_URL}/oauth/google`,
             { authorizationCode },
-            { withCredentials: true },
+            { withCredentials: true }
           )
-        getUserLogin()
-        console.log(response); // getUserInfo(response)
-        navigate('/');
+          .then((resp) => {
+            const userInfo = resp.data.data.userInfo;
+            console.log(resp); // getUserInfo(response)
+            getUserLogin();
+            getUserInfo(userInfo);
+            alert("구글로그인성공");
+            navigate("/");
+          });
       }
       console.log(store.getState());
     } catch (err) {
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -43,8 +50,8 @@ function mapDispatchToProps(dispatch) {
     getUserLogin: () => {
       dispatch(getUserLogin());
     },
-    getUserInfo: () => {
-      dispatch(getUserInfo());
+    getUserInfo: (userInfo) => {
+      dispatch(getUserInfo(userInfo));
     },
   };
 }

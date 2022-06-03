@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 
+
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
