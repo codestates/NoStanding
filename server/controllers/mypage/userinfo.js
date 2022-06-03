@@ -78,7 +78,6 @@ module.exports = {
                 ? phone_number
                 : userInfo.dataValues.nickname,
               email,
-              profile: profile ? profile : userInfo.dataValues.profile,
             },
             { where: { id: userInfo.dataValues.id } },
           );
