@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import store, { getUserInfo, getUserLogin } from '../store';
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import store, { getUserInfo, getUserLogin } from "../store";
 
-function CallbackKakao(getUserLogin, getUserInfo) {
+function CallbackKakao({ getUserLogin, getUserInfo }) {
   const navigate = useNavigate();
   const url = new URL(window.location.href);
-  const authorizationCode = url.searchParams.get('code');
+  const authorizationCode = url.searchParams.get("code");
   useEffect(() => {
     callbackCheck();
   }, [authorizationCode]);
@@ -15,20 +15,25 @@ function CallbackKakao(getUserLogin, getUserInfo) {
   const callbackCheck = async () => {
     try {
       if (authorizationCode) {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/oauth/kakao`,
-          { authorizationCode },
-          { withCredentials: true },
-        );
-        console.log(response); // getUserInfo(response)
-        getUserLogin();
-        alert('카카오로그인성공');
-        navigate('/');
+        const response = await axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/oauth/kakao`,
+            { authorizationCode },
+            { withCredentials: true }
+          )
+          .then((resp) => {
+            const userInfo = resp.data.data.userInfo;
+            console.log(resp); // getUserInfo(response)
+            getUserLogin();
+            getUserInfo(userInfo);
+            alert("카카오로그인성공");
+            navigate("/");
+          });
       }
       console.log(store.getState());
     } catch (err) {
       console.log(err);
-      navigate('/');
+      navigate("/");
     }
   };
   return <div>카카오로그인</div>;
@@ -39,8 +44,8 @@ function mapDispatchToProps(dispatch) {
     getUserLogin: () => {
       dispatch(getUserLogin());
     },
-    getUserInfo: () => {
-      dispatch(getUserInfo());
+    getUserInfo: (userInfo) => {
+      dispatch(getUserInfo(userInfo));
     },
   };
 }
