@@ -1,7 +1,5 @@
 import React from 'react';
 
-function Body() {
+function Body() {}
 
-}
-
-export default Body
+export default Body;
