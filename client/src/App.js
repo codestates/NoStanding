@@ -27,8 +27,8 @@ function App() {
             <Route path="/Mypage/*" element={<Mypage />} />
             <Route path="/Shopinfo/:id" element={<Shopinfo />} />
             <Route path="/Signup" element={<Signup />} />
-            <Route path="/callbackkakao" element={<CallbackKakao />} />
-            <Route path="/callbackgoogle" element={<CallbackGoogle />} />
+            <Route path="/callbackkakao" element={<CallbackKakao />} />  
+            <Route path="/callbackgoogle" element={<CallbackGoogle />} />  
           </Routes>
         </Body>
       </Router>

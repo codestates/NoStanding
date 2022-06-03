@@ -4,7 +4,7 @@
 
 ## **LOGO**
 
-<img src="" width="100" height="100"/>
+<img src="https://user-images.githubusercontent.com/95327764/171786761-3ed710e3-a911-4527-89a0-50b1202f1ecb.png" width="170" height="100"/>
 
 ## **ABOUT**
 
@@ -26,7 +26,7 @@
 
 # 사용 스택
 
-![NoStanding](https://user-images.githubusercontent.com/95732945/170417742-e265b54d-0738-481f-b5ed-48ff992f4f8a.png)
+![NoStanding](https://user-images.githubusercontent.com/95732945/170860155-6d836071-d9ff-44d9-be2c-a4ac0e3c77db.png)
 
 
 

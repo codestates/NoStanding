@@ -42,16 +42,16 @@ function Header({ userInfo, loginState, logout, shopsearch }) {
   const clickLogoutBtn = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/logout`)
-      .then(resp => logout());
+      .then((resp) => logout());
   };
-  const controlClose = val => {
+  const controlClose = (val) => {
     setIsOpen(val);
   };
-  const searchText = e => {
+  const searchText = (e) => {
     setSearchedshop(e.target.value);
   };
-  const searchShop = e => {
-    shopsearch(searchedshop);
+  const searchShop = (e) => {
+  shopsearch(searchedshop)
   };
 
   return (
@@ -108,7 +108,7 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(getUserLogout());
     },
-    shopsearch: resp => {
+    shopsearch: (resp) => {
       dispatch(getShopSearch(resp));
     },
   };

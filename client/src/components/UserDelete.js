@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const Flex = styled.div`
   display: flex;
-  flex-direction: ${props => props.direction};
-  margin: ${props => (props.direction === 'column' ? '5em' : '1em')};
+  flex-direction: ${(props) => props.direction};
+  margin: ${(props) => props.direction === 'column'? '5em': '1em'};
   align-items: center;
 `;
 function UserDelete() {
