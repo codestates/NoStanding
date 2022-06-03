@@ -8,7 +8,7 @@ const Container = styled.div`
   border: 2px solid red;
 `;
 const Flex = styled.div`
-  flex: ${(props) => props.grow} 1 0;
+  flex: ${props => props.grow} 1 0;
   border: 2px solid black;
 `;
 const UserImg = styled.img`

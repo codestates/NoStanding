@@ -15,7 +15,7 @@ const Div = styled.div`
 `;
 const Flex = styled.div`
   display: flex;
-  flex-direction: ${(props) => props.direction};
+  flex-direction: ${props => props.direction};
   margin-bottom: 1em;
   border-bottom: 2px solid black;
   align-items: center;
@@ -28,7 +28,7 @@ const ChooseDiv = styled.div`
 const Span = styled.span`
   height: 100%;
   border: 1px solid black;
-`
+`;
 function Reservation() {
   return (
     <Container>

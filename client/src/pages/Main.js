@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import Banner from "../components/Banner";
-import SearchList from "../components/SearchList";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import Banner from '../components/Banner';
+import SearchList from '../components/SearchList';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 const FlexCol = styled.div`
   display: flex;
@@ -28,12 +28,12 @@ const FlexRow = styled.div`
   }
 `;
 const CategoryList = styled.div`
-  background-color: ${(props) =>
-    String(props.idx) === props.backgroundOn ? "rgba(0, 0, 0, 0.2)" : null};
+  background-color: ${props =>
+    String(props.idx) === props.backgroundOn ? 'rgba(0, 0, 0, 0.2)' : null};
 `;
 const CategortCityList = styled.div`
-  background-color: ${(props) =>
-    String(props.idx) === props.backgroundCity ? "rgba(0, 0, 0, 0.2)" : null};
+  background-color: ${props =>
+    String(props.idx) === props.backgroundCity ? 'rgba(0, 0, 0, 0.2)' : null};
 `;
 const ListView = styled.ul`
   display: flex;
@@ -42,63 +42,63 @@ const ListView = styled.ul`
   justify-content: center;
 `;
 function Main({ searchWord }) {
-  const category = ["음식", "카페", "미용"];
+  const category = ['음식', '카페', '미용'];
   const categoryCity = [
-    "서울",
-    "부산",
-    "인천",
-    "대구",
-    "광주",
-    "대전",
-    "울산",
-    "제주",
+    '서울',
+    '부산',
+    '인천',
+    '대구',
+    '광주',
+    '대전',
+    '울산',
+    '제주',
   ];
   const [shop, setShop] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [chooseCategory, setChooseCategory] = useState("");
-  const [chooseCategoryCity, setChooseCategoryCity] = useState("");
-  const [backgroundOn, setBackgroundOn] = useState("");
-  const [backgroundCity, setBackgroundCity] = useState("");
+  const [chooseCategory, setChooseCategory] = useState('');
+  const [chooseCategoryCity, setChooseCategoryCity] = useState('');
+  const [backgroundOn, setBackgroundOn] = useState('');
+  const [backgroundCity, setBackgroundCity] = useState('');
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
+    axios.get(`${process.env.REACT_APP_API_URL}/`).then(resp => {
       setShop(resp.data.data);
       setIsLoading(false);
     });
   }, []);
 
   useEffect(() => {
-    if (searchWord !== "") {
+    if (searchWord !== '') {
       axios
         .get(`${process.env.REACT_APP_API_URL}/search/${searchWord}`)
-        .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
+        .then(resp => console.log(resp.data.data)); //setShop(resp.data.data)
     }
   }, [searchWord]);
 
   useEffect(() => {
-    chooseCategory !== "" && chooseCategory !== ""
+    chooseCategory !== '' && chooseCategory !== ''
       ? axios
           .get(
-            `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
+            `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`,
           )
-          .then((resp) => {
+          .then(resp => {
             setShop(resp.data.data);
           })
-      : chooseCategory === ""
+      : chooseCategory === ''
       ? axios
           .get(
-            `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
+            `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`,
           )
-          .then((resp) => {
+          .then(resp => {
             setShop(resp.data.data);
           })
-      : chooseCategoryCity === ""
+      : chooseCategoryCity === ''
       ? axios
           .get(
-            `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
+            `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`,
           )
-          .then((resp) => setShop(resp.data.data))
-      : axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
+          .then(resp => setShop(resp.data.data))
+      : axios.get(`${process.env.REACT_APP_API_URL}/`).then(resp => {
           setShop(resp.data.data);
         });
   }, [chooseCategory, chooseCategoryCity]);
@@ -109,8 +109,8 @@ function Main({ searchWord }) {
       setChooseCategory(value);
       setBackgroundOn(idx);
     } else {
-      setChooseCategory("");
-      setBackgroundOn("");
+      setChooseCategory('');
+      setBackgroundOn('');
     }
   };
 
@@ -120,8 +120,8 @@ function Main({ searchWord }) {
       setChooseCategoryCity(value);
       setBackgroundCity(idx);
     } else {
-      setChooseCategoryCity("");
-      setBackgroundCity("");
+      setChooseCategoryCity('');
+      setBackgroundCity('');
     }
   };
   return (
@@ -163,7 +163,7 @@ function Main({ searchWord }) {
         {isLoading ? (
           <div>is Loading...</div>
         ) : (
-          shop.map((shop) => {
+          shop.map(shop => {
             return (
               <div key={shop.id}>
                 <Link to={`/ShopInfo/${shop.id}`}>

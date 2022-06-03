@@ -9,18 +9,18 @@ const Img = styled.img`
   width: 8em;
   height: 8em;
   margin: 1em;
-`
+`;
 const Div = styled.div`
   margin: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
+`;
 function ReservationInfo() {
   return (
     <Container>
       <div>
-        <Img src='img/test2.png' />
+        <Img src="img/test2.png" />
       </div>
       <Div>
         <div>가게이름</div>
