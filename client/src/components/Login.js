@@ -173,10 +173,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
               onChange={(e) => passwordSetter(e)}
               value={password}
             ></Input>
-<<<<<<< HEAD
-=======
             <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
->>>>>>> 4178b5b92fc46727bdc9d1058d26ce3f693c8c3a
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
