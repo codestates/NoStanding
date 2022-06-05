@@ -8,12 +8,12 @@ import Signup from './pages/SignUp';
 import styled from 'styled-components';
 import CallbackGoogle from './pages/CallbackGoogle';
 import CallbackKakao from './pages/CallbackKakao';
-
 const Body = styled.div`
   height: auto;
   min-height: 100%;
   padding-bottom: 6vw;
 `;
+
 
 function App() {
   return (
