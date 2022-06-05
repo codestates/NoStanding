@@ -20,9 +20,9 @@ module.exports = {
       }
       await Models.Review.create({
         // shop_name, master_address,
-        user_id: userInfo.dataValues.id, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
+        user_id: userInfo.dataValues.id,
         shop_id: shop_id,
-        inage_src: image_src, // 해싱된 비밀번호
+        inage_src: image_src,
         score: score,
         contents: contents,
       });

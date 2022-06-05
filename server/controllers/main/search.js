@@ -3,14 +3,14 @@ const db = require('../../models');
 
 module.exports = {
   get: async (req, res) => {
-    let { text } = req.params;
+    let { text } = req.query;
 
     // req로 받는 문자 띄어쓰기 구별하기
     text = `%${text.replace(/ /gi, '%')}%`;
 
     // DB에 저장되있는 값의 띄어쓰기 찾기
 
-    const query = `SELECT U.shop_name, U.shop_category, U.shop_category_city, U.master_address
+    const query = `SELECT U.shop_name, U.shop_category, U.shop_category_city, U.master_address, S.id
     FROM User U
     Join Shop S ON S.user_id = U.id
     where replace(shop_name," ","") like :text`;

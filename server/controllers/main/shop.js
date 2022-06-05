@@ -4,6 +4,7 @@ const Models = initModels(sequelize);
 
 module.exports = {
   get: async (req, res) => {
+    const { id } = req.params;
     const shopInfo = await Models.Shop.findAll({
       // 리뷰리뷰수, 리뷰별점
       include: [
@@ -34,7 +35,8 @@ module.exports = {
           attributes: ['image_src', 'menu_category', 'name', 'price'],
         },
       ],
-      attributes: ['image_src', 'contents', 'map'],
+      where: { id: id },
+      attributes: ['id', 'image_src', 'contents', 'map'],
     });
     res.status(200).send({ data: shopInfo, message: '정보 전달 완료' });
   },
