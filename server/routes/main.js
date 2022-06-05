@@ -11,8 +11,9 @@ const main = require('../controllers/main');
 router.get('/', main.main.get);
 router.get('/shop/:id', main.shop.get);
 router.get('/category', main.category.get);
-router.get('/search/:text', main.search.get);
+router.get('/search', main.search.get);
 router.post('/review/:shop_id/:user_name', main.review.post);
+router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
 
 /**
  * @swagger
@@ -37,6 +38,13 @@ router.post('/review/:shop_id/:user_name', main.review.post);
  *      summary: "가게 상세 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
  *      tags: [main]
+ *      parameters:
+ *      - in : path
+ *        name : id
+ *        required : true
+ *        description : shop의 id
+ *        schema:
+ *          type: Number
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
@@ -50,8 +58,21 @@ router.post('/review/:shop_id/:user_name', main.review.post);
  *  /category:
  *    get:
  *      summary: "메인 페이지 카테고리 별 데이터 조회"
- *      description: ""
+ *      description: "선택한 카테고리에 맞는 데이터를 뽑아 보낸다"
  *      tags: [main]
+ *      parameters:
+ *      - in: query
+ *        name: shop_category
+ *        required: false
+ *        description: 가게 카테고리
+ *        schema:
+ *          type: string
+ *      - in: query
+ *        name:  shop_category_city
+ *        required: false
+ *        description: 지역 카테고리
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
@@ -62,11 +83,18 @@ router.post('/review/:shop_id/:user_name', main.review.post);
 /**
  * @swagger
  * paths:
- *  /search/:text :
+ *  /search:
  *    get:
  *      summary: "메인 페이지 검색 데이터 조회"
  *      description: ""
  *      tags: [main]
+ *      parameters:
+ *      - in: query
+ *        name: text
+ *        required: false
+ *        description: 검색명
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
  *          description: 정보 전달 완료

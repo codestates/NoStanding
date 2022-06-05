@@ -81,6 +81,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   const passwordSetter = (e) => {
     setPassword(e.target.value);
   };
+
   const clearForm = () => {
     setId("");
     setPassword("");
@@ -207,4 +208,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
 export default connect(null, mapDispatchToProps)(LoginModal);
