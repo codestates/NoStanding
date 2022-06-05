@@ -34,7 +34,7 @@ module.exports = {
           {
             model: Models.Bookmark,
             as: 'Bookmarks',
-            attributes: ['ismarked'],
+            attributes: ['is_marked'],
           },
           {
             model: Models.Review,
