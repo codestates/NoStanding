@@ -30,7 +30,6 @@ function CallbackKakao({ getUserLogin, getUserInfo }) {
             navigate("/");
           });
       }
-      console.log(store.getState());
     } catch (err) {
       console.log(err);
       navigate("/");

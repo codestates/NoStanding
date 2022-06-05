@@ -75,10 +75,10 @@ function SingUp() {
     '울산',
     '제주',
   ];
-  const clickChooseBtn = value => {
+  const clickChooseBtn = (value) => {
     setIsMaster(value);
   };
-  const inputUserName = e => {
+  const inputUserName = (e) => {
     setUserName(e.target.value);
     if (RegExp.test(e.target.value)) {
       setOnId(true);
@@ -86,27 +86,27 @@ function SingUp() {
       setOnId(false);
     }
   };
-  const inputPwd = e => {
+  const inputPwd = (e) => {
     setPassword(e.target.value);
     // passwordRegex.test(e.target.value) ? setOnPwd(true) : setOnPwd(false);
     //주석 풀면 비밀번호 유효성 검사 가능
   };
-  const inputCheckPwd = e => {
+  const inputCheckPwd = (e) => {
     setCheckPassword(e.target.value);
     password === e.target.value ? setOnCheckPwd(true) : setOnCheckPwd(false);
   };
-  const inputNickname = e => {
+  const inputNickname = (e) => {
     setNickname(e.target.value);
     nicknameRegExp.test(e.target.value)
       ? setOnNickname(true)
       : setOnNickname(false);
   };
-  const inputPhoneNum = e => setPhoneNumber(e.target.value);
-  const inputShopName = e => setShopName(e.target.value);
-  const inputShopCategory = e => setShopCategory(e.target.value);
-  const inputShopCategoryCity = e => setShopCategoryCity(e.target.value);
-  const inputMasterAddress = e => setMasterAdress(e.target.value);
-  const inputEmail = e => setEmail(e.target.value);
+  const inputPhoneNum = (e) => setPhoneNumber(e.target.value);
+  const inputShopName = (e) => setShopName(e.target.value);
+  const inputShopCategory = (e) => setShopCategory(e.target.value);
+  const inputShopCategoryCity = (e) => setShopCategoryCity(e.target.value);
+  const inputMasterAddress = (e) => setMasterAdress(e.target.value);
+  const inputEmail = (e) => setEmail(e.target.value);
 
   const clickSignUpBtn = () => {
     if (onId && onNickname /*&& onPwd */ && onCheckPwd) {
@@ -134,7 +134,7 @@ function SingUp() {
                 phone_number: phoneNumber,
                 email: email,
                 ismaster: false,
-              },
+              }
         )
         .then(() => {
           setUserName('');
@@ -149,7 +149,7 @@ function SingUp() {
           setEmail('');
           alert('회원가입 완료');
         })
-        .catch(err => {
+        .catch((err) => {
           alert(err.response.data.message);
         });
     } else {

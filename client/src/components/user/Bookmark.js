@@ -1,7 +1,9 @@
 import React from 'react';
 
 function Bookmark() {
-  return <div>북마크</div>;
+  return (
+    <div>북마크</div>
+  )
 }
 
-export default Bookmark;
+export default Bookmark
