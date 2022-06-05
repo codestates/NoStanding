@@ -112,13 +112,14 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   };
   const clickOauthBtn = (val) => {
     const url = process.env.REACT_APP_CLI_URL;
+
     if (val === "kakao") {
       window.location.assign(
-        `https://kauth.kakao.com/oauth/authorize?client_id=42009e870cdf666e6d0d8ae29350f9cb&redirect_uri=http://localhost:3000/callbackkakao&response_type=code&scope=account_email`
+        `https://kauth.kakao.com/oauth/authorize?client_id=42009e870cdf666e6d0d8ae29350f9cb&redirect_uri=${url}/callbackkakao&response_type=code&scope=account_email`
       );
     } else if (val === "google") {
       window.location.assign(
-        `https://accounts.google.com/o/oauth2/auth?client_id=136738573059-qo57hsrstcie7fu7btivdccae2bbtkpk.apps.googleusercontent.com&redirect_uri=http://localhost:3000/callbackgoogle&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+openid`
+        `https://accounts.google.com/o/oauth2/auth?client_id=136738573059-qo57hsrstcie7fu7btivdccae2bbtkpk.apps.googleusercontent.com&redirect_uri=${url}/callbackgoogle&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+openid`
       );
     }
   };
@@ -173,7 +174,6 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
               onChange={(e) => passwordSetter(e)}
               value={password}
             ></Input>
-            <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
