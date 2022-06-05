@@ -10,7 +10,6 @@ module.exports = {
     // 가게 이름 , 주소 ,
     try {
       const { shop_category, shop_category_city } = req.query;
-      console.log(req.query);
       const shopInfo = await Models.Shop.findAll({
         include: [
           {
@@ -34,7 +33,7 @@ module.exports = {
           {
             model: Models.Bookmark,
             as: 'Bookmarks',
-            attributes: ['ismarked'],
+            attributes: ['is_marked'],
           },
           {
             model: Models.Review,
@@ -45,10 +44,11 @@ module.exports = {
         attributes: ['id'],
       });
 
-      res.status(200).send({ data: shopInfo, message: '정보 전달 완료' });
+      return res
+        .status(200)
+        .send({ data: shopInfo, message: '정보 전달 완료' });
     } catch (err) {
-      console.log(err);
-      res.status(500).send({ message: 'Server Error' });
+      return res.status(500).send({ message: 'Server Error' });
     }
   },
 };
