@@ -74,7 +74,7 @@ router.patch('/menu/:user_name', mypage.menu.patch);
 router.get('/notification/:user_name', mypage.notification.get);
 
 router.get('/re_review/:user_name', mypage.re_review.get);
-router.post('/re_review/:user_name', mypage.re_review.post);
+router.post('/re_review/:review_id/:user_name', mypage.re_review.post);
 
 router.get('/shopinfo/:user_name', mypage.shopinfo.get);
 router.post('/shopinfo/:user_name', mypage.shopinfo.post);
