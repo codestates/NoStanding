@@ -29,6 +29,7 @@ module.exports = {
               'shop_category_city',
               'address_line1',
               'address_line2',
+
             ],
           },
           {

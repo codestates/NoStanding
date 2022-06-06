@@ -38,8 +38,10 @@ module.exports = {
           shop_category,
           shop_category_city,
           address_line1,
+
           address_line2,
           postal_code,
+
           email,
           is_master,
         } = req.body;
@@ -134,8 +136,10 @@ module.exports = {
               shop_category,
               shop_category_city,
               address_line1,
+
               address_line2,
               postal_code,
+
               email,
             },
             { where: { id: userInfo.dataValues.id } },

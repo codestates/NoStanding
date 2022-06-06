@@ -25,8 +25,8 @@ module.exports = {
               'image_src',
               'score',
               'contents',
-              'createdAt',
-              'updatedAt',
+              'created_at',
+              'updated_at',
             ],
           },
           {
@@ -80,14 +80,14 @@ module.exports = {
                 'image_src',
                 'score',
                 'contents',
-                'createdAt',
-                'updatedAt',
+                'created_at',
+                'updated_at',
               ],
               include: [
                 {
                   model: Models.ReReview,
                   as: 'ReReviews',
-                  attributes: ['id', 'contents', 'createdAt', 'updatedAt'],
+                  attributes: ['id', 'contents', 'created_at', 'updated_at'],
                 },
               ],
             },

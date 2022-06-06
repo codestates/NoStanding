@@ -17,11 +17,12 @@ module.exports = {
             'address_line2',
             'user_name',
           ],
+
         },
         {
           model: Models.Bookmark,
           as: 'Bookmarks',
-          attributes: ['ismarked'],
+          attributes: ['is_marked'],
         },
         {
           model: Models.Review,
@@ -30,8 +31,8 @@ module.exports = {
             'image_src',
             'score',
             'contents',
-            'createdAt',
-            'updatedAt',
+            'created_at',
+            'updated_at',
           ],
         },
         {

@@ -2,6 +2,10 @@ const axios = require('axios');
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
+const axios = require('axios');
+const request = require('request');
+
+require('dotenv').config();
 
 module.exports = {
   get: async (req, res) => {
@@ -25,9 +29,9 @@ module.exports = {
           attributes: ['is_marked'],
         },
         {
-          model: Models.Review,
-          as: 'Reviews',
-          attributes: [],
+          headers: {
+            Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+          },
         },
       ],
       attributes: ['image_src', 'id'],

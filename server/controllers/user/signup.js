@@ -93,7 +93,9 @@ module.exports = {
           !email ||
           !shop_name ||
           !shop_category ||
-          !shop_category_city
+          !shop_category_city ||
+          !address_line1
+
         ) {
           return res
             .status(400)
