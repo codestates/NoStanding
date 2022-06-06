@@ -45,6 +45,7 @@ module.exports = {
         const createUserInfo = await User.create({
           email,
           user_name: newUsername,
+          is_master: 0,
         });
 
         // 토큰을 발급하고 쿠키에 저장한다.

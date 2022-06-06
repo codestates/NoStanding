@@ -1,6 +1,11 @@
+const axios = require('axios');
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
+const axios = require('axios');
+const request = require('request');
+
+require('dotenv').config();
 
 module.exports = {
   get: async (req, res) => {
@@ -14,7 +19,8 @@ module.exports = {
             'shop_category',
             'shop_name',
             'shop_category_city',
-            'master_address',
+            'address_line1',
+            'address_line2',
           ],
         },
         {
@@ -23,13 +29,13 @@ module.exports = {
           attributes: ['is_marked'],
         },
         {
-          model: Models.Review,
-          as: 'Reviews',
-          attributes: [],
+          headers: {
+            Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+          },
         },
       ],
       attributes: ['image_src', 'id'],
     });
-   return res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
+    return res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
   },
 };

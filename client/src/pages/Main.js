@@ -70,7 +70,7 @@ function Main({ searchWord }) {
   useEffect(() => {
     if (searchWord !== "") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/search/${searchWord}`)
+        .get(`${process.env.REACT_APP_API_URL}/search?text=${searchWord}`)
         .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
     }
   }, [searchWord]);
