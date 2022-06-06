@@ -28,50 +28,29 @@ module.exports = {
     //   [Shop]y: '33.4866056081701'     y
     // }
 
-    // for (let n = 0; n < info.data.documents.length; n++) {
-    //   await Models.User.create({
-    //     user_salt: `x1nP0muYg7pRqtqPyvZsF48f34xpXsunhn42sqMFK8qLItl+lIiIB0VZAUic2/Y5HuQeYLlVbd6oSZnM3irYAA==`,
-    //     user_name: 'jejudo',
-    //     password: `OE2Zru69TOuSTSNimkps6fQNkt4R5VSDIO+3Z2dq51jTHiQrDq9XcrI9dDWs/UynhvrFmMz7Ybcobvq3HCwh8A==`,
-    //     shop_category: info.data.documents[n].category_group_name,
-    //     shop_name: info.data.documents[n].place_name,
-    //     address_line1: info.data.documents[n].road_address_name,
-    //     nickname: '제주도'
-    //     shop_category_city: '제주',
-    //     is_master: 1
-    //   });
-    //   await Models.Shop.create({
-    //     user_id: 27,
-    //     business_hour: `0900~2200`,
-    //     holiday: 'Mon',
-    //     contents: 'jejudo가게에 오신 것을 환영합니다',
-    //     phone_number: info.data.documents[n].phone,
-    //     place_url: info.data.documents[n].place_url,
-    //     x: info.data.documents[n].x,
-    //     y: info.data.documents[n].y,
-    //   });
-    // }
-
-    // await Models.User.create({
-    //   user_salt: `x1nP0muYg7pRqtqPyvZsF48f34xpXsunhn42sqMFK8qLItl+lIiIB0VZAUic2/Y5HuQeYLlVbd6oSZnM3irYAA==`,
-    //   user_name: 'jejudo',
-    //   password: `OE2Zru69TOuSTSNimkps6fQNkt4R5VSDIO+3Z2dq51jTHiQrDq9XcrI9dDWs/UynhvrFmMz7Ybcobvq3HCwh8A==`,
-    //   shop_category: info.data.documents[0].category_group_name,
-    //   shop_name: info.data.documents[0].place_name,
-    //   master_address: info.data.documents[0].road_address_name,
-    // });
-    // await Models.Shop.create({
-    //   user_id: 27,
-    //   business_hour: `0900~2200`,
-    //   holiday: 'Mon',
-    //   contents: 'jejudo가게에 오신 것을 환영합니다',
-    //   phone_number: info.data.documents[0].phone,
-    //   place_url: info.data.documents[0].place_url,
-    //   shop_category_city: '제주',
-    //   x: info.data.documents[0].x,
-    //   y: info.data.documents[0].y,
-    // });
-
+    for (let n = 0; n < info.data.documents.length; n++) {
+      await Models.User.create({
+        user_salt: `x1nP0muYg7pRqtqPyvZsF48f34xpXsunhn42sqMFK8qLItl+lIiIB0VZAUic2/Y5HuQeYLlVbd6oSZnM3irYAA==`,
+        user_name: 'jejudo',
+        password: `OE2Zru69TOuSTSNimkps6fQNkt4R5VSDIO+3Z2dq51jTHiQrDq9XcrI9dDWs/UynhvrFmMz7Ybcobvq3HCwh8A==`,
+        shop_category: info.data.documents[n].category_group_name,
+        shop_name: info.data.documents[n].place_name,
+        address_line1: info.data.documents[n].road_address_name,
+        nickname: '제주도',
+        shop_category_city: '제주',
+        is_master: 1,
+      });
+      await Models.Shop.create({
+        user_id: 27,
+        business_hour: `0900~2200`,
+        holiday: 'Mon',
+        contents: 'jejudo가게에 오신 것을 환영합니다',
+        phone_number: info.data.documents[n].phone,
+        place_url: info.data.documents[n].place_url,
+        x: info.data.documents[n].x,
+        y: info.data.documents[n].y,
+      });
+    }
     res.status(200).send({ message: '정보 전달 완료' });
   },
 };
