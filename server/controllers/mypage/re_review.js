@@ -4,84 +4,143 @@ const Models = initModels(sequelize);
 
 module.exports = {
   get: async (req, res) => {
-    const { user_name } = req.params;
-    // const userInfo = await Models.User.findAll({
-    //   where: { user_name: user_name },
-    // });
+    try {
+      const userAuth = await userAuth(req, res);
+      if (!userAuth) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userAuth.dataValues.password;
+      delete userAuth.dataValues.user_salt;
 
-    // const ismaster = userInfo.dataValues.ismaster;
+      const { user_name } = req.params;
+      //유저 정보 불러오기
+      const userInfo = await Models.User.findOne({
+        include: [
+          {
+            model: Models.Review,
+            as: 'Reviews',
+            attributes: [
+              'id',
+              'shop_id',
+              'image_src',
+              'score',
+              'contents',
+              'createdAt',
+              'updatedAt',
+            ],
+          },
+          {
+            model: Models.Shop,
+            as: 'Shops',
+            attributes: ['id'],
+          },
+        ],
+        where: { user_name: user_name },
+        attributes: ['ismaster', 'nickname'],
+      });
 
-    //유저일 때
+      const ismaster = userInfo.dataValues.ismaster;
 
-    // [샵]가게 사진, [유저]가게 이름
-    // 리뷰 전부
-
-    const re_reviewInfo = await Models.User.findAll({
-      include: [
-        {
-          model: Models.Shop,
-          as: 'Shops',
-          attributes: ['image_src'],
-        },
-        {
-          model: Models.Review,
-          as: 'Reviews',
-          attributes: [
-            'id',
-            'image_src',
-            'score',
-            'contents',
-            'createdAt',
-            'updatedAt',
+      if (ismaster === 0) {
+        // 유저일 때
+        let shopArr = [];
+        for (let n = 0; n < userInfo.dataValues.Reviews.length; n++) {
+          //
+          const shopinfo = await Models.Shop.findOne({
+            include: [
+              {
+                model: Models.User,
+                as: 'user',
+                attributes: ['shop_name'],
+              },
+            ],
+            where: { id: userInfo.dataValues.Reviews[n].shop_id },
+            attributes: ['id', 'image_src'],
+          });
+          shopArr.push(shopinfo);
+        }
+        return res
+          .status(200)
+          .send({ data: userInfo, shopArr, message: '정보 전달 완료' });
+      }
+      if (ismaster === 1) {
+        // 점주일 때
+        const shopReview = await Models.Shop.findOne({
+          include: [
+            {
+              model: Models.User,
+              as: 'user',
+              where: { user_name: user_name },
+              attributes: ['nickname', 'shop_name'],
+            },
+            {
+              model: Models.Review,
+              as: 'Reviews',
+              attributes: [
+                'id',
+                'image_src',
+                'score',
+                'contents',
+                'createdAt',
+                'updatedAt',
+              ],
+              include: [
+                {
+                  model: Models.ReReview,
+                  as: 'ReReviews',
+                  attributes: ['contents', 'createdAt', 'updatedAt'],
+                },
+              ],
+            },
           ],
-        },
-      ],
-      attributes: ['shop_name'],
-      where: { user_name: user_name },
-    });
-    res.status(200).send({ data: re_reviewInfo, message: '정보 전달 완료' });
-
-    // 점주일 때
-    // [리뷰] 전부
-    // [유저] 이름
-
-    //   const re_reviewInfo = await Models.Review.findAll({
-    //     include: [
-    //       {
-    //         model: Models.User,
-    //         as: 'user',
-    //         where: { user_name: user_name },
-    //         attributes: ['user_name'],
-    //       },
-    //       {
-    //         model: Models.Shop,
-    //         as: 'shop',
-    //         attributes: ['id'],
-    //       },
-    //       {
-    //         model: Models.ReReview,
-    //         as: 'ReReviews',
-    //         attributes: [
-    //           'review_id',
-    //           'shop_id',
-    //           'contents',
-    //           'createdAt',
-    //           'updatedAt',
-    //         ],
-    //       },
-    //     ],
-    //     attributes: [
-    //       'id',
-    //       'image_src',
-    //       'score',
-    //       'contents',
-    //       'createdAt',
-    //       'updatedAt',
-    //     ],
-    //   });
-    //   res.status(200).send({ data: re_reviewInfo, message: '정보 전달 완료' });
+          attributes: [],
+        });
+        return res
+          .status(200)
+          .send({ data: [shopReview], message: '정보 전달 완료' });
+      }
+    } catch (err) {
+      res.status(500).send({ message: 'Server Error' });
+    }
   },
-  post: (req, res) => {
-    res.send('');
+  post: async (req, res) => {
+    try {
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
+
+      const { review_id, user_name } = req.params;
+
+      const shopInfo = await Models.Shop.findOne({
+        include: [
+          {
+            model: Models.User,
+            as: 'user',
+            where: { user_name: user_name },
+            attributes: ['id'],
+          },
+        ],
+        attributes: ['id'],
+      });
+
+      const { contents } = req.body;
+
+      if (!contents) {
+        return res.status(400).send({ message: '리뷰 작성은 필수입니다.' });
+      }
+      await Models.ReReview.create({
+        // shop_name, master_address,
+        review_id: review_id,
+        shop_id: shopInfo.dataValues.id,
+        contents: contents,
+      });
+
+      res.status(200).send({ message: '리뷰 작성 완료' });
+    } catch (err) {
+      res.status(500).send({ message: 'Server Error' });
+    }
   },
 };

@@ -4,4 +4,5 @@ module.exports = {
   shop: require('./shop'),
   category: require('./category'),
   search: require('./search'),
+  bookmark: require('./bookmark'),
 };
