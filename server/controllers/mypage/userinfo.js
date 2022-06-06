@@ -37,9 +37,9 @@ module.exports = {
           shop_name,
           shop_category,
           shop_category_city,
-          master_address,
+          address_line1,
           email,
-          ismaster,
+          is_master,
         } = req.body;
 
         if (ismaster === 0) {
@@ -131,7 +131,7 @@ module.exports = {
               shop_name,
               shop_category,
               shop_category_city,
-              master_address,
+              address_line1,
               email,
             },
             { where: { id: userInfo.dataValues.id } },

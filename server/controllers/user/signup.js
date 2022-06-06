@@ -18,10 +18,10 @@ module.exports = {
         shop_category_city,
         master_address,
         email,
-        ismaster,
+        is_master,
       } = req.body;
       //ismaster가 false 일 때
-      if (ismaster === false) {
+      if (is_master === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
           return res
@@ -75,13 +75,13 @@ module.exports = {
             nickname: nickname,
             phone_number: phone_number,
             email: email,
-            ismaster: false,
+            is_master: false,
           });
 
           return res.status(201).send({ message: '회원가입 완료' });
         }
       }
-      if (ismaster === true) {
+      if (is_master === true) {
         // 점주로 회원가입
         if (
           !user_name ||
@@ -92,7 +92,7 @@ module.exports = {
           !shop_name ||
           !shop_category ||
           !shop_category_city ||
-          !master_address
+          !address_line1
         ) {
           return res
             .status(400)

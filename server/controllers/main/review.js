@@ -24,7 +24,7 @@ module.exports = {
         // shop_name, master_address,
         user_id: userInfo.dataValues.id,
         shop_id: shop_id,
-        inage_src: image_src, // 해싱된 비밀번호
+        image_src: image_src, // 해싱된 비밀번호
         score: score,
         contents: contents,
       });
