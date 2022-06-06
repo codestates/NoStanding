@@ -26,6 +26,7 @@ module.exports = {
             model: Models.Menu,
             as: 'Menus',
             attributes: [
+              'id',
               'shop_id',
               'image_src',
               'menu_category',
@@ -100,15 +101,16 @@ module.exports = {
 
       if (menu_category === null) {
         // menu_category를 지우면 전부 삭제
-        await Models.Menu.update(
-          {
-            image_src: null,
-            name: null,
-            price: null,
-            menu_category: null,
-          },
-          { where: { shop_id: shop_id } },
-        );
+        await Models.Menu
+          .Destory
+          // {
+          //   image_src: null,
+          //   name: null,
+          //   price: null,
+          //   menu_category: null,
+          // },
+          // { where: { shop_id: shop_id } },
+          ();
       }
 
       await Models.Menu.update(
