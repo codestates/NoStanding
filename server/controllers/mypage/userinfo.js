@@ -37,12 +37,14 @@ module.exports = {
           shop_name,
           shop_category,
           shop_category_city,
-          master_address,
+          address_line1,
+          address_line2,
+          postal_code,
           email,
-          ismaster,
+          is_master,
         } = req.body;
 
-        if (ismaster === 0) {
+        if (is_master === 0) {
           // 고객일 때
 
           // 요청 바디에 nickname이 있다면, 나를 제외한 nickname 중 이미 존재하는지 검사
@@ -93,7 +95,7 @@ module.exports = {
             .send({ data: { userInfo: newUserInfo }, message: '변경 완료' });
         }
 
-        if (ismaster === 1) {
+        if (is_master === 1) {
           // 점주일 때
 
           // 요청 바디에 nickname이 있다면, 나를 제외한 nickname 중 이미 존재하는지 검사
@@ -131,7 +133,9 @@ module.exports = {
               shop_name,
               shop_category,
               shop_category_city,
-              master_address,
+              address_line1,
+              address_line2,
+              postal_code,
               email,
             },
             { where: { id: userInfo.dataValues.id } },

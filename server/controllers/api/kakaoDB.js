@@ -22,7 +22,7 @@ module.exports = {
     //   [Shop]phone_number: '010-8885-7876',    phone
     //   [User]shop_name: '동백별장',     place_name
     //   [SHOP]place_url: 'http://place.map.kakao.com/203710945',      place_url
-    //   [User]master_address: '제주특별자치도 제주시 원노형3길 44',     road_address_name
+    //   [User]address_line1: '제주특별자치도 제주시 원노형3길 44',     road_address_name
     //   [User]shop_category_city:
     //   [Shop]x: '126.481435627565',    x
     //   [Shop]y: '33.4866056081701'     y
