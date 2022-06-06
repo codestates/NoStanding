@@ -41,7 +41,7 @@ module.exports = {
         is_master: 1,
       });
       await Models.Shop.create({
-        user_id: 27,
+        user_id: 89 + n,
         business_hour: `0900~2200`,
         holiday: 'Mon',
         contents: 'jejudo가게에 오신 것을 환영합니다',
