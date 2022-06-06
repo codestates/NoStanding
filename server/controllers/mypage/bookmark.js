@@ -41,7 +41,6 @@ module.exports = {
                 'address_line2',
                 'user_name',
               ],
-
             },
             {
               model: Models.Review,
@@ -50,8 +49,8 @@ module.exports = {
                 'image_src',
                 'score',
                 'contents',
-                'created_at',
-                'updated_at',
+                'createdAt',
+                'updatedAt',
                 'id',
               ],
             },
