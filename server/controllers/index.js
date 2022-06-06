@@ -3,4 +3,5 @@ module.exports = {
   mypage: require('./mypage'),
   user: require('./user'),
   oauth: require('./oauth'),
+  api: require('./api'),
 };

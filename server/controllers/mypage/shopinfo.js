@@ -25,6 +25,7 @@ module.exports = {
           },
         ],
         attributes: [
+          'id',
           'user_id',
           'business_hour',
           'phone_number',

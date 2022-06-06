@@ -45,7 +45,6 @@ module.exports = {
         // 유저일 때
         let shopArr = [];
         for (let n = 0; n < userInfo.dataValues.Reviews.length; n++) {
-          //
           const shopinfo = await Models.Shop.findOne({
             include: [
               {
@@ -88,7 +87,7 @@ module.exports = {
                 {
                   model: Models.ReReview,
                   as: 'ReReviews',
-                  attributes: ['contents', 'createdAt', 'updatedAt'],
+                  attributes: ['id', 'contents', 'createdAt', 'updatedAt'],
                 },
               ],
             },

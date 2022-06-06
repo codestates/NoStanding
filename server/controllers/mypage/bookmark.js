@@ -27,7 +27,7 @@ module.exports = {
             {
               model: Models.User,
               as: 'user',
-              attributes: ['shop_name', 'master_address', 'user_name'],
+              attributes: ['id', 'shop_name', 'master_address', 'user_name'],
             },
             {
               model: Models.Review,
@@ -38,6 +38,7 @@ module.exports = {
                 'contents',
                 'createdAt',
                 'updatedAt',
+                'id',
               ],
             },
           ],
