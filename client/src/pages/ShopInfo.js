@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import dummyimg from "../dummyimg";
-import Map from "../components/Map";
+import Map from "../Map";
 const MainImg = styled.img`
   width: 400px;
   height: 400px;
