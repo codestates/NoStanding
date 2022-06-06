@@ -30,6 +30,6 @@ module.exports = {
       ],
       attributes: ['image_src', 'id'],
     });
-    res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
+   return res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
   },
 };

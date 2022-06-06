@@ -25,7 +25,6 @@ module.exports = {
         message: '검색결과입니다.',
       });
     } catch (err) {
-      console.log(err);
       res.status(404).send({
         data: null,
         message: '검색 실패',

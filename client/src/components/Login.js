@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import axios from "axios";
-import store, { getUserInfo, getUserLogin } from "../store";
+import { getUserInfo, getUserLogin } from "../store/store";
 import { connect } from "react-redux";
 
 const RowDiv = styled.div`

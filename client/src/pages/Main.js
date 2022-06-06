@@ -60,7 +60,6 @@ function Main({ searchWord }) {
   const [chooseCategoryCity, setChooseCategoryCity] = useState("");
   const [backgroundOn, setBackgroundOn] = useState("");
   const [backgroundCity, setBackgroundCity] = useState("");
-
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
