@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 const Container = styled.div`
@@ -16,11 +17,13 @@ const UserImg = styled.img`
   height: 8em;
   margin: 1em;
 `;
-function SideBar() {
+function SideBar({userInfo}) {
+  console.log(userInfo.ismaster);
   return (
     <Container>
-      {/* 일반회원 */}
-      <Flex grow={3}>
+    {userInfo.ismaster === (0||null)? (
+      <div>
+        <Flex grow={3}>
         <UserImg src="img/test2.png" />
         <div>닉네임</div>
         <div>일반회원</div>
@@ -51,8 +54,10 @@ function SideBar() {
           </Link>
         </div>
       </Flex>
-      {/* 점주 */}
-      <Flex grow={3}>
+      </div>)
+      : (
+        <div>
+        <Flex grow={3}>
         <UserImg src="img/test2.png" />
         <div>닉네임</div>
         <div>점주회원</div>
@@ -86,8 +91,15 @@ function SideBar() {
           </Link>
         </div>
       </Flex>
+      </div>
+      )
+      }      
     </Container>
   );
 }
-
-export default SideBar;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo
+  }
+}
+export default connect(mapStateToProps)(SideBar);

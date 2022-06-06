@@ -14,8 +14,6 @@ const Map = () => {
       level: 3,
     };
     var map = new kakao.maps.Map(mapContainer, mapOption);
-    console.log(map);
-    console.log("loading kakao map");
   }, []);
 
   return (
