@@ -1,24 +1,28 @@
-import React, { useEffect,useRef } from "react";
+/* global kakao */
+import React, { useEffect } from "react";
+import cn from "classnames";
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const { kakao } = window;
 
-const options = {
-  center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-  level: 3, //지도의 레벨(확대, 축소 정도)
-};
 const Map = () => {
-  const container = useRef(null); //지도를 담을 영역의 DOM 레퍼런스
-
   useEffect(() => {
-    new kakao.maps.Map(container.current, options); //지도 생성 및 객체 리턴
-    return () => {};
+    let mapContainer = document.getElementById("map");
+
+    let mapOption = {
+      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      level: 3,
+    };
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    console.log(map);
+    console.log("loading kakao map");
   }, []);
 
   return (
     <div
-      className="map"
-      style={{ width: "500px", height: "500px" }}
-      ref={container}
+      className={cn("MapContainer")}
+      id="map"
+      style={{ width: "100%", height: "100%", overflow: "none" }}
     ></div>
   );
 };

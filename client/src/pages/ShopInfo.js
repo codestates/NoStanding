@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Map from "../components/Map";
 import dummyimg from "../dummyimg";
+import Map from "../components/Map";
 const MainImg = styled.img`
   width: 400px;
   height: 400px;
@@ -26,9 +26,11 @@ const NameandReviewbar = styled.div`
   border: solid black 2px;
   height: 200px;
 `;
-const MapDiv = styled.div`
+const MapContainer = styled.div`
   border: solid black 2px;
-  height: 200px;
+  display: flex;
+  height: 400px;
+  align-items: center;
 `;
 const Info = styled.p`
   border: solid black 2px;
@@ -57,7 +59,9 @@ function ShopInfo() {
       </Imgcontainer>
       <Box>
         <NameandReviewbar>가게이름과 리뷰평점</NameandReviewbar>
-        <Map></Map>
+        <MapContainer>
+          <Map></Map>
+        </MapContainer>
         <Info>가게 정보 자리입니다</Info>
         <Review>리뷰자리입니다.</Review>
         <Bookbutton>예약하기</Bookbutton>
