@@ -14,7 +14,6 @@ module.exports = {
     // delete userInfo.dataValues.user_salt;
 
     const userName = req.params.user_name;
-
     const user = await User.findOne({
       where: {
         user_name: userName,
@@ -40,7 +39,7 @@ module.exports = {
           .send({ data: reservationlist, message: '정보 전달 완료' });
       }
     } else {
-      const query2 = `SELECT U.id, M.name, R.date from User U
+      const query2 = `SELECT R.id, U.id, M.name, R.date from User U
       Join Reservation R On U.id = R.user_id
       Join Menu M On R.menu_id = M.id
       where U.id = ${user.id}`;
@@ -104,16 +103,12 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const { user_id, menu_id, date } = req.body;
-
+      const id = req.params;
       const reservationPrev = await Reservation.findOne({
         where: {
-          user_id: user_id,
-          menu_id: menu_id,
-          date: date,
+          id:id
         },
       });
-
       if (reservationPrev) {
         const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
         Join User U On S.user_id = U.id where M.id = ${menu_id}`;

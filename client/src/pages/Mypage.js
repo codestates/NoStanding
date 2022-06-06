@@ -16,8 +16,8 @@ import MasterReservation from '../components/master/Reservation.js';
 const Container = styled.div`
   display: flex;
 `
-function Mypage() {
 
+function Mypage() {
   return (
     <Container>
     <SideBar />
@@ -37,5 +37,6 @@ function Mypage() {
     </Container>
   )
 }
+
 
 export default Mypage
