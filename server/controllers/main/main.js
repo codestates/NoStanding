@@ -1,6 +1,7 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
+const request = require('request');
 
 require('dotenv').config();
 
