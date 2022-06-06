@@ -8,14 +8,8 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-// import storageSession from 'redux-persist/lib/storage/session';
-
-const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["loginInfo", "loginState"],
-};
+import storage from "redux-persist/lib/storage"; //로컬스토리지 사용
+// import storage from 'redux-persist/lib/storage/session'; //세션스토리지 사용
 
 const loginInfo = createSlice({
   name: "userInfo",
@@ -52,6 +46,13 @@ const shopSearch = createSlice({
     },
   },
 });
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["loginInfo", "loginState"],
+};
+
 const rootReducer = combineReducers({
   loginInfo: loginInfo.reducer,
   loginState: loginState.reducer,
@@ -60,7 +61,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer: persistedReducer, 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

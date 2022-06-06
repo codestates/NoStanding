@@ -1,4 +1,6 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import ReviewInfo from './ReviewInfo';
 
@@ -15,7 +17,13 @@ const Div = styled.div`
   border-bottom: 2px solid black;
 `;
 
-function Review() {
+function Review({userInfo}) {
+  
+useEffect(()=> {
+  axios.get(`${process.env.REACT_APP_API_URL}/mypage/re_review/${userInfo.user_name}`)
+  .then((resp) => console.log(resp))
+},[])
+
   return (
     <Container>
       <Div>
@@ -27,5 +35,9 @@ function Review() {
     </Container>
   );
 }
-
-export default Review;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo
+  }
+}
+export default connect(mapStateToProps)(Review);

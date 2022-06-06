@@ -23,7 +23,6 @@ function CallbackGoogle({ getUserLogin, getUserInfo }) {
           )
           .then((resp) => {
             const userInfo = resp.data.data.userInfo;
-            console.log(resp); // getUserInfo(response)
             getUserLogin();
             getUserInfo(userInfo);
             alert("구글로그인성공");
