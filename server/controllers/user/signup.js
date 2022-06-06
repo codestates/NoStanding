@@ -16,7 +16,9 @@ module.exports = {
         shop_name,
         shop_category,
         shop_category_city,
-        master_address,
+        address_line1,
+        address_line2,
+        postal_code,
         email,
         is_master,
       } = req.body;
@@ -93,6 +95,7 @@ module.exports = {
           !shop_category ||
           !shop_category_city ||
           !address_line1
+
         ) {
           return res
             .status(400)
@@ -148,7 +151,6 @@ module.exports = {
           const hashedPassword = key.toString('base64');
 
           await User.create({
-            // shop_name, master_address,
             user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
@@ -157,9 +159,11 @@ module.exports = {
             shop_name: shop_name,
             shop_category: shop_category,
             shop_category_city: shop_category_city,
-            master_address: master_address,
+            address_line1: address_line1,
+            address_line2: address_line2,
+            postal_code: postal_code,
             email: email,
-            ismaster: true,
+            is_master: true,
           });
           return res.status(201).send({ message: '회원가입 완료' });
         }
