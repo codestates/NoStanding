@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import store, { getUserInfo, getUserLogin } from "../store";
+import store, { getUserInfo, getUserLogin } from "../store/store";
 
 function CallbackGoogle({ getUserLogin, getUserInfo }) {
   const navigate = useNavigate();

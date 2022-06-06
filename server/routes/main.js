@@ -105,11 +105,23 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
 /**
  * @swagger
  * paths:
- *  /review/:user_name :
+ *  /review/:shop_id/:user_name :
  *    post:
  *      summary: "리뷰 작성 양식"
  *      description: ""
  *      tags: [main]
+ *      parameters:
+ *        - in: path
+ *          name: shop_id
+ *          required: true
+ *          description: 샵 ID
+ *          schema:
+ *            type: number
+ *        - in: path
+ *          name: user_name
+ *          description: 유저 아이디
+ *          schema:
+ *            type: string
  *      responses:
  *        "200":
  *          description: 정보 전달 완료

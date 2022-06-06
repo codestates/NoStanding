@@ -60,7 +60,6 @@ function Main({ searchWord }) {
   const [chooseCategoryCity, setChooseCategoryCity] = useState("");
   const [backgroundOn, setBackgroundOn] = useState("");
   const [backgroundCity, setBackgroundCity] = useState("");
-
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
@@ -71,7 +70,7 @@ function Main({ searchWord }) {
   useEffect(() => {
     if (searchWord !== "") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/search/${searchWord}`)
+        .get(`${process.env.REACT_APP_API_URL}/search?text=${searchWord}`)
         .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
     }
   }, [searchWord]);
