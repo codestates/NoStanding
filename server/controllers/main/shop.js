@@ -11,7 +11,12 @@ module.exports = {
         {
           model: Models.User,
           as: 'user',
-          attributes: ['shop_name', 'master_address', 'user_name'],
+          attributes: [
+            'shop_name',
+            'address_line1',
+            'address_line2',
+            'user_name',
+          ],
         },
         {
           model: Models.Bookmark,

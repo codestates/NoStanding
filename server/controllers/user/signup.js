@@ -16,12 +16,14 @@ module.exports = {
         shop_name,
         shop_category,
         shop_category_city,
-        master_address,
+        address_line1,
+        address_line2,
+        postal_code,
         email,
-        ismaster,
+        is_master,
       } = req.body;
       //ismaster가 false 일 때
-      if (ismaster === false) {
+      if (is_master === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
           return res
@@ -75,13 +77,13 @@ module.exports = {
             nickname: nickname,
             phone_number: phone_number,
             email: email,
-            ismaster: false,
+            is_master: false,
           });
 
           return res.status(201).send({ message: '회원가입 완료' });
         }
       }
-      if (ismaster === true) {
+      if (is_master === true) {
         // 점주로 회원가입
         if (
           !user_name ||
@@ -91,8 +93,7 @@ module.exports = {
           !email ||
           !shop_name ||
           !shop_category ||
-          !shop_category_city ||
-          !master_address
+          !shop_category_city
         ) {
           return res
             .status(400)
@@ -148,7 +149,6 @@ module.exports = {
           const hashedPassword = key.toString('base64');
 
           await User.create({
-            // shop_name, master_address,
             user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
             user_name: user_name,
             password: hashedPassword, // 해싱된 비밀번호
@@ -157,9 +157,11 @@ module.exports = {
             shop_name: shop_name,
             shop_category: shop_category,
             shop_category_city: shop_category_city,
-            master_address: master_address,
+            address_line1: address_line1,
+            address_line2: address_line2,
+            postal_code: postal_code,
             email: email,
-            ismaster: true,
+            is_master: true,
           });
           return res.status(201).send({ message: '회원가입 완료' });
         }

@@ -21,8 +21,8 @@ module.exports = {
       },
     });
     // reservation - menu - shop
-    if (user.ismaster === 0) {
-      const query = `SELECT R.user_id, U.shop_name, U.master_address, M.name, R.date from Reservation R
+    if (user.is_master === 0) {
+      const query = `SELECT R.user_id, U.shop_name, U.address_line1, M.name, R.date from Reservation R
       Join Menu M ON M.id = R.menu_id
       Join Shop S ON S.id = M.shop_id
       Join User U ON S.user_id = U.id
