@@ -18,14 +18,13 @@ const UserImg = styled.img`
   margin: 1em;
 `;
 function SideBar({userInfo}) {
-  console.log(userInfo.ismaster);
   return (
     <Container>
-    {userInfo.ismaster === (0||null)? (
+    {userInfo.ismaster === 0||null? (
       <div>
         <Flex grow={3}>
         <UserImg src="img/test2.png" />
-        <div>닉네임</div>
+        <div>{userInfo.user_name}</div>
         <div>일반회원</div>
       </Flex>
       <Flex grow={7}>

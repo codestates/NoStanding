@@ -1,5 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import axios from "axios";
+import React from "react";
+import { connect } from "react-redux";
+import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -9,26 +11,41 @@ const Img = styled.img`
   width: 8em;
   height: 8em;
   margin: 1em;
-`
+`;
 const Div = styled.div`
   margin: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`
-function ReservationInfo() {
+`;
+function ReservationInfo({ reservate, isToday, userInfo }) {
+  const date = reservate.date.replace("T", " ").replace(/\..*/, "");
+  console.log(reservate);
+  const clickCancleBtn = () => {
+    axios.delete(`${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}/${reservate.id}`)
+    .then((resp) => {
+      console.log(resp)
+      alert("예약 취소")
+    })
+  }
   return (
     <Container>
       <div>
-        <Img src='img/test2.png' />
+        <Img src="img/test2.png" />
       </div>
       <Div>
-        <div>가게이름</div>
-        <div>주소</div>
-        <div>예약시간</div>
-        <button>예약 취소</button>
+        <div>{reservate.shop_name}</div>
+        <div>{reservate.name}</div>
+        <div>{reservate.master_address}</div>
+        <div>{date}</div>
+        {isToday === 1 ? <button onClick={clickCancleBtn}>예약 취소</button> : null}
       </Div>
     </Container>
   );
 }
-export default ReservationInfo;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  }
+}
+export default connect(mapStateToProps)(ReservationInfo);
