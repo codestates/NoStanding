@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import axios from "axios";
-import store, { getUserInfo, getUserLogin } from "../store";
+import { getUserInfo, getUserLogin } from "../store/store";
 import { connect } from "react-redux";
 
 const RowDiv = styled.div`
@@ -173,7 +173,6 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
               onChange={(e) => passwordSetter(e)}
               value={password}
             ></Input>
-            <Input type="password" onChange={(e) => passwordSetter(e)}></Input>
           </ColumnDiv>
         </RowDiv>
         <RowDiv>

@@ -25,7 +25,7 @@ module.exports = function (sequelize, DataTypes) {
           key: 'id',
         },
       },
-      ismarked: {
+      is_marked: {
         type: DataTypes.TINYINT,
         allowNull: true,
       },

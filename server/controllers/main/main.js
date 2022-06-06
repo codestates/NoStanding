@@ -20,7 +20,7 @@ module.exports = {
         {
           model: Models.Bookmark,
           as: 'Bookmarks',
-          attributes: ['ismarked'],
+          attributes: ['is_marked'],
         },
         {
           model: Models.Review,
@@ -30,6 +30,6 @@ module.exports = {
       ],
       attributes: ['image_src', 'id'],
     });
-    res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
+   return res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
   },
 };

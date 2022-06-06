@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faBell } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import Login from './Login.js';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { getUserLogout, getShopSearch } from '../store';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import Login from "./Login.js";
+import axios from "axios";
+import { connect } from "react-redux";
+import { getUserLogout, getShopSearch, deleteUserInfo } from "../store/store";
 const Navbar = styled.nav`
   background-color: #fff;
   display: flex;
@@ -33,16 +33,19 @@ const Img = styled.img`
   margin-left: 1rem;
 `;
 
-function Header({ userInfo, loginState, logout, shopsearch }) {
+function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchedshop, setSearchedshop] = useState('');
+  const [searchedshop, setSearchedshop] = useState("");
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
   const clickLogoutBtn = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/logout`)
-      .then((resp) => logout());
+      .then((resp) => {
+        logout()
+        deleteUserInfo()
+      });
   };
   const controlClose = (val) => {
     setIsOpen(val);
@@ -51,7 +54,7 @@ function Header({ userInfo, loginState, logout, shopsearch }) {
     setSearchedshop(e.target.value);
   };
   const searchShop = (e) => {
-  shopsearch(searchedshop)
+    shopsearch(searchedshop);
   };
 
   return (
@@ -107,6 +110,9 @@ function mapDispatchToProps(dispatch) {
   return {
     logout: () => {
       dispatch(getUserLogout());
+    },
+    deleteUserInfo: () => {
+      dispatch(deleteUserInfo());
     },
     shopsearch: (resp) => {
       dispatch(getShopSearch(resp));
