@@ -22,6 +22,17 @@ module.exports = {
           ],
         },
         {
+          model: Models.Review,
+          as: 'Reviews',
+          attributes: [
+            'image_src',
+            'score',
+            'contents',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
+        {
           model: Models.Bookmark,
           as: 'Bookmarks',
           attributes: ['is_marked'],

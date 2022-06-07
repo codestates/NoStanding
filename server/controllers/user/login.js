@@ -2,7 +2,7 @@ const { User } = require('../../models');
 const {
   generateAccessToken,
   sendAccessToken,
-} = require('../../middlewares/token');
+} = require('../../middlewares/tokenFunction/token');
 const util = require('util');
 const crypto = require('crypto');
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);

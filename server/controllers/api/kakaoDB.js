@@ -6,7 +6,7 @@ const axios = require('axios');
 module.exports = {
   get: async (req, res) => {
     //FD6 음식점 , //CE7 카페
-    url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&y=33.4&x=126.4&radius=20000`;
+    url = `https://dapi.kakao.com/v2/local/search/category.json?category_group_code=FD6&y=37.47&x=126.66&radius=20000`;
     headers = {
       Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
     };
@@ -31,20 +31,20 @@ module.exports = {
     for (let n = 0; n < info.data.documents.length; n++) {
       await Models.User.create({
         user_salt: `x1nP0muYg7pRqtqPyvZsF48f34xpXsunhn42sqMFK8qLItl+lIiIB0VZAUic2/Y5HuQeYLlVbd6oSZnM3irYAA==`,
-        user_name: 'jejudo',
+        user_name: 'incheon',
         password: `OE2Zru69TOuSTSNimkps6fQNkt4R5VSDIO+3Z2dq51jTHiQrDq9XcrI9dDWs/UynhvrFmMz7Ybcobvq3HCwh8A==`,
         shop_category: info.data.documents[n].category_group_name,
         shop_name: info.data.documents[n].place_name,
         address_line1: info.data.documents[n].road_address_name,
-        nickname: '제주도',
-        shop_category_city: '제주',
+        nickname: '인천광역시',
+        shop_category_city: '인천',
         is_master: 1,
       });
       await Models.Shop.create({
-        user_id: 89 + n,
+        user_id: 194 + n,
         business_hour: `0900~2200`,
         holiday: 'Mon',
-        contents: 'jejudo가게에 오신 것을 환영합니다',
+        contents: 'Incheon가게에 오신 것을 환영합니다',
         phone_number: info.data.documents[n].phone,
         place_url: info.data.documents[n].place_url,
         x: info.data.documents[n].x,

@@ -2,7 +2,7 @@ const { Reservation, User } = require('../../models');
 const { QueryTypes } = require('sequelize');
 const db = require('../../models');
 const user = require('../user');
-const { userAuth } = require('../../middlewares/auth');
+const { userAuth } = require('../../middlewares/authorized/auth');
 
 module.exports = {
   get: async (req, res) => {
@@ -106,7 +106,7 @@ module.exports = {
       const id = req.params;
       const reservationPrev = await Reservation.findOne({
         where: {
-          id:id
+          id: id,
         },
       });
       if (reservationPrev) {

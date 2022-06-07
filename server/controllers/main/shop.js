@@ -41,8 +41,8 @@ module.exports = {
         },
       ],
       where: { id: id },
-      attributes: ['image_src', 'contents', 'map', 'id'],
     });
+
     res.status(200).send({ data: shopInfo, message: '정보 전달 완료' });
   },
 };
