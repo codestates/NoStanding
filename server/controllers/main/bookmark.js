@@ -19,7 +19,7 @@ module.exports = {
           shop_id: shop_id,
         },
       });
-      console.log(req.body);
+      
 
       if (bookmarkInfo.length === 0) {
         if (is_marked === 'true') {
