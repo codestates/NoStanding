@@ -94,6 +94,13 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
+
       const { id } = req.params;
 
       await Reservation.destroy({
