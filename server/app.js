@@ -19,11 +19,13 @@ const mainRouter = require('./routes/main');
 const mypageRouter = require('./routes/mypage');
 const userRouter = require('./routes/user');
 const oauthRouter = require('./routes/oauth');
+const apiRouter = require('./routes/api');
 
 app.use(cookieParser());
 
 app.use('/', mainRouter);
 app.use('/', userRouter);
+app.use('/', apiRouter);
 app.use('/mypage', mypageRouter);
 app.use('/oauth', oauthRouter);
 

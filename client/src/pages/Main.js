@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Banner from "../components/Banner";
@@ -6,7 +6,6 @@ import SearchList from "../components/SearchList";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
-
 
 const FlexCol = styled.div`
   display: flex;
@@ -42,8 +41,8 @@ const ListView = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
 `;
-function Main({ searchWord }) {
-  const category = ["음식", "카페", "미용"];
+function Main({ searchWord, getShopInfo }) {
+  const category = ["음식점", "카페", "미용"];
   const categoryCity = [
     "서울",
     "부산",
@@ -60,48 +59,58 @@ function Main({ searchWord }) {
   const [chooseCategoryCity, setChooseCategoryCity] = useState("");
   const [backgroundOn, setBackgroundOn] = useState("");
   const [backgroundCity, setBackgroundCity] = useState("");
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
+
+  const getShopList = useCallback(async () => {
+    await axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setShop(resp.data.data);
-      setIsLoading(false);
     });
+    setIsLoading(false);
   }, []);
+  useEffect(() => {
+    getShopList();
+  }, [getShopList]);
 
   useEffect(() => {
     if (searchWord !== "") {
       axios
-        .get(`${process.env.REACT_APP_API_URL}/search/${searchWord}`)
-        .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
+        .get(`${process.env.REACT_APP_API_URL}/search?text=${searchWord}`)
+        .then((resp) => {
+          setShop(resp.data.data.searchList);
+        }); //setShop(resp.data.data)
     }
   }, [searchWord]);
 
-  useEffect(() => {
-    chooseCategory !== "" && chooseCategory !== ""
-      ? axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
-          )
-          .then((resp) => {
-            setShop(resp.data.data);
-          })
-      : chooseCategory === ""
-      ? axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
-          )
-          .then((resp) => {
-            setShop(resp.data.data);
-          })
-      : chooseCategoryCity === ""
-      ? axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
-          )
-          .then((resp) => setShop(resp.data.data))
-      : axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
-          setShop(resp.data.data);
-        });
+  const pickCategory = useCallback(async () => {
+    setIsLoading(true);
+    if (chooseCategory !== "" && chooseCategoryCity !== "") {
+      await axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
+        )
+        .then((resp) => setShop(resp.data.data));
+    } else if (chooseCategory === "") {
+      await axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
+        )
+        .then((resp) => setShop(resp.data.data));
+    } else if (chooseCategoryCity === "") {
+      await axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
+        )
+        .then((resp) => setShop(resp.data.data));
+    } else {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/`)
+        .then((resp) => setShop(resp.data.data));
+    }
+    setIsLoading(false);
   }, [chooseCategory, chooseCategoryCity]);
+
+  useEffect(() => {
+    pickCategory();
+  }, [pickCategory]);
 
   const clickCategory = (value, idx) => {
     idx = String(idx);

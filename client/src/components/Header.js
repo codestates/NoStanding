@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Login from "./Login.js";
 import axios from "axios";
 import { connect } from "react-redux";
@@ -34,8 +34,10 @@ const Img = styled.img`
 `;
 
 function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false);
   const [searchedshop, setSearchedshop] = useState("");
+  const [goMypage, setGoMypage] = useState("/")
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
@@ -45,18 +47,28 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
       .then((resp) => {
         logout()
         deleteUserInfo()
+        navigate('/')
       });
   };
   const controlClose = (val) => {
     setIsOpen(val);
   };
   const searchText = (e) => {
+    e.preventDefault();
     setSearchedshop(e.target.value);
   };
   const searchShop = (e) => {
+    e.preventDefault();
     shopsearch(searchedshop);
   };
-
+  const clickMypage = (e) => {
+    if(loginState === false) {
+      alert('로그인이 필요한 서비스입니다.')
+      setGoMypage('/')
+    }else if(loginState === true) {
+      setGoMypage('/Mypage')
+    }
+  }
   return (
     <header>
       <Navbar>
@@ -90,8 +102,8 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
             </>
           )}
           {isOpen ? <Login controlClose={controlClose} /> : null}
-          <Link to="/Mypage">
-            <Mypagebutton>마이페이지</Mypagebutton>
+          <Link to={goMypage}>
+            <Mypagebutton onClick={clickMypage}>마이페이지</Mypagebutton>
           </Link>
           <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
         </Menu>

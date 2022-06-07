@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Post from "../Post";
 const Div = styled.div`
   border-bottom: 2px solid black;
 `;
@@ -25,6 +26,8 @@ const Img = styled.img`
   margin: 1em;
 `;
 function UserInfo() {
+  const [address, setAddress] = useState("");
+  const [popup, setPopup] = useState(false);
   return (
     <Container>
       <Div>
@@ -59,6 +62,16 @@ function UserInfo() {
         <Flex direction="row">
           <div>가게 주소 :</div>
           <input type="text" />
+          <button
+            onClick={() => {
+              setPopup(!popup);
+            }}
+          >
+            검색
+          </button>
+          {popup ? (
+            <Post address={address} setAddress={setAddress}></Post>
+          ) : null}
         </Flex>
         <Flex direction="row">
           <div>핸드폰 번호 인증 :</div>

@@ -5,17 +5,20 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const { kakao } = window;
 
-const Map = () => {
+const Map = ({x, y}) => {
   useEffect(() => {
     let mapContainer = document.getElementById("map");
 
     let mapOption = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      center: new kakao.maps.LatLng(Number(y), Number(x)),
       level: 3,
     };
     var map = new kakao.maps.Map(mapContainer, mapOption);
-    console.log(map);
-    console.log("loading kakao map");
+    var markerPosition  = new kakao.maps.LatLng(Number(y), Number(x)); 
+    var marker = new kakao.maps.Marker({
+      position: markerPosition
+  });
+  marker.setMap(map);
   }, []);
 
   return (

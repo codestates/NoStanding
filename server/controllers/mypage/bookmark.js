@@ -5,6 +5,13 @@ const Models = initModels(sequelize);
 module.exports = {
   get: async (req, res) => {
     try {
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
+
       const { user_name } = req.params;
 
       const userInfo = await Models.User.findOne({
@@ -27,7 +34,13 @@ module.exports = {
             {
               model: Models.User,
               as: 'user',
-              attributes: ['shop_name', 'master_address', 'user_name'],
+              attributes: [
+                'id',
+                'shop_name',
+                'address_line1',
+                'address_line2',
+                'user_name',
+              ],
             },
             {
               model: Models.Review,
@@ -38,6 +51,7 @@ module.exports = {
                 'contents',
                 'createdAt',
                 'updatedAt',
+                'id',
               ],
             },
           ],

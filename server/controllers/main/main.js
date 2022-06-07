@@ -2,6 +2,8 @@ const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
 
+require('dotenv').config();
+
 module.exports = {
   get: async (req, res) => {
     const mainInfo = await Models.Shop.findAll({
@@ -14,7 +16,8 @@ module.exports = {
             'shop_category',
             'shop_name',
             'shop_category_city',
-            'master_address',
+            'address_line1',
+            'address_line2',
           ],
         },
         {
@@ -25,11 +28,33 @@ module.exports = {
         {
           model: Models.Review,
           as: 'Reviews',
-          attributes: [],
+          attributes: [
+            'image_src',
+            'score',
+            'contents',
+            'createdAt',
+            'updatedAt',
+          ],
         },
       ],
       attributes: ['image_src', 'id'],
     });
-   return res.status(200).send({ data: mainInfo, message: '정보 전달 완료' });
+
+    const arrInfo = [];
+    mainInfo.map(el => {
+      arrInfo.push({
+        image_src: el.image_src,
+        id: el.id,
+        shop_category: el.user.shop_category,
+        shop_category_city: el.user.shop_category_city,
+        shop_name: el.user.shop_name,
+        address_line1: el.user.address_line1,
+        address_line2: el.user.address_line2,
+        is_marked: el.Bookmarks.is_marked,
+        review_num: el.Reviews.length,
+      });
+    });
+
+    return res.status(200).send({ data: arrInfo, message: '정보 전달 완료' });
   },
 };
