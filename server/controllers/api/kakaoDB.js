@@ -51,7 +51,6 @@ module.exports = {
         y: info.data.documents[n].y,
       });
     }
-
     res.status(200).send({ message: '정보 전달 완료' });
   },
 };

@@ -1,6 +1,7 @@
 const { User, Shop } = require('../../models');
 const util = require('util');
 const crypto = require('crypto');
+const axios = require('axios');
 
 //promisify는  util의 내장된 메소드로 비동기화를 해주는 역할을 한다.
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
@@ -23,6 +24,7 @@ module.exports = {
         is_master,
       } = req.body;
       //ismaster가 false 일 때
+
       if (is_master === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
@@ -169,6 +171,19 @@ module.exports = {
             where: { user_name: user_name },
           });
 
+          const roadaddress = address_line1;
+          url = `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(
+            roadaddress,
+          )}`;
+
+          headers = {
+            Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
+          };
+
+          const info = await axios
+            .get(url, { headers: headers })
+            .catch(err => res.send(err));
+
           await Shop.create({
             user_id: newUser.dataValues.id,
             business_hour: null,
@@ -176,11 +191,10 @@ module.exports = {
             phone_number: phone_number,
             holiday: null,
             contents: null,
-            x: null,
-            y: null,
+            x: info.data.documents[0].x,
+            y: info.data.documents[0].y,
             place_url: null,
           });
-
           return res.status(201).send({ message: '회원가입 완료' });
         }
       }

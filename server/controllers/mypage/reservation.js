@@ -2,24 +2,23 @@ const { Reservation, User } = require('../../models');
 const { QueryTypes } = require('sequelize');
 const db = require('../../models');
 const user = require('../user');
-const { userAuth } = require('../../middlewares/auth');
+const { userAuth } = require('../../middlewares/authorized/auth');
 
 module.exports = {
   get: async (req, res) => {
-    // const userInfo = await userAuth(req, res);
-    // if (!userInfo) {
-    //   return res.status(400).json({ message: '유저정보 없음' });
-    // }
-    // delete userInfo.dataValues.password;
-    // delete userInfo.dataValues.user_salt;
+    const userInfo = await userAuth(req, res);
+    if (!userInfo) {
+      return res.status(400).json({ message: '유저정보 없음' });
+    }
+    delete userInfo.dataValues.password;
+    delete userInfo.dataValues.user_salt;
+    // const {user_name} = req.params;
 
-    const { user_name } = req.params;
-
-    const userInfo = await User.findOne({
-      where: {
-        user_name: user_name,
-      },
-    });
+    // const userInfo = await User.findOne({
+    //   where : {
+    //     user_name : user_name
+    //   }
+    // })
     // reservation - menu - shop
     if (userInfo.dataValues.is_master === 0) {
       const query = `SELECT R.user_id, U.shop_name, U.address_line1, M.name, R.date from Reservation R

@@ -61,6 +61,10 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.TINYINT,
         allowNull: true,
       },
+      email_key: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
+      },
     },
     {
       sequelize,
