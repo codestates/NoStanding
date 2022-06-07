@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 
@@ -6,7 +7,7 @@ import styled from 'styled-components';
 
   const Container = styled.li`
   width: 22.2vw;
-  height: 33vh;
+  height: 38vh;
   border: 2px solid black;
   margin: 15px;
   display: flex;
@@ -53,4 +54,6 @@ function SearchList({shopInfo}) {
     </Container>
   )
 }
+
+
 export default SearchList;

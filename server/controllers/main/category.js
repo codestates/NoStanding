@@ -29,7 +29,6 @@ module.exports = {
               'shop_category_city',
               'address_line1',
               'address_line2',
-
             ],
           },
           {
@@ -43,12 +42,23 @@ module.exports = {
             attributes: [],
           },
         ],
-        attributes: ['id'],
+        attributes: ['id', 'image_src'],
       });
 
-      return res
-        .status(200)
-        .send({ data: shopInfo, message: '정보 전달 완료' });
+      const arrInfo = [];
+      shopInfo.map(el => {
+        arrInfo.push({
+          image_src: el.image_src,
+          id: el.id,
+          shop_category: el.user.shop_category,
+          shop_category_city: el.user.shop_category_city,
+          shop_name: el.user.shop_name,
+          address_line1: el.user.address_line1,
+          address_line2: el.user.address_line2,
+          is_marked: el.Bookmarks.is_marked,
+        });
+      });
+      return res.status(200).send({ data: arrInfo, message: '정보 전달 완료' });
     } catch (err) {
       return res.status(500).send({ message: 'Server Error' });
     }
