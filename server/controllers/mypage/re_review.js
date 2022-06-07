@@ -1,7 +1,7 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
-const { userAuth } = require('../../middlewares/auth');
+const { userAuth } = require('../../middlewares/authorized/auth');
 
 module.exports = {
   get: async (req, res) => {
@@ -58,6 +58,23 @@ module.exports = {
           });
           shopArr.push(shopinfo);
         }
+
+        // const data = [];
+        // const reviews = userInfo2.Reviews;
+
+        // const shopNameArr = [];
+        // shopArr.map(el => shopNameArr.push(el.user.shop_name));
+
+        // console.log(shopNameArr);
+        // reviews.map(el => {
+        //   data.push({
+        //     id: el.id,
+        //     shop_id: el.shop_id,
+        //     image_src : el.image_src,
+        //     shop_name :
+        //   });
+        // });
+
         return res
           .status(200)
           .send({ data: userInfo2, shopArr, message: '정보 전달 완료' });
@@ -94,6 +111,7 @@ module.exports = {
           ],
           attributes: [],
         });
+
         return res
           .status(200)
           .send({ data: [shopReview], message: '정보 전달 완료' });
