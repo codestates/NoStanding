@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 
-
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,7 +42,7 @@ const ListView = styled.ul`
   justify-content: center;
 `;
 function Main({ searchWord }) {
-  const category = ["음식", "카페", "미용"];
+  const category = ["음식점", "카페", "미용"];
   const categoryCity = [
     "서울",
     "부산",
@@ -62,8 +61,10 @@ function Main({ searchWord }) {
   const [backgroundCity, setBackgroundCity] = useState("");
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
-      setShop(resp.data.data);
-      setIsLoading(false);
+      setTimeout(() => {
+        setShop(resp.data.data);
+        setIsLoading(false);
+      }, 2000);
     });
   }, []);
 
@@ -71,35 +72,37 @@ function Main({ searchWord }) {
     if (searchWord !== "") {
       axios
         .get(`${process.env.REACT_APP_API_URL}/search?text=${searchWord}`)
-        .then((resp) => console.log(resp.data.data)); //setShop(resp.data.data)
+        .then((resp) => setShop(resp.data.data.searchList)); //setShop(resp.data.data)
     }
   }, [searchWord]);
 
-  useEffect(() => {
+  useEffect( () => {
     chooseCategory !== "" && chooseCategory !== ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
           )
           .then((resp) => {
-            setShop(resp.data.data);
+              setShop(resp.data.data);
           })
       : chooseCategory === ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
           )
-          .then((resp) => {
-            setShop(resp.data.data);
+          .then((resp) => {        
+              setShop(resp.data.data);
           })
       : chooseCategoryCity === ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
           )
-          .then((resp) => setShop(resp.data.data))
+          .then((resp) => {         
+              setShop(resp.data.data);
+          })
       : axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
-          setShop(resp.data.data);
+            setShop(resp.data.data);
         });
   }, [chooseCategory, chooseCategoryCity]);
 

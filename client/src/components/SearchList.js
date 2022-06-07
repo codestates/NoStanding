@@ -44,8 +44,8 @@ function SearchList({shopInfo}) {
     <Container>
     <Star>☆</Star>
       <Img ></Img>
-      <ShopName>{shopInfo.user.shop_name}</ShopName>
-      <ShopAddress>{shopInfo.user.shop_category_city}</ShopAddress>
+      <ShopName>{shopInfo.shop_name}</ShopName>
+      <ShopAddress>{shopInfo.shop_category_city}</ShopAddress>
       <FlexRow>
         <div>별점</div>
         <div>리뷰수</div>
