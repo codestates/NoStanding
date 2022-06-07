@@ -5,16 +5,16 @@ const Models = initModels(sequelize);
 module.exports = {
   get: async (req, res) => {
     try {
-      const userAuth = await userAuth(req, res);
-      if (!userAuth) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userAuth.dataValues.password;
-      delete userAuth.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
       const { user_name } = req.params;
       //유저 정보 불러오기
-      const userInfo = await Models.User.findOne({
+      const userInfo2 = await Models.User.findOne({
         include: [
           {
             model: Models.Review,
@@ -39,12 +39,12 @@ module.exports = {
         attributes: ['is_master', 'nickname'],
       });
 
-      const is_master = userInfo.dataValues.is_master;
+      const is_master = userInfo2.dataValues.is_master;
 
       if (is_master === 0) {
         // 유저일 때
         let shopArr = [];
-        for (let n = 0; n < userInfo.dataValues.Reviews.length; n++) {
+        for (let n = 0; n < userInfo2.dataValues.Reviews.length; n++) {
           const shopinfo = await Models.Shop.findOne({
             include: [
               {
@@ -53,14 +53,31 @@ module.exports = {
                 attributes: ['shop_name'],
               },
             ],
-            where: { id: userInfo.dataValues.Reviews[n].shop_id },
+            where: { id: userInfo2.dataValues.Reviews[n].shop_id },
             attributes: ['id', 'image_src'],
           });
           shopArr.push(shopinfo);
         }
+
+        // const data = [];
+        // const reviews = userInfo2.Reviews;
+
+        // const shopNameArr = [];
+        // shopArr.map(el => shopNameArr.push(el.user.shop_name));
+
+        // console.log(shopNameArr);
+        // reviews.map(el => {
+        //   data.push({
+        //     id: el.id,
+        //     shop_id: el.shop_id,
+        //     image_src : el.image_src,
+        //     shop_name :
+        //   });
+        // });
+
         return res
           .status(200)
-          .send({ data: userInfo, shopArr, message: '정보 전달 완료' });
+          .send({ data: userInfo2, shopArr, message: '정보 전달 완료' });
       }
       if (is_master === 1) {
         // 점주일 때
@@ -94,6 +111,7 @@ module.exports = {
           ],
           attributes: [],
         });
+
         return res
           .status(200)
           .send({ data: [shopReview], message: '정보 전달 완료' });

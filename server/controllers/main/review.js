@@ -23,7 +23,6 @@ module.exports = {
       await Models.Review.create({
         user_id: userInfo.dataValues.id,
         shop_id: shop_id,
-
         image_src: image_src, // 해싱된 비밀번호
         score: score,
         contents: contents,
