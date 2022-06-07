@@ -60,6 +60,7 @@ function Main({ searchWord }) {
   const [backgroundOn, setBackgroundOn] = useState("");
   const [backgroundCity, setBackgroundCity] = useState("");
   useEffect(() => {
+    console.log("이게 문제인가");
     axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
       setTimeout(() => {
         setShop(resp.data.data);
@@ -76,33 +77,37 @@ function Main({ searchWord }) {
     }
   }, [searchWord]);
 
-  useEffect( () => {
-    chooseCategory !== "" && chooseCategory !== ""
+  useEffect(() => {
+    chooseCategory !== "" && chooseCategoryCity !== ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
           )
           .then((resp) => {
-              setShop(resp.data.data);
+            console.log(resp.data.data);
+            setShop(resp.data.data);
           })
-      : chooseCategory === ""
+      : chooseCategory === "" && chooseCategoryCity !== ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
           )
-          .then((resp) => {        
-              setShop(resp.data.data);
+          .then((resp) => {
+            console.log(resp.data.data);
+            setShop(resp.data.data);
           })
-      : chooseCategoryCity === ""
+      : chooseCategoryCity === "" && chooseCategory !== ""
       ? axios
           .get(
             `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
           )
-          .then((resp) => {         
-              setShop(resp.data.data);
+          .then((resp) => {
+            console.log(resp.data.data);
+            setShop(resp.data.data);
           })
       : axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
-            setShop(resp.data.data);
+          console.log(resp.data.data);
+          setShop(resp.data.data);
         });
   }, [chooseCategory, chooseCategoryCity]);
 
