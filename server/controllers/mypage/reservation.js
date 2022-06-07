@@ -1,150 +1,152 @@
-const { Reservation, User } = require('../../models');
-const { QueryTypes } = require('sequelize');
-const db = require('../../models');
-const user = require('../user');
-const { userAuth } = require('../../middlewares/auth');
+// const { Reservation, User } = require('../../models');
+// const { QueryTypes } = require('sequelize');
+// const db = require('../../models');
+// const user = require('../user');
+// const { userAuth } = require('../../middlewares/auth');
 
-module.exports = {
-  get: async (req, res) => {
-    // const userInfo = await userAuth(req, res);
-    // if (!userInfo) {
-    //   return res.status(400).json({ message: '유저정보 없음' });
-    // }
-    // delete userInfo.dataValues.password;
-    // delete userInfo.dataValues.user_salt;
+// module.exports = {
+//   get: async (req, res) => {
+//     // const userInfo = await userAuth(req, res);
+//     // if (!userInfo) {
+//     //   return res.status(400).json({ message: '유저정보 없음' });
+//     // }
+//     // delete userInfo.dataValues.password;
+//     // delete userInfo.dataValues.user_salt;
 
-    const userName = req.params.user_name;
-    const user = await User.findOne({
-      where: {
-        user_name: userName,
-      },
-    });
-    // reservation - menu - shop
-    if (user.is_master === 0) {
-      const query = `SELECT R.user_id, U.shop_name, U.address_line1, M.name, R.date from Reservation R
-      Join Menu M ON M.id = R.menu_id
-      Join Shop S ON S.id = M.shop_id
-      Join User U ON S.user_id = U.id
-      where R.user_id = ${user.id}`;
+//     const userName = req.params.user_name;
+//     const user = await User.findOne({
+//       where: {
+//         user_name: userName,
+//       },
+//     });
+//     // reservation - menu - shop
+//     if (user.is_master === 0) {
+//       const query = `SELECT R.user_id, U.shop_name, U.address_line1, M.name, R.date from Reservation R
+//       Join Menu M ON M.id = R.menu_id
+//       Join Shop S ON S.id = M.shop_id
+//       Join User U ON S.user_id = U.id
+//       where R.user_id = ${user.id}`;
 
-      const reservationlist = await db.sequelize.query(query, {
-        type: QueryTypes.SELECT,
-      });
+//       const reservationlist = await db.sequelize.query(query, {
+//         type: QueryTypes.SELECT,
+//       });
 
-      if (!reservationlist) {
-        res.status(400).send({ message: '자료 조회 실패' });
-      } else {
-        res
-          .status(200)
-          .send({ data: reservationlist, message: '정보 전달 완료' });
-      }
-    } else {
-      const query2 = `SELECT R.id, U.id, M.name, R.date from User U
-      Join Reservation R On U.id = R.user_id
-      Join Menu M On R.menu_id = M.id
-      where U.id = ${user.id}`;
+//       if (!reservationlist) {
+//         res.status(400).send({ message: '자료 조회 실패' });
+//       } else {
+//         res
+//           .status(200)
+//           .send({ data: reservationlist, message: '정보 전달 완료' });
+//       }
+//     } else {
+//       const query2 = `SELECT R.id, U.id, M.name, R.date from User U
+//       Join Reservation R On U.id = R.user_id
+//       Join Menu M On R.menu_id = M.id
+//       where U.id = ${user.id}`;
 
-      const reservationlist2 = await db.sequelize.query(query2, {
-        type: QueryTypes.SELECT,
-      });
+//       const reservationlist2 = await db.sequelize.query(query2, {
+//         type: QueryTypes.SELECT,
+//       });
 
-      if (!reservationlist2) {
-        res.status(400).send({ message: '자료 조회 실패' });
-      } else {
-        res
-          .status(200)
-          .send({ data: reservationlist2, message: '정보 전달 완료' });
-      }
-    }
-  },
+//       if (!reservationlist2) {
+//         res.status(400).send({ message: '자료 조회 실패' });
+//       } else {
+//         res
+//           .status(200)
+//           .send({ data: reservationlist2, message: '정보 전달 완료' });
+//       }
+//     }
+//   },
 
-  post: async (req, res) => {
-    try {
-      const { user_id, menu_id, date } = req.body;
+//   post: async (req, res) => {
+//     try {
+//       // const userInfo = await userAuth(req, res);
+//       // if (!userInfo) {
+//       //   return res.status(400).json({ message: '유저정보 없음' });
+//       // }
+//       // delete userInfo.dataValues.password;
+//       // delete userInfo.dataValues.user_salt;
 
-      const reservationPrev = await Reservation.findOne({
-        where: {
-          user_id: user_id,
-          menu_id: menu_id,
-          date: date,
-        },
-      });
-      console.log(reservationPrev);
-      if (!reservationPrev) {
-        const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
-        Join User U On S.user_id = U.id where M.id = ${menu_id}`;
+//       const { menu_id, date } = req.body;
+//       const { user_name } = req.params;
 
-        const masterInfo = await db.sequelize.query(query, {
-          type: QueryTypes.SELECT,
-        });
+//       const userInfo = await User.findOne({
+//         user_name: user_name,
+//       });
 
-        await Reservation.create({
-          user_id: user_id,
-          menu_id: menu_id,
-          date: date,
-        });
+//       const reservationPrev = await Reservation.findOne({
+//         where: {
+//           user_id: userInfo.dataValues.id,
+//           menu_id: menu_id,
+//           date: date,
+//         },
+//       });
+//       console.log(reservationPrev);
 
-        await Reservation.create({
-          user_id: masterInfo[0].user_id,
-          menu_id: menu_id,
-          date: date,
-        });
-        res.status(200).send({
-          message: '예약 추가 완료',
-        });
-      } else {
-        res.status(400).send({ message: '예약 불가' });
-      }
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({ message: 'Server Error' });
-    }
-  },
+//       if (!reservationPrev) {
+//         await Reservation.create({
+//           user_id: userInfo.dataValues.id,
+//           menu_id: menu_id,
+//           date: date,
+//         });
 
-  delete: async (req, res) => {
-    try {
-      const id = req.params;
-      const reservationPrev = await Reservation.findOne({
-        where: {
-          id:id
-        },
-      });
-      if (reservationPrev) {
-        const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
-        Join User U On S.user_id = U.id where M.id = ${menu_id}`;
+//         res.status(200).send({
+//           message: '예약 추가 완료',
+//         });
+//       } else {
+//         res.status(400).send({ message: '예약 불가' });
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       res.status(500).send({ message: 'Server Error' });
+//     }
+//   },
 
-        const masterInfo = await db.sequelize.query(query, {
-          type: QueryTypes.SELECT,
-        });
-        console.log(masterInfo[0]);
+//   delete: async (req, res) => {
+//     try {
+//       const id = req.params;
+//       const reservationPrev = await Reservation.findOne({
+//         where: {
+//           id: id,
+//         },
+//       });
 
-        await Reservation.destroy({
-          where: {
-            user_id: user_id,
-            menu_id: menu_id,
-            date: date,
-          },
-        });
+//       if (reservationPrev) {
+//         const query = `SELECT * FROM Menu M Join Shop S On M.shop_id = S.id
+//         Join User U On S.user_id = U.id where M.id = ${menu_id}`;
 
-        await Reservation.destroy({
-          where: {
-            user_id: masterInfo[0].user_id,
-            menu_id: menu_id,
-            date: date,
-          },
-        });
-        res.status(200).send({
-          message: '예약 삭제 완료',
-        });
-      } else {
-        res.status(400).send({ message: '예약 없음' });
-      }
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({ message: 'Server Error' });
-    }
-  },
-};
+//         const masterInfo = await db.sequelize.query(query, {
+//           type: QueryTypes.SELECT,
+//         });
+//         console.log(masterInfo[0]);
+
+//         // await Reservation.destroy({
+//         //   where: {
+//         //     user_id: user_id,
+//         //     menu_id: menu_id,
+//         //     date: date,
+//         //   },
+//         // });
+
+//         // await Reservation.destroy({
+//         //   where: {
+//         //     user_id: masterInfo[0].user_id,
+//         //     menu_id: menu_id,
+//         //     date: date,
+//         //   },
+//         // });
+//         res.status(200).send({
+//           message: '예약 삭제 완료',
+//         });
+//       } else {
+//         res.status(400).send({ message: '예약 없음' });
+//       }
+//     } catch (err) {
+//       console.log(err);
+//       res.status(500).send({ message: 'Server Error' });
+//     }
+//   },
+// };
 
 // user
 // 예약 조회 , 추가  , 삭제
