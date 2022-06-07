@@ -2,7 +2,7 @@ const { Reservation, User } = require('../../models');
 const { QueryTypes } = require('sequelize');
 const db = require('../../models');
 const user = require('../user');
-const { userAuth } = require('../../middlewares/auth');
+const { userAuth } = require('../../middlewares/authorized/auth');
 
 module.exports = {
   get: async (req, res) => {

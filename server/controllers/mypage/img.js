@@ -1,7 +1,7 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
-const { userAuth } = require('../../middlewares/auth');
+const { userAuth } = require('../../middlewares//authorized/auth');
 
 module.exports = {
   get: async (req, res) => {
