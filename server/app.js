@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 app.use('/', mainRouter);
 app.use('/', userRouter);
-app.use('/', apiRouter);
+// app.use('/', apiRouter);
 app.use('/mypage', mypageRouter);
 app.use('/oauth', oauthRouter);
 

@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 
-
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,7 +42,7 @@ const ListView = styled.ul`
   justify-content: center;
 `;
 function Main({ searchWord }) {
-  const category = ["음식", "카페", "미용"];
+  const category = ["음식점", "카페", "미용"];
   const categoryCity = [
     "서울",
     "부산",
