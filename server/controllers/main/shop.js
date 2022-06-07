@@ -41,6 +41,16 @@ module.exports = {
         },
       ],
       where: { id: id },
+      attributes: [
+        'business_hour',
+        'phone_number',
+        'holiday',
+        'image_src',
+        'contents',
+        'id',
+        'x',
+        'y',
+      ],
     });
 
     res.status(200).send({ data: shopInfo, message: '정보 전달 완료' });
