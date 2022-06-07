@@ -20,7 +20,7 @@ const UserImg = styled.img`
 function SideBar({userInfo}) {
   return (
     <Container>
-    {userInfo.ismaster === 0||null? (
+    {userInfo.is_master === 0||null? (
       <div>
         <Flex grow={3}>
         <UserImg src="img/test2.png" />
