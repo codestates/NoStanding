@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Post from "../components/Post";
 import PopupDom from "../components/PopupDom";
+
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -60,7 +61,6 @@ function SingUp() {
   const [shopName, setShopName] = useState("");
   const [shopCategory, setShopCategory] = useState("");
   const [shopCategoryCity, setShopCategoryCity] = useState("");
-  const [masterAdress, setMasterAdress] = useState("");
   const [email, setEmail] = useState("");
   const [onId, setOnId] = useState(true);
   const [onNickname, setOnNickname] = useState(true);
@@ -110,7 +110,6 @@ function SingUp() {
   const inputShopName = (e) => setShopName(e.target.value);
   const inputShopCategory = (e) => setShopCategory(e.target.value);
   const inputShopCategoryCity = (e) => setShopCategoryCity(e.target.value);
-  const inputMasterAddress = (e) => setMasterAdress(e.target.value);
   const inputEmail = (e) => setEmail(e.target.value);
 
   const clickSignUpBtn = () => {
@@ -129,9 +128,9 @@ function SingUp() {
                 shop_name: shopName,
                 shop_category: shopCategory,
                 shop_category_city: shopCategoryCity,
-                address_line_1: address,
+                address_line1: address,
                 email: email,
-                ismaster: true,
+                is_master: true,
               }
             : {
                 user_name: userName,
@@ -139,10 +138,11 @@ function SingUp() {
                 nickname: nickname,
                 phone_number: phoneNumber,
                 email: email,
-                ismaster: false,
+                is_master: false,
               }
         )
         .then((resp) => {
+          console.log(resp);
           setUserName("");
           setPassword("");
           setCheckPassword("");
@@ -240,7 +240,7 @@ function SingUp() {
               </select>
             </FlexRow>
             <FlexRow>
-              <div value={masterAdress}>주소지(점주) : </div>
+              <div value={address}>주소지(점주) : </div>
               <input
                 type="text"
                 onChange={(e) => setAddress(e)}
@@ -254,9 +254,7 @@ function SingUp() {
                 검색
               </button>
               {popup ? (
-                <PopupDom>
-                  <Post address={address} setAddress={setAddress}></Post>
-                </PopupDom>
+                <Post address={address} setAddress={setAddress}></Post>
               ) : null}
             </FlexRow>
           </>
