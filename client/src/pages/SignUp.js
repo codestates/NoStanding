@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
+import React, { useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import Post from "../components/Post";
+import PopupDom from "../components/PopupDom";
+
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -47,33 +50,34 @@ const nicknameRegExp = /^[가-힣a-zA-Z0-9]{2,10}$/;
 //주석 풀면 비밀번호 유효성검사 가능
 
 function SingUp() {
+  const [address, setAddress] = useState("");
+  const [popup, setPopup] = useState(false);
   const [isMaster, setIsMaster] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [checkPassword, setCheckPassword] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [shopName, setShopName] = useState('');
-  const [shopCategory, setShopCategory] = useState('');
-  const [shopCategoryCity, setShopCategoryCity] = useState('');
-  const [masterAdress, setMasterAdress] = useState('');
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [shopName, setShopName] = useState("");
+  const [shopCategory, setShopCategory] = useState("");
+  const [shopCategoryCity, setShopCategoryCity] = useState("");
+  const [email, setEmail] = useState("");
   const [onId, setOnId] = useState(true);
   const [onNickname, setOnNickname] = useState(true);
   // const [onPwd, setOnPwd] = useState(true);
   //주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
-  const category = ['음식', '카페', '미용'];
+  const category = ["음식", "카페", "미용"];
   const categoryCity = [
-    '서울',
-    '부산',
-    '인천',
-    '대구',
-    '부산',
-    '광주',
-    '대전',
-    '울산',
-    '제주',
+    "서울",
+    "부산",
+    "인천",
+    "대구",
+    "부산",
+    "광주",
+    "대전",
+    "울산",
+    "제주",
   ];
   const clickChooseBtn = (value) => {
     setIsMaster(value);
@@ -101,15 +105,16 @@ function SingUp() {
       ? setOnNickname(true)
       : setOnNickname(false);
   };
+
   const inputPhoneNum = (e) => setPhoneNumber(e.target.value);
   const inputShopName = (e) => setShopName(e.target.value);
   const inputShopCategory = (e) => setShopCategory(e.target.value);
   const inputShopCategoryCity = (e) => setShopCategoryCity(e.target.value);
-  const inputMasterAddress = (e) => setMasterAdress(e.target.value);
   const inputEmail = (e) => setEmail(e.target.value);
 
   const clickSignUpBtn = () => {
     if (onId && onNickname /*&& onPwd */ && onCheckPwd) {
+      console.log("되고있니");
       //주석 풀면 비밀번호 유효성 검사 가능
       axios
         .post(
@@ -123,9 +128,9 @@ function SingUp() {
                 shop_name: shopName,
                 shop_category: shopCategory,
                 shop_category_city: shopCategoryCity,
-                master_address: masterAdress,
+                address_line1: address,
                 email: email,
-                ismaster: true,
+                is_master: true,
               }
             : {
                 user_name: userName,
@@ -133,35 +138,36 @@ function SingUp() {
                 nickname: nickname,
                 phone_number: phoneNumber,
                 email: email,
-                ismaster: false,
+                is_master: false,
               }
         )
-        .then(() => {
-          setUserName('');
-          setPassword('');
-          setCheckPassword('');
-          setNickname('');
-          setPhoneNumber('');
-          setShopName('');
-          setShopCategory('none');
-          setShopCategoryCity('none');
-          setMasterAdress('');
-          setEmail('');
-          alert('회원가입 완료');
+        .then((resp) => {
+          console.log(resp);
+          setUserName("");
+          setPassword("");
+          setCheckPassword("");
+          setNickname("");
+          setPhoneNumber("");
+          setShopName("");
+          setShopCategory("none");
+          setShopCategoryCity("none");
+          setAddress("");
+          setEmail("");
+          alert("회원가입 완료");
         })
         .catch((err) => {
           alert(err.response.data.message);
         });
     } else {
-      alert('회원가입 정보가 충족되지 않았습니다.');
+      alert("회원가입 정보가 충족되지 않았습니다.");
     }
   };
 
   return (
     <Container>
       <FlexRow>
-        <ChooseDiv onClick={() => clickChooseBtn(false)}>고객회원</ChooseDiv>
-        <ChooseDiv onClick={() => clickChooseBtn(true)}>점주회원</ChooseDiv>
+        <ChooseDiv onClick={(e) => clickChooseBtn(false)}>고객회원</ChooseDiv>
+        <ChooseDiv onClick={(e) => clickChooseBtn(true)}>점주회원</ChooseDiv>
       </FlexRow>
       <FlexCol>
         <FlexRow>
@@ -234,12 +240,22 @@ function SingUp() {
               </select>
             </FlexRow>
             <FlexRow>
-              <div value={masterAdress}>주소지(점주) : </div>
+              <div value={address}>주소지(점주) : </div>
               <input
                 type="text"
-                onChange={inputMasterAddress}
-                value={masterAdress}
+                onChange={(e) => setAddress(e)}
+                value={address}
               />
+              <button
+                onClick={() => {
+                  setPopup(!popup);
+                }}
+              >
+                검색
+              </button>
+              {popup ? (
+                <Post address={address} setAddress={setAddress}></Post>
+              ) : null}
             </FlexRow>
           </>
         ) : null}

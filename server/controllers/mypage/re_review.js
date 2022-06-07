@@ -1,6 +1,7 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
+const { userAuth } = require('../../middlewares/auth');
 
 module.exports = {
   get: async (req, res) => {
@@ -38,7 +39,6 @@ module.exports = {
         where: { user_name: user_name },
         attributes: ['is_master', 'nickname'],
       });
-
       const is_master = userInfo2.dataValues.is_master;
 
       if (is_master === 0) {

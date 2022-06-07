@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 
 
@@ -6,7 +7,7 @@ import styled from 'styled-components';
 
   const Container = styled.li`
   width: 22.2vw;
-  height: 33vh;
+  height: 38vh;
   border: 2px solid black;
   margin: 15px;
   display: flex;
@@ -44,8 +45,8 @@ function SearchList({shopInfo}) {
     <Container>
     <Star>☆</Star>
       <Img ></Img>
-      <ShopName>{shopInfo.user.shop_name}</ShopName>
-      <ShopAddress>{shopInfo.user.shop_category_city}</ShopAddress>
+      <ShopName>{shopInfo.shop_name}</ShopName>
+      <ShopAddress>{shopInfo.shop_category_city}</ShopAddress>
       <FlexRow>
         <div>별점</div>
         <div>리뷰수</div>
@@ -53,4 +54,6 @@ function SearchList({shopInfo}) {
     </Container>
   )
 }
+
+
 export default SearchList;

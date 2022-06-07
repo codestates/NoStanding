@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
@@ -17,19 +17,18 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
-function ReviewInfo() {
+function ReviewInfo({data, shopName}) {
   return (
-    <Container>
-      <div>
-        <Img src="img/test2.png" />
-      </div>
-      <Div>
-        <div>가게이름</div>
-        <div>시간/날짜</div>
-        <div>유저 사진</div>
-        <div>리뷰</div>
-      </Div>
-    </Container>
+        <Container>
+          <div>
+            <Img src="img/test2.png" />
+          </div>
+          <Div>
+            <div>{data.shop_name}</div>
+            <div>{data.createdAt}</div>
+            <div>{data.contents}</div>
+          </Div>
+        </Container>
   );
 }
 export default ReviewInfo;
