@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 const Flex = styled.div`
@@ -6,11 +8,21 @@ const Flex = styled.div`
   flex-direction: ${(props) => props.direction};
   margin: ${(props) => props.direction === 'column'? '5em': '1em'};
   align-items: center;
+  width: 100%;
 `;
-function UserDelete() {
+const Button = styled.button`
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  height: 30%;
+`
+function UserDelete({userInfo}) {
+  const clickDeleteBtn = () => {
+    // axios.delete(`${process.env.REACT_APP_API_URL}/mypage/userinfo/${userInfo.user_name}`)
+  }
   return (
     <Flex direction="column">
-      <Flex direction="row">
+      {/* <Flex direction="row">
         <div>아이디:</div>
         <input type="text" />
       </Flex>
@@ -21,10 +33,14 @@ function UserDelete() {
       <Flex direction="row">
         <div>비밀번호 확인:</div>
         <input type="password" />
-      </Flex>
-      <button>탈퇴하기</button>
+      </Flex> */}
+      <Button onClick={clickDeleteBtn}>탈퇴하기</Button>
     </Flex>
   );
 }
-
-export default UserDelete;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo
+  }
+}
+export default connect(mapStateToProps) (UserDelete);
