@@ -25,6 +25,17 @@ module.exports = {
           as: 'Bookmarks',
           attributes: ['is_marked'],
         },
+        {
+          model: Models.Review,
+          as: 'Reviews',
+          attributes: [
+            'image_src',
+            'score',
+            'contents',
+            'createdAt',
+            'updatedAt',
+          ],
+        },
       ],
       attributes: ['image_src', 'id'],
     });
@@ -40,6 +51,7 @@ module.exports = {
         address_line1: el.user.address_line1,
         address_line2: el.user.address_line2,
         is_marked: el.Bookmarks.is_marked,
+        review_num: el.Reviews.length,
       });
     });
 

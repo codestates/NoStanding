@@ -115,6 +115,7 @@ function SingUp() {
 
   const clickSignUpBtn = () => {
     if (onId && onNickname /*&& onPwd */ && onCheckPwd) {
+      console.log("되고있니");
       //주석 풀면 비밀번호 유효성 검사 가능
       axios
         .post(
@@ -141,7 +142,7 @@ function SingUp() {
                 ismaster: false,
               }
         )
-        .then(() => {
+        .then((resp) => {
           setUserName("");
           setPassword("");
           setCheckPassword("");
@@ -150,7 +151,7 @@ function SingUp() {
           setShopName("");
           setShopCategory("none");
           setShopCategoryCity("none");
-          setMasterAdress("");
+          setAddress("");
           setEmail("");
           alert("회원가입 완료");
         })
@@ -242,7 +243,7 @@ function SingUp() {
               <div value={masterAdress}>주소지(점주) : </div>
               <input
                 type="text"
-                onChange={inputMasterAddress}
+                onChange={(e) => setAddress(e)}
                 value={address}
               />
               <button
