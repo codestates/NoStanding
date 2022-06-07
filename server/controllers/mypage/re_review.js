@@ -36,16 +36,15 @@ module.exports = {
           },
         ],
         where: { user_name: user_name },
-        attributes: ['ismaster', 'nickname'],
+        attributes: ['is_master', 'nickname'],
       });
 
-      const ismaster = userInfo.dataValues.ismaster;
+      const is_master = userInfo.dataValues.is_master;
 
-      if (ismaster === 0) {
+      if (is_master === 0) {
         // 유저일 때
         let shopArr = [];
         for (let n = 0; n < userInfo.dataValues.Reviews.length; n++) {
-          //
           const shopinfo = await Models.Shop.findOne({
             include: [
               {
@@ -63,7 +62,7 @@ module.exports = {
           .status(200)
           .send({ data: userInfo, shopArr, message: '정보 전달 완료' });
       }
-      if (ismaster === 1) {
+      if (is_master === 1) {
         // 점주일 때
         const shopReview = await Models.Shop.findOne({
           include: [
@@ -88,7 +87,7 @@ module.exports = {
                 {
                   model: Models.ReReview,
                   as: 'ReReviews',
-                  attributes: ['contents', 'createdAt', 'updatedAt'],
+                  attributes: ['id', 'contents', 'createdAt', 'updatedAt'],
                 },
               ],
             },
@@ -132,7 +131,6 @@ module.exports = {
         return res.status(400).send({ message: '리뷰 작성은 필수입니다.' });
       }
       await Models.ReReview.create({
-        // shop_name, master_address,
         review_id: review_id,
         shop_id: shopInfo.dataValues.id,
         contents: contents,

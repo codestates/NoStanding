@@ -1,12 +1,12 @@
-import React from 'react';
-import Alarm from '../Alarm';
+import React from "react";
+import Alarm from "../Alarm";
 
 function Notification() {
   return (
     <>
       <Alarm />
     </>
-  )
+  );
 }
 
-export default Notification
+export default Notification;

@@ -42,11 +42,12 @@ module.exports = {
         const tag = Math.floor(Math.random() * (max - min)) + min;
 
         // 6자리 난수 태그 추가
-        newUsername = `${newUsername}#${tag}`;
+        newUsername = `${newUsername}${tag}`;
 
         const createUserInfo = await User.create({
           email,
           user_name: newUsername,
+          is_master: 0,
         });
 
         // 토큰을 발급하고 쿠키에 저장한다.

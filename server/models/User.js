@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
       },
       user_salt: {
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
       user_name: {
@@ -18,7 +18,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: true,
       },
       password: {
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(255),
         allowNull: true,
       },
       nickname: {
@@ -41,7 +41,15 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
-      master_address: {
+      address_line1: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      address_line2: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
+      postal_code: {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
@@ -49,7 +57,7 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(45),
         allowNull: true,
       },
-      ismaster: {
+      is_master: {
         type: DataTypes.TINYINT,
         allowNull: true,
       },
