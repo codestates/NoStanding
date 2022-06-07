@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
-
+import { connect } from "react-redux";
+import axios from "axios";
 const Container = styled.div`
   border: 2px solid black;
   display: flex;
@@ -29,11 +30,15 @@ const Rereviewbox = styled.div`
   flex-direction: column;
   border-bottom: solid gray 2px;
 `;
-function Review() {
+function Review({ userInfo }) {
+  console.log(userInfo);
   const [open, isOpen] = useState(false);
   const RereviewOpen = () => {
     isOpen(!open);
   };
+  // useEffect(()=>{
+  //   axios.get(`{}`)
+  // },[])
   return (
     <Container>
       <Div>
@@ -48,7 +53,7 @@ function Review() {
       {open ? (
         <Rereviewbox>
           <FontAwesomeIcon icon={faArrowAltCircleRight} />
-          <div>업주1</div>
+          <div>{userInfo.user_name}</div>
           <div>감사합니다 다음에도 이용해주세요</div>
           <div>2022.05.30</div>
         </Rereviewbox>
@@ -81,4 +86,10 @@ function Review() {
   );
 }
 
-export default Review;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  };
+}
+
+export default connect(mapStateToProps)(Review);

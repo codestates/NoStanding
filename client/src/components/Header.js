@@ -54,9 +54,11 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
     setIsOpen(val);
   };
   const searchText = (e) => {
+    e.preventDefault();
     setSearchedshop(e.target.value);
   };
   const searchShop = (e) => {
+    e.preventDefault();
     shopsearch(searchedshop);
   };
   const clickMypage = (e) => {
