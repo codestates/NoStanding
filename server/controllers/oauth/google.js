@@ -3,7 +3,7 @@ const { User } = require('../../models');
 const {
   generateAccessToken,
   sendAccessToken,
-} = require('../../middlewares/token');
+} = require('../../middlewares/tokenFunction/token');
 require('dotenv').config();
 
 module.exports = {

@@ -95,7 +95,6 @@ module.exports = {
           !shop_category ||
           !shop_category_city ||
           !address_line1
-
         ) {
           return res
             .status(400)
@@ -164,6 +163,22 @@ module.exports = {
             postal_code: postal_code,
             email: email,
             is_master: true,
+          });
+
+          const newUser = await User.findOne({
+            where: { user_name: user_name },
+          });
+
+          await Shop.create({
+            user_id: newUser.dataValues.id,
+            business_hour: null,
+            image_src: null,
+            phone_number: phone_number,
+            holiday: null,
+            contents: null,
+            x: null,
+            y: null,
+            place_url: null,
           });
           return res.status(201).send({ message: '회원가입 완료' });
         }
