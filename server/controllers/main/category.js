@@ -58,6 +58,7 @@ module.exports = {
           is_marked: el.Bookmarks.is_marked,
         });
       });
+
       return res.status(200).send({ data: arrInfo, message: '정보 전달 완료' });
     } catch (err) {
       return res.status(500).send({ message: 'Server Error' });

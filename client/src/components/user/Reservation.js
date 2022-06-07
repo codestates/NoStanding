@@ -41,7 +41,9 @@ function Reservation({ userInfo }) {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}`)
+      .get(`${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}`, {
+        withCredentials: true
+      })
       .then((resp) => {
         setReservationDatas([...resp.data.data]);
       });
