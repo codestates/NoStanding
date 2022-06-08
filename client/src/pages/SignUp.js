@@ -65,6 +65,7 @@ function SingUp() {
   const [onId, setOnId] = useState(true);
   const [onNickname, setOnNickname] = useState(true);
   const [checkEmail, setCheckEmail] = useState(false);
+  const [confirmNum, setConfirmNum] = useState('')
   // const [onPwd, setOnPwd] = useState(true);
   //주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
@@ -83,6 +84,13 @@ function SingUp() {
   const clickChooseBtn = (value) => {
     setIsMaster(value);
   };
+  const clickCheckEmail = (e) => {
+    e.preventDefault();
+    setCheckEmail(true);
+  };
+  const clickConfirmNum = (e) => {
+    e.preventDefault();
+  }
   const inputUserName = (e) => {
     setUserName(e.target.value);
     if (RegExp.test(e.target.value)) {
@@ -106,15 +114,12 @@ function SingUp() {
       ? setOnNickname(true)
       : setOnNickname(false);
   };
-  const clickCheckEmail = (e) => {
-    e.preventDefault();
-    setCheckEmail(true);
-  };
   const inputPhoneNum = (e) => setPhoneNumber(e.target.value);
   const inputShopName = (e) => setShopName(e.target.value);
   const inputShopCategory = (e) => setShopCategory(e.target.value);
   const inputShopCategoryCity = (e) => setShopCategoryCity(e.target.value);
   const inputEmail = (e) => setEmail(e.target.value);
+  const inputConfirmNum = (e) => setConfirmNum(e.target.value)
 
   const clickSignUpBtn = () => {
     if (onId && onNickname /*&& onPwd */ && onCheckPwd) {
@@ -263,6 +268,10 @@ function SingUp() {
             </FlexRow>
           </>
         ) : null}
+          <FlexRow>
+          <div value={phoneNumber}>핸드폰 번호(인증) : </div>
+          <input type="text" onChange={inputPhoneNum} value={phoneNumber} />
+        </FlexRow>
         <FlexRow>
           <div value={email}>이메일 중복확인 : </div>
           <form>
@@ -271,7 +280,7 @@ function SingUp() {
           </form>
           {checkEmail ? (
               <form>
-                <input type="text" placeholder="인증번호를 입력하세요"></input>
+                <input type="text" placeholder="인증번호를 입력하세요" value={confirmNum} onChange={inputConfirmNum} />
                 <button>인증하기</button>
               </form>
           ) : null}
