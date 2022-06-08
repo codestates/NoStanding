@@ -38,6 +38,12 @@ module.exports = {
           model: Models.Menu,
           as: 'Menus',
           attributes: ['image_src', 'menu_category', 'name', 'price'],
+          include: [
+            {
+              model: Models.Reservation,
+              as: 'Reservations',
+            },
+          ],
         },
       ],
       where: { id: id },

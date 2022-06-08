@@ -53,7 +53,9 @@ function ShopInfo() {
     const shopId = Number(window.location.pathname.slice(10));
     await axios
       .get(`${process.env.REACT_APP_API_URL}/shop/${shopId}`)
-      .then((resp) => setPickedShop(resp.data.data[0]));
+      .then((resp) => {
+        console.log(resp.data.data[0]);
+        setPickedShop(resp.data.data[0])});
     setIsLoading(false);
   }, []);
 
