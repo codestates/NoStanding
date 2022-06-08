@@ -94,6 +94,7 @@ module.exports = {
               as: 'Reviews',
               attributes: [
                 'id',
+                'user_id',
                 'image_src',
                 'score',
                 'contents',
@@ -102,10 +103,21 @@ module.exports = {
               ],
               include: [
                 {
-                  model: Models.ReReview,
-                  as: 'ReReviews',
-                  attributes: ['id', 'contents', 'createdAt', 'updatedAt'],
+                  model: Models.User,
+                  as: 'user',
+                  attributes: ['nickname'],
                 },
+              ],
+            },
+            {
+              model: Models.ReReview,
+              as: 'ReReviews',
+              attributes: [
+                'id',
+                'review_id',
+                'contents',
+                'createdAt',
+                'updatedAt',
               ],
             },
           ],
@@ -114,7 +126,7 @@ module.exports = {
 
         return res
           .status(200)
-          .send({ data: [shopReview], message: '정보 전달 완료' });
+          .send({ data: shopReview, message: '정보 전달 완료' });
       }
     } catch (err) {
       res.status(500).send({ message: 'Server Error' });
@@ -122,12 +134,12 @@ module.exports = {
   },
   post: async (req, res) => {
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
       const { review_id, user_name } = req.params;
 
