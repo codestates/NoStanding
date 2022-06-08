@@ -26,8 +26,9 @@ module.exports = {
         confirm_body,
         is_master,
       } = req.body;
-      //ismaster가 false 일 때
+      const { emailcheck } = req.params;
 
+      //ismaster가 false 일 때
       if (is_master === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {

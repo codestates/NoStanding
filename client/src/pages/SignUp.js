@@ -65,6 +65,7 @@ function SingUp() {
   const [onId, setOnId] = useState(true);
   const [onNickname, setOnNickname] = useState(true);
   const [checkEmail, setCheckEmail] = useState(false);
+
   // const [onPwd, setOnPwd] = useState(true);
   //주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
@@ -107,9 +108,13 @@ function SingUp() {
       : setOnNickname(false);
   };
   const clickCheckEmail = (e) => {
+    axios.post(`${process.env.REACT_APP_API_URL}/:emailcheck`, {
+      email: email,
+    });
     e.preventDefault();
     setCheckEmail(true);
   };
+
   const inputPhoneNum = (e) => setPhoneNumber(e.target.value);
   const inputShopName = (e) => setShopName(e.target.value);
   const inputShopCategory = (e) => setShopCategory(e.target.value);
@@ -270,10 +275,10 @@ function SingUp() {
             <button onClick={clickCheckEmail}>인증 메일 보내기</button>
           </form>
           {checkEmail ? (
-              <form>
-                <input type="text" placeholder="인증번호를 입력하세요"></input>
-                <button>인증하기</button>
-              </form>
+            <form>
+              <input type="text" placeholder="인증번호를 입력하세요"></input>
+              <button>인증하기</button>
+            </form>
           ) : null}
         </FlexRow>
         <Button onClick={clickSignUpBtn}>가입하기</Button>
