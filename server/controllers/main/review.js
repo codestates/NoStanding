@@ -28,6 +28,28 @@ module.exports = {
         contents: contents,
       });
 
+      const reviewInfo = await Models.Review.findAll({
+        where: { shop_id: shop_id },
+      });
+
+      let score_average = 0;
+      let average = 0;
+
+      // 별점 모두 더하기
+      for (let n = 0; n < reviewInfo.length; n++) {
+        average += reviewInfo[n].dataValues.score;
+      }
+      // 별점 평균 구하기
+      score_average = average / reviewInfo.length;
+
+      await Models.Shop.update(
+        {
+          total_views: reviewInfo.length,
+          // 소수점 1의 자리로 자르기
+          score_average: score_average.toFixed(1),
+        },
+        { where: { id: shop_id } },
+      );
       res.status(200).send({ message: '리뷰 작성 완료' });
     } catch (err) {
       console.log(err);
