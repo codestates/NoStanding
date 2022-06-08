@@ -49,6 +49,14 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(200),
         allowNull: true,
       },
+      total_views: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
+      },
+      score_average: {
+        type: DataTypes.STRING(45),
+        allowNull: true,
+      },
     },
     {
       sequelize,

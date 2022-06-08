@@ -10,6 +10,7 @@ module.exports = {
       if (emailInfo) {
         return res.status(403).send({ message: '중복되는 이메일이 있습니다.' });
       }
+
       // 6자리 난수 설정
       const max = 999999;
       const min = 100000;
