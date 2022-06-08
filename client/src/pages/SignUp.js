@@ -154,9 +154,7 @@ function SingUp() {
                 shop_category_city: shopCategoryCity,
                 address_line1: address,
                 email: email,
-                email_key: 'success',
-                confirmNum: confirmNum,
-                confirm_body: userConfirmNum,
+                email_key: "success",
                 is_master: true,
               }
             : {
@@ -165,9 +163,7 @@ function SingUp() {
                 nickname: nickname,
                 phone_number: phoneNumber,
                 email: email,
-                email_key: 'success',
-                confirmNum: confirmNum,
-                confirm_body: userConfirmNum,
+                email_key: "success",
                 is_master: false,
               }
         )
