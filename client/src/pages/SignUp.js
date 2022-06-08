@@ -64,6 +64,7 @@ function SingUp() {
   const [email, setEmail] = useState("");
   const [onId, setOnId] = useState(true);
   const [onNickname, setOnNickname] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(false);
   // const [onPwd, setOnPwd] = useState(true);
   //주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
@@ -105,7 +106,10 @@ function SingUp() {
       ? setOnNickname(true)
       : setOnNickname(false);
   };
-
+  const clickCheckEmail = (e) => {
+    e.preventDefault();
+    setCheckEmail(true);
+  };
   const inputPhoneNum = (e) => setPhoneNumber(e.target.value);
   const inputShopName = (e) => setShopName(e.target.value);
   const inputShopCategory = (e) => setShopCategory(e.target.value);
@@ -260,12 +264,17 @@ function SingUp() {
           </>
         ) : null}
         <FlexRow>
-          <div value={phoneNumber}>핸드폰 번호(인증) : </div>
-          <input type="text" onChange={inputPhoneNum} value={phoneNumber} />
-        </FlexRow>
-        <FlexRow>
           <div value={email}>이메일 중복확인 : </div>
-          <input type="text" onChange={inputEmail} value={email} />
+          <form>
+            <input type="text" onChange={inputEmail} value={email} />
+            <button onClick={clickCheckEmail}>인증 메일 보내기</button>
+          </form>
+          {checkEmail ? (
+              <form>
+                <input type="text" placeholder="인증번호를 입력하세요"></input>
+                <button>인증하기</button>
+              </form>
+          ) : null}
         </FlexRow>
         <Button onClick={clickSignUpBtn}>가입하기</Button>
       </FlexCol>
