@@ -10,7 +10,7 @@ module.exports = {
 
     // DB에 저장되있는 값의 띄어쓰기 찾기
 
-    const query = `SELECT U.shop_name, U.shop_category, U.shop_category_city, U.address_line1, S.id
+    const query = `SELECT U.shop_name, U.shop_category, U.shop_category_city, U.address_line1, S.id , S.image_src
     FROM User U
     Join Shop S ON S.user_id = U.id
     where replace(shop_name," ","") like :text`;
