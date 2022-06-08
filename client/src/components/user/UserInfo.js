@@ -82,13 +82,14 @@ function UserInfo({ user, logout, deleteUserInfo }) {
                 <input type="text" value={user.user_name} disabled />
               </Flex>
               <Flex direction="row">
-                <div>패스워드 :</div>
-                <input type="password" value={password} onChange={inputPassword} />
+                <div>현재 패스워드 :</div>
+                <input placeholder="******" type="password" value={password} onChange={inputPassword} />
               </Flex>
               <Flex direction="row">
                 <div>변경할 패스워드 :</div>
                 <input
                   type="password"
+                  placeholder="******"
                   value={changePwd}
                   onChange={inputchangePwd}
                 />
@@ -97,6 +98,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
                 <div>변경할 패스워드 확인 :</div>
                 <input
                   type="password"
+                  placeholder="******"
                   value={ckeckChangePwd}
                   onChange={inputChangeCheckPwd}
                 />
@@ -108,7 +110,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
             <div>닉네임 변경하기 :</div>
             <input
               type="text"
-              defaultValue={user.nickname}
+              placeholder="변경할 닉네임을 입력하세요"
               onChange={inputNickname}
             />
           </Flex>
@@ -116,7 +118,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
             <div>핸드폰 번호 변경 :</div>
             <input
               type="text"
-              defaultValue={user.phone_number}
+              placeholder="전화번호를 입력하세요."
               onChange={inputPhoneNumber}
             />
           </Flex>
@@ -124,7 +126,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
             <div>이메일 :</div>
             <input
               type="text"
-              defaultValue={user.email}
+              placeholder="변경할 이메일을 입력하세요."
               onChange={inputEmail}
             />
           </Flex>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Post from "../components/Post";
@@ -66,12 +66,13 @@ function SingUp() {
   const [onNickname, setOnNickname] = useState(true);
   const [checkEmail, setCheckEmail] = useState(false);
   const [confirmNum, setConfirmNum] = useState("");
-  console.log(confirmNum);
   const [userConfirmNum, setUserConfirmNum] = useState("");
   const [emailCheckOK, setEmailcheckOK] = useState(false);
   // const [onPwd, setOnPwd] = useState(true);
   //!주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
+  const [minutes, setMinutes] = useState(3);
+  const [seconds, setSeconds] = useState(0);
   const category = ["음식", "카페", "미용"];
   const categoryCity = [
     "서울",
@@ -89,6 +90,8 @@ function SingUp() {
   };
   const submitCheckEmail = (e) => {
     e.preventDefault();
+    setMinutes(2)
+    setSeconds(59)
     setCheckEmail(true);
     axios
       .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
@@ -106,6 +109,23 @@ function SingUp() {
       alert("인증번호가 맞지 않습니다.");
     }
   };
+
+  useEffect(() => {
+    const countdown = setInterval(() => {
+      if (parseInt(seconds) > 0) {
+        setSeconds(parseInt(seconds) - 1);
+      }
+      if (parseInt(seconds) === 0) {
+        if (parseInt(minutes) === 0) {
+          clearInterval(countdown);
+        } else {
+          setMinutes(parseInt(minutes) - 1);
+          setSeconds(59);
+        }
+      }
+    }, 1000);
+    return () => clearInterval(countdown);
+  }, [minutes, seconds]);
   const inputUserName = (e) => {
     setUserName(e.target.value);
     if (RegExp.test(e.target.value)) {
@@ -137,8 +157,7 @@ function SingUp() {
   const inputConfirmNum = (e) => setUserConfirmNum(e.target.value);
 
   const clickSignUpBtn = () => {
-    if (onId && onNickname /*&& onPwd */ && onCheckPwd) {
-      console.log("되고있니");
+    if (onId && onNickname /*&& onPwd */ && onCheckPwd && emailCheckOK) {
       //!주석 풀면 비밀번호 유효성 검사 가능
       axios
         .post(
@@ -303,6 +322,9 @@ function SingUp() {
                 value={userConfirmNum}
                 onChange={inputConfirmNum}
               />
+              <div>
+               남은 인증시간 {minutes}:{seconds}
+              </div>
               <button>인증하기</button>
             </form>
           ) : null}
