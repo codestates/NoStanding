@@ -48,7 +48,7 @@ module.exports = {
           ],
         },
       ],
-      attributes: ['image_src', 'id'],
+      attributes: ['image_src', 'id', 'total_views', 'score_average'],
     });
 
     const arrInfo = [];

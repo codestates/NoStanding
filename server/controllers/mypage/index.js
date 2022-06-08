@@ -7,4 +7,5 @@ module.exports = {
   img: require('./img'),
   bookmark: require('./bookmark'),
   menu: require('./menu'),
+  image_upload: require('./image_upload'),
 };

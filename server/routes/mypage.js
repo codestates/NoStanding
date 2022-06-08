@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const mypage = require('../controllers/mypage');
+const upload = require('../middlewares/upload/upload');
 
 /**
  * @swagger
@@ -82,6 +83,12 @@ router.post('/shopinfo/:user_name', mypage.shopinfo.post);
 router.get('/userinfo/:user_name', mypage.userinfo.get);
 router.patch('/userinfo/:user_name', mypage.userinfo.patch);
 router.delete('/userinfo/:user_name', mypage.userinfo.delete);
+
+router.post(
+  '/upload/:user_name',
+  upload.array('file', 4),
+  mypage.image_upload.post,
+);
 
 /**
  * @swagger

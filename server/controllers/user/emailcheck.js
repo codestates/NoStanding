@@ -6,6 +6,11 @@ module.exports = {
   post: async (req, res) => {
     try {
       const { email } = req.body;
+      const emailInfo = await User.findOne({ where: { email: email } });
+      if (emailInfo) {
+        return res.status(403).send({ message: '중복되는 이메일이 있습니다.' });
+      }
+
       // 6자리 난수 설정
       const max = 999999;
       const min = 100000;
@@ -14,29 +19,10 @@ module.exports = {
       await ejsCaller('emailcheck', email, {
         confirmNumber,
       });
-      
-      // if (confirmNumber === confirm_body) {
-      //   //이메일 인증번화와 body값이 동일하다면 'success' 값을 준다.
-      // }
-      // email_key = 'success';
 
-      // 인증번호 입력 시간이 지나면, email_key가 다시 expired로 변경한다 (email_key !== 'success')
-      // setTimeout(async () => {
-      //   if (email_key !== 'success') {
-      //     email_key = 'expired';
-      //   }
-      // }, 180000);
-
-      // if (email_key === 'expired' || email_key === null) {
-      //   return res.status(400).send({ message: '이메일 인증은 필수 입니다.' });
-      // }
-
-      await User.create({
-        email: email,
-        email_key: 'success',
-      });
-
-      res.status(200).json({data:confirmNumber, message: 'Success Email Send!' });
+      res
+        .status(200)
+        .json({ data: confirmNumber, message: '이메일 전송 완료' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Server Error!' });

@@ -46,7 +46,7 @@ const Bookbutton = styled.button`
   height: 100px;
 `;
 function ShopInfo() {
-  const [img, setImg] = useState(dummyimg[0]);
+  const [img, setImg] = useState();
   const [pickedShop, setPickedShop] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const getPickedShopInfo = useCallback(async () => {
@@ -54,8 +54,11 @@ function ShopInfo() {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/shop/${shopId}`)
       .then((resp) => {
-        console.log(resp.data.data[0]);
-        setPickedShop(resp.data.data[0])});
+        setPickedShop(resp.data.data[0]);
+      });
+    let arr = String(pickedShop.image_src).split(",");
+    setImg(arr);
+    console.log(img);
     setIsLoading(false);
   }, []);
 
@@ -68,14 +71,14 @@ function ShopInfo() {
         <div>로딩중...</div>
       ) : (
         <>
-        <div>{pickedShop.user.shop_name}</div>
+          <div>{pickedShop.user.shop_name}</div>
           <Imgcontainer>
-            <MainImg src={img}></MainImg>
+            <MainImg src={img[0]}></MainImg>
             <Imgselectbox>
-              <SelectImg src={dummyimg[0]}></SelectImg>
-              <SelectImg src={dummyimg[1]}></SelectImg>
-              <SelectImg src={dummyimg[2]}></SelectImg>
-              <SelectImg src={dummyimg[3]}></SelectImg>
+              <SelectImg src={img[0]}></SelectImg>
+              <SelectImg src={img[1]}></SelectImg>
+              <SelectImg src={img[2]}></SelectImg>
+              <SelectImg src={img[3]}></SelectImg>
             </Imgselectbox>
           </Imgcontainer>
           <Box>

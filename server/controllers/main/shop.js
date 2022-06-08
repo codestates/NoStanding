@@ -56,6 +56,8 @@ module.exports = {
         'id',
         'x',
         'y',
+        'total_views',
+        'score_average',
       ],
     });
 
