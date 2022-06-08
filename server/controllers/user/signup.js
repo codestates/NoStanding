@@ -1,7 +1,9 @@
 const { User, Shop } = require('../../models');
 const util = require('util');
 const crypto = require('crypto');
+const { ejsCaller } = require('../../middlewares/ejs/ejsCaller');
 const axios = require('axios');
+require('dotenv').config();
 
 //promisify는  util의 내장된 메소드로 비동기화를 해주는 역할을 한다.
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
@@ -21,10 +23,12 @@ module.exports = {
         address_line2,
         postal_code,
         email,
+        confirm_body,
         is_master,
       } = req.body;
-      //ismaster가 false 일 때
+      const { emailcheck } = req.params;
 
+      //ismaster가 false 일 때
       if (is_master === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
@@ -65,6 +69,34 @@ module.exports = {
             .status(403)
             .send({ message: '중복되는 이메일이 있습니다.' });
         } else {
+          if (email) {
+            // 6자리 난수 설정
+            const max = 999999;
+            const min = 100000;
+            const confirmNumber = Math.floor(Math.random() * (max - min)) + min;
+
+            await ejsCaller('emailcheck', email, {
+              confirmNumber,
+            });
+
+            if (confirmNumber === confirm_body) {
+              //이메일 인증번화와 body값이 동일하다면 'success' 값을 준다.
+              email_key = 'success';
+            }
+
+            // 인증번호 입력 시간이 지나면, email_key가 다시 expired로 변경한다 (email_key !== 'success')
+            setTimeout(async () => {
+              if (email_key !== 'success') {
+                email_key = 'expired';
+              }
+            }, 60000);
+          }
+
+          if (email_key === 'expired' || email_key === null) {
+            return res
+              .status(400)
+              .send({ message: '이메일 인증은 필수 입니다.' });
+          }
           // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
           const salt = crypto.randomBytes(64).toString('base64');
           // password를 salt를 첨가하여 sha512 알고리즘으로 305943번 해싱 후 64바이트 buffer 형식으로 반환
@@ -79,6 +111,7 @@ module.exports = {
             nickname: nickname,
             phone_number: phone_number,
             email: email,
+            email_key: 'success',
             is_master: false,
           });
 
@@ -144,6 +177,35 @@ module.exports = {
             .status(403)
             .send({ message: '중복되는 가게이름이 존재합니다.' });
         } else {
+          if (email) {
+            // 6자리 난수 설정
+            const max = 999999;
+            const min = 100000;
+            const confirmNumber = Math.floor(Math.random() * (max - min)) + min;
+
+            await ejsCaller('emailcheck', email, {
+              confirmNumber,
+            });
+
+            if (confirmNumber === confirm_body) {
+              //이메일 인증번화와 body값이 동일하다면 'success' 값을 준다.
+              email_key = 'success';
+            }
+
+            // 인증번호 입력 시간이 지나면, email_key가 다시 expired로 변경한다 (email_key !== 'success')
+            setTimeout(async () => {
+              if (email_key !== 'success') {
+                email_key = 'expired';
+              }
+            }, 180000);
+          }
+
+          if (email_key === 'expired' || email_key === null) {
+            return res
+              .status(400)
+              .send({ message: '이메일 인증은 필수 입니다.' });
+          }
+
           // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
           const salt = crypto.randomBytes(64).toString('base64');
           // password를 salt를 첨가하여 sha512 알고리즘으로 305943번 해싱 후 64바이트 buffer 형식으로 반환
@@ -164,6 +226,7 @@ module.exports = {
             address_line2: address_line2,
             postal_code: postal_code,
             email: email,
+            email_key: 'success',
             is_master: true,
           });
 
