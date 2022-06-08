@@ -65,9 +65,10 @@ function SingUp() {
   const [onId, setOnId] = useState(true);
   const [onNickname, setOnNickname] = useState(true);
   const [checkEmail, setCheckEmail] = useState(false);
-  const [confirmNum, setConfirmNum] = useState('')
-  const [userConfirmNum, setUserConfirmNum] = useState('')
-  const [emailCheckOK, setemailcheckOK] = useState(false)
+  const [confirmNum, setConfirmNum] = useState("");
+  console.log(confirmNum);
+  const [userConfirmNum, setUserConfirmNum] = useState("");
+  const [emailCheckOK, setEmailcheckOK] = useState(false);
   // const [onPwd, setOnPwd] = useState(true);
   //!주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
@@ -89,18 +90,22 @@ function SingUp() {
   const submitCheckEmail = (e) => {
     e.preventDefault();
     setCheckEmail(true);
-    // axios.post(`${process.env.REACT_APP_API_URL}/sendemailcheck`, {
-    //   email: email,
-    // }).then((resp) => console.log(resp)) // setUserConfirmNum(resp.data....)
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
+        email: email,
+      })
+      .then((resp) => setConfirmNum(resp.data.data));
   };
   const submitConfirmNum = (e) => {
     e.preventDefault();
-    //if(confirmNum === userConfirmNum) {
-    // emailCheckOK(true)
-    //alert('인증 완료')
-    //setCheckEmail(false)}
-    //else {alert('인증번호가 맞지 않습니다.')}
-  }
+    if (Number(confirmNum) === Number(userConfirmNum)) {
+      setEmailcheckOK(true);
+      alert("인증 완료");
+      setCheckEmail(false);
+    } else {
+      alert("인증번호가 맞지 않습니다.");
+    }
+  };
   const inputUserName = (e) => {
     setUserName(e.target.value);
     if (RegExp.test(e.target.value)) {
@@ -129,7 +134,7 @@ function SingUp() {
   const inputShopCategory = (e) => setShopCategory(e.target.value);
   const inputShopCategoryCity = (e) => setShopCategoryCity(e.target.value);
   const inputEmail = (e) => setEmail(e.target.value);
-  const inputConfirmNum = (e) => setUserConfirmNum(e.target.value)
+  const inputConfirmNum = (e) => setUserConfirmNum(e.target.value);
 
   const clickSignUpBtn = () => {
     if (onId && onNickname /*&& onPwd */ && onCheckPwd) {
@@ -149,6 +154,9 @@ function SingUp() {
                 shop_category_city: shopCategoryCity,
                 address_line1: address,
                 email: email,
+                email_key: 'success',
+                confirmNum: confirmNum,
+                confirm_body: userConfirmNum,
                 is_master: true,
               }
             : {
@@ -157,6 +165,9 @@ function SingUp() {
                 nickname: nickname,
                 phone_number: phoneNumber,
                 email: email,
+                email_key: 'success',
+                confirmNum: confirmNum,
+                confirm_body: userConfirmNum,
                 is_master: false,
               }
         )
@@ -278,7 +289,7 @@ function SingUp() {
             </FlexRow>
           </>
         ) : null}
-          <FlexRow>
+        <FlexRow>
           <div value={phoneNumber}>핸드폰 번호(인증) : </div>
           <input type="text" onChange={inputPhoneNum} value={phoneNumber} />
         </FlexRow>
@@ -289,10 +300,15 @@ function SingUp() {
             <button>인증 메일 보내기</button>
           </form>
           {checkEmail ? (
-              <form onSubmit={submitConfirmNum}>
-                <input type="text" placeholder="인증번호를 입력하세요" value={userConfirmNum} onChange={inputConfirmNum} />
-                <button>인증하기</button>
-              </form>
+            <form onSubmit={submitConfirmNum}>
+              <input
+                type="text"
+                placeholder="인증번호를 입력하세요"
+                value={userConfirmNum}
+                onChange={inputConfirmNum}
+              />
+              <button>인증하기</button>
+            </form>
           ) : null}
         </FlexRow>
         <Button onClick={clickSignUpBtn}>가입하기</Button>
