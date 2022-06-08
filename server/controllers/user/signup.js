@@ -1,7 +1,6 @@
 const { User, Shop } = require('../../models');
 const util = require('util');
 const crypto = require('crypto');
-const { ejsCaller } = require('../../middlewares/ejs/ejsCaller');
 const axios = require('axios');
 require('dotenv').config();
 
@@ -23,6 +22,7 @@ module.exports = {
         address_line2,
         postal_code,
         email,
+        email_key,
         is_master,
       } = req.body;
 
@@ -74,12 +74,8 @@ module.exports = {
           // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
           const hashedPassword = key.toString('base64');
 
-          const emailcheck = await User.findOne({
-            where: { email: email },
-          });
-
           if (email_key === 'success') {
-            await emailcheck.Update({
+            await User.create({
               user_name: user_name,
               password: hashedPassword, // 해싱된 비밀번호
               user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
@@ -160,12 +156,8 @@ module.exports = {
           // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
           const hashedPassword = key.toString('base64');
 
-          const emailcheck = await User.findOne({
-            where: { email: email },
-          });
-
           if (email_key === 'success') {
-            await emailcheck.Update({
+            await User.create({
               user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
               user_name: user_name,
               password: hashedPassword, // 해싱된 비밀번호
