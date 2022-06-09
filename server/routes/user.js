@@ -11,7 +11,9 @@ const user = require('../controllers/user');
 router.post('/login', user.login.post);
 router.post('/logout', user.logout.post);
 router.post('/signup', user.signup.post);
-router.post('/passwordfind', user.passwordfind.post);
+router.post('/emailcheck', user.emailcheck.post);
+router.post('/passwordfind', user.passwordfind.email);
+router.post('/passwordfind', user.passwordfind.passwordfind);
 
 /**
  * @swagger

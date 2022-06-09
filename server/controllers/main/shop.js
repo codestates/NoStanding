@@ -37,7 +37,13 @@ module.exports = {
         {
           model: Models.Menu,
           as: 'Menus',
-          attributes: ['image_src', 'menu_category', 'name', 'price'],
+          attributes: ['id','image_src', 'menu_category', 'name', 'price'],
+          include: [
+            {
+              model: Models.Reservation,
+              as: 'Reservations',
+            },
+          ],
         },
       ],
       where: { id: id },
@@ -50,6 +56,8 @@ module.exports = {
         'id',
         'x',
         'y',
+        'total_views',
+        'score_average',
       ],
     });
 

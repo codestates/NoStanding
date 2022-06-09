@@ -41,7 +41,7 @@ const ListView = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
 `;
-function Main({ searchWord, getShopInfo }) {
+function Main({ searchWord }) {
   const category = ["음식점", "카페", "미용"];
   const categoryCity = [
     "서울",

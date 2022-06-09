@@ -2,6 +2,7 @@ const { User, Shop } = require('../../models');
 const util = require('util');
 const crypto = require('crypto');
 const axios = require('axios');
+require('dotenv').config();
 
 //promisify는  util의 내장된 메소드로 비동기화를 해주는 역할을 한다.
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
@@ -21,10 +22,11 @@ module.exports = {
         address_line2,
         postal_code,
         email,
+        email_key,
         is_master,
       } = req.body;
-      //ismaster가 false 일 때
 
+      //ismaster가 false 일 때
       if (is_master === false) {
         //고객으로 회원가입
         if (!user_name || !password || !nickname || !phone_number || !email) {
@@ -72,15 +74,18 @@ module.exports = {
           // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
           const hashedPassword = key.toString('base64');
 
-          await User.create({
-            user_name: user_name,
-            password: hashedPassword, // 해싱된 비밀번호
-            user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
-            nickname: nickname,
-            phone_number: phone_number,
-            email: email,
-            is_master: false,
-          });
+          if (email_key === 'success') {
+            await User.create({
+              user_name: user_name,
+              password: hashedPassword, // 해싱된 비밀번호
+              user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
+              nickname: nickname,
+              phone_number: phone_number,
+              email: email,
+              email_key: 'success',
+              is_master: false,
+            });
+          }
 
           return res.status(201).send({ message: '회원가입 완료' });
         }
@@ -151,21 +156,24 @@ module.exports = {
           // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
           const hashedPassword = key.toString('base64');
 
-          await User.create({
-            user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
-            user_name: user_name,
-            password: hashedPassword, // 해싱된 비밀번호
-            nickname: nickname,
-            phone_number: phone_number,
-            shop_name: shop_name,
-            shop_category: shop_category,
-            shop_category_city: shop_category_city,
-            address_line1: address_line1,
-            address_line2: address_line2,
-            postal_code: postal_code,
-            email: email,
-            is_master: true,
-          });
+          if (email_key === 'success') {
+            await User.create({
+              user_salt: salt, // 유저 고유의 Salt값 DB에 저장 (추후 로그인에 필요)
+              user_name: user_name,
+              password: hashedPassword, // 해싱된 비밀번호
+              nickname: nickname,
+              phone_number: phone_number,
+              shop_name: shop_name,
+              shop_category: shop_category,
+              shop_category_city: shop_category_city,
+              address_line1: address_line1,
+              address_line2: address_line2,
+              postal_code: postal_code,
+              email: email,
+              email_key: 'success',
+              is_master: true,
+            });
+          }
 
           const newUser = await User.findOne({
             where: { user_name: user_name },

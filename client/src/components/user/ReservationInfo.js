@@ -1,7 +1,8 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import ReviewModal from "../ReviewModal";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,18 +16,47 @@ const Img = styled.img`
 const Div = styled.div`
   margin: 1em;
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
-`;
-function ReservationInfo({ reservate, isToday, userInfo }) {
+`
+const Button = styled.button`
+  width: 7rem;
+  height: 3rem;
+  align-self: flex-end;
+`
+const Textarea = styled.textarea`
+  width: 100%;
+  padding-bottom: 100px;
+  text-align: start;
+  justify-content: start;
+`
+function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
+  const [openReviewInput, setOpenReviewInput] = useState(false);
+  const [writeReview, setWriteReview] = useState('')
   const date = reservate.date.replace("T", " ").replace(/\..*/, "");
-  console.log(reservate);
   const clickCancleBtn = () => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}/${reservate.id}`)
-    .then((resp) => {
-      console.log(resp)
-      alert("예약 취소")
-    })
+    axios
+      .delete(
+        `${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}/${reservate.id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        alert("예약 취소 완료");
+        getInfo();
+      });
+  };
+  const clickInputOpen = () => {
+    setOpenReviewInput(true);
+  };
+  const changeTextarea = (e) => {
+    setOpenReviewInput(e.target.value);
+  }
+  const submitReview = (e) => {
+    e.preventDefault()
+    console.log('등록!');
   }
   return (
     <Container>
@@ -38,7 +68,12 @@ function ReservationInfo({ reservate, isToday, userInfo }) {
         <div>{reservate.name}</div>
         <div>{reservate.master_address}</div>
         <div>{date}</div>
-        {isToday === 1 ? <button onClick={clickCancleBtn}>예약 취소</button> : null}
+        {isToday === 1 ? (
+          <Button onClick={clickCancleBtn}>예약 취소</Button>
+        ) : (
+          <Button onClick={clickInputOpen}>리뷰 작성하기</Button>
+        )}
+        {openReviewInput ? <ReviewModal isOpen={setOpenReviewInput} /> : null}
       </Div>
     </Container>
   );
@@ -46,6 +81,6 @@ function ReservationInfo({ reservate, isToday, userInfo }) {
 function mapStateToProps(state) {
   return {
     userInfo: state.loginInfo.userInfo,
-  }
+  };
 }
 export default connect(mapStateToProps)(ReservationInfo);

@@ -40,7 +40,7 @@ const ejsCaller = async (type, email, object) => {
     await transporter.sendMail({
       from: `<${process.env.EMAIL_ID}>`,
       to: `${email}`,
-      subject: 'Semicolon-Nostanding 인증번호를 확인해주세요',
+      subject: 'Semicolon-Nostanding 비밀번호 찾기 인증번호를 확인해주세요',
       html: passwordFindHtml,
     });
   }
@@ -51,7 +51,7 @@ const ejsCaller = async (type, email, object) => {
     const { confirmNumber } = object;
 
     ejs.renderFile(
-      __dirname + '/ejsForm/verification.ejs',
+      __dirname + '/ejsForm/emailcheck.ejs',
       {
         confirmNumber,
         nostandingLogo,
@@ -66,7 +66,7 @@ const ejsCaller = async (type, email, object) => {
     await transporter.sendMail({
       from: `<${process.env.EMAIL_ID}>`,
       to: `${email}`,
-      subject: 'Semicolon-Nostanding 인증번호를 확인해주세요',
+      subject: 'Semicolon-Nostanding 이메일 인증번호를 확인해주세요',
       html: passwordFindHtml,
     });
   }
