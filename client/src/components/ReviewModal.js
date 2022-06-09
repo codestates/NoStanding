@@ -5,64 +5,65 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  form{
+  form {
     height: 100%;
     display: flex;
     flex-direction: column;
   }
-`
+`;
 const Button = styled.button`
   width: 7rem;
   height: 3rem;
   align-self: flex-end;
   justify-self: flex-end;
-`
+`;
 const Textarea = styled.textarea`
   width: 100%;
   padding-bottom: 100px;
   text-align: start;
   justify-content: start;
-`
+`;
 const Img = styled.img`
   width: 50px;
   height: 50px;
   border: 2px solid black;
-`
-function ReviewModal({isOpen}) {
-  const [openReviewInput, setOpenReviewInput] = useState(false);
-  const [writeReview, setWriteReview] = useState('')
-  const [imgList, setImgList] = useState([])
+`;
+function ReviewModal({ isOpen }) {
+  const [writeReview, setWriteReview] = useState("");
+  const [imgList, setImgList] = useState([]);
+  const [submitFormData, setSubmitFormData] = useState([]);
 
   const submitReview = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
   const changeTextarea = (e) => {
     setWriteReview(e.target.value);
-  }
-  console.log(writeReview);
+  };
   const clickExitBtn = () => {
-    isOpen(false)
-  }
-  const uploadImg = async (e) => {
-    const currentImgList = Array.from(e.target.files).map(file =>
+    isOpen(false);
+  };
+  const uploadImg = (e) => {
+    setSubmitFormData(e.target.files);
+    const currentImgList = Array.from(e.target.files).map((file) =>
       URL.createObjectURL(file)
     );
-    setImgList(prevImg => prevImg.concat(currentImgList));
-    Array.from(e.target.files).map(
-      file => URL.revokeObjectURL(file) 
-    );
-}
-const clickImgDelete = (id) => {
-  setImgList(imgList.filter((_, index) => index !== id))
-}
-const renderImg = (source) => {
-  return source.map((image, idx)=> {
-    return <>
-    <Img src={image} alt="" key={idx} />
-    <button onClick={()=>clickImgDelete(idx)}>삭제</button>
-    </>;
-  });
-}
+    setImgList((prevImg) => prevImg.concat(currentImgList));
+    Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+  };
+  const clickImgDelete = (id) => {
+    setImgList(imgList.filter((_, index) => index !== id));
+  };
+  
+  const renderImg = (source) => {
+    return source.map((image, idx) => {
+      return (
+        <div key={idx}>
+          <Img src={image} alt="" />
+          <button onClick={() => clickImgDelete(idx)}>삭제</button>
+        </div>
+      );
+    });
+  };
 
   return (
     <Modal
@@ -94,17 +95,21 @@ const renderImg = (source) => {
       }}
     >
       <Container>
-      <button onClick={clickExitBtn}>닫기</button>
+        <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
           <div>
             <div>이미지 미리보기</div>
             {renderImg(imgList)}
           </div>
-            <Textarea placeholder="리뷰를 작성해주세요." onChange={changeTextarea} value={writeReview} />
-            <input type='file' accept='image/*' multiple onChange={uploadImg}/>
-            <Button>리뷰 등록하기</Button>
-          </form>
-          </Container>
+          <Textarea
+            placeholder="리뷰를 작성해주세요."
+            onChange={changeTextarea}
+            value={writeReview}
+          />
+          <input type="file" accept="image/*" multiple onChange={uploadImg} />
+          <Button>리뷰 등록하기</Button>
+        </form>
+      </Container>
     </Modal>
   );
 }
