@@ -6,12 +6,12 @@ const { userAuth } = require('../../middlewares/authorized/auth');
 module.exports = {
   get: async (req, res) => {
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
       const { user_name } = req.params;
       const shopInfo = await Models.Shop.findAll({
@@ -45,33 +45,35 @@ module.exports = {
   },
   post: async (req, res) => {
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
       const { shop_id, image_src, menu_category, name, price } = req.body;
       const menuInfo = await Models.Menu.findOne({
         where: {
           shop_id: shop_id,
+          menu_category: menu_category,
         },
       });
 
       if (!menuInfo) {
-        return res.status(200).send({ message: '메뉴 정보를 입력해주세요' });
+        await Models.Menu.create({
+          shop_id: shop_id,
+          menu_category: menu_category,
+        });
+        return res.status(200).send({ message: '카테고리 생성 완료' });
       } else {
         const menuUpdate = await Models.Menu.update(
           {
-            image_src: image_src ? image_src : menuInfo.dataValues.image_src,
-            menu_category: menu_category
-              ? menu_category
-              : userInfo.dataValues.menu_category,
-            name: name ? name : menuInfo.dataValues.name,
-            price: price ? price : menuInfo.dataValues.price,
+            image_src: image_src,
+            name: name,
+            price: price,
           },
-          { where: { shop_id: shop_id } },
+          { where: { shop_id: shop_id, menu_category: menu_category } },
         );
         res.status(200).send({
           data: { menuInfo: menuUpdate },

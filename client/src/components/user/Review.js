@@ -27,6 +27,7 @@ function Review({ userInfo }) {
         { withCredentials: true }
       )
       .then((resp) => {
+        console.log(resp)
         const shopArr = resp.data.shopArr;
         const reviews = resp.data.data.Reviews;
         for (let i = 0; i < reviews.length; i++) {
