@@ -13,7 +13,7 @@ module.exports = {
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { file, score, contents } = req.body;
+      const { score, contents } = req.body;
 
       console.log(req.body);
 

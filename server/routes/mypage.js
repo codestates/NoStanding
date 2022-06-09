@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const mypage = require('../controllers/mypage');
 const delete_review = require('../middlewares/deleteS3/delete_review');
-const delete_menu = require('../middlewares/deleteS3/delete.menu');
+const delete_menu = require('../middlewares/deleteS3/delete.menu')
 const upload = require('../middlewares/upload/upload');
 const uploadMenu = require('../middlewares/upload/upload_menu');
 const delete_shop = require('../middlewares/deleteS3/delete_shop');
@@ -96,7 +96,7 @@ router.post(
 
 router.delete('/review/upload/:id', delete_review.delete);
 router.delete('/menu/upload/:id', delete_menu.delete);
-router.delete('/shop/upload/:id', delete_shop.delete);
+router.delete('/shop/upload/:id' , delete_shop.delete)
 
 /**
  * @swagger

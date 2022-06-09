@@ -35,6 +35,7 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
   const [imgList, setImgList] = useState([]);
   const [score, setScore] = useState("1");
   const [submitFormData, setSubmitFormData] = useState([]);
+
   const submitReview = (e) => {
     e.preventDefault();
     axios
@@ -50,11 +51,13 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
       )
       .then((resp) => {
         console.log(resp);
+
         const formData = new FormData();
         for (let i = 0; i < submitFormData.length; i++) {
           formData.append("file", submitFormData[i]);
         }
         // formData.append("file", submitFormData[0]);
+
         axios
           .post(
             `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,

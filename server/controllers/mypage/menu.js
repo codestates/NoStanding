@@ -25,14 +25,7 @@ module.exports = {
           {
             model: Models.Menu,
             as: 'Menus',
-            attributes: [
-              'id',
-              'shop_id',
-              'image_src',
-              'menu_category',
-              'name',
-              'price',
-            ],
+            attributes: ['id', 'shop_id', 'image_src', 'name', 'price'],
           },
         ],
         attributes: [],
@@ -52,7 +45,7 @@ module.exports = {
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { shop_id, image_src, menu_category, name, price } = req.body;
+      const { shop_id, image_src, name, price } = req.body;
       const menuInfo = await Models.Menu.findOne({
         where: {
           shop_id: shop_id,
@@ -65,9 +58,6 @@ module.exports = {
         const menuUpdate = await Models.Menu.update(
           {
             image_src: image_src ? image_src : menuInfo.dataValues.image_src,
-            menu_category: menu_category
-              ? menu_category
-              : userInfo.dataValues.menu_category,
             name: name ? name : menuInfo.dataValues.name,
             price: price ? price : menuInfo.dataValues.price,
           },
@@ -92,26 +82,12 @@ module.exports = {
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { shop_id, image_src, menu_category, name, price } = req.body;
+      const { shop_id, image_src, name, price } = req.body;
       const menuInfo = await Models.Menu.findOne({
         where: {
           shop_id: shop_id,
         },
       });
-
-      if (menu_category === null) {
-        // menu_category를 지우면 전부 삭제
-        await Models.Menu
-          .Destory
-          // {
-          //   image_src: null,
-          //   name: null,
-          //   price: null,
-          //   menu_category: null,
-          // },
-          // { where: { shop_id: shop_id } },
-          ();
-      }
 
       await Models.Menu.update(
         {

@@ -12,9 +12,11 @@ router.post('/login', user.login.post);
 router.post('/logout', user.logout.post);
 router.post('/signup', user.signup.post);
 router.post('/emailcheck', user.emailcheck.post);
+
 router.post('/emailsend', user.passwordfind.emailsend);
 router.post('/confirm', user.passwordfind.confirm);
 router.post('/passwordchange', user.passwordfind.passwordchange);
+
 
 /**
  * @swagger

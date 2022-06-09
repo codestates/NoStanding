@@ -25,11 +25,11 @@ module.exports = {
         },
       );
 
-      res.json({
-        message: 'success',
+      res.send({
+        message: 'S3 삭제 완료',
       });
     } catch (err) {
-      next(err);
+      res.send({ message: '삭제 실패' });
     }
   },
 };

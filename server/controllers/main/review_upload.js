@@ -2,9 +2,9 @@ const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const { User, Shop } = require('../../models');
 const Review = require('../../models/Review');
-const { json } = require('body-parser');
 const Models = initModels(sequelize);
 const { userAuth } = require('../../middlewares/authorized/auth'); 
+
 module.exports = {
   post: async (req, res) => {
     const { user_name, shop_id } = req.params;
@@ -16,6 +16,8 @@ module.exports = {
     });
 
     try {
+
+
         const imageArr = [];
       // const imageArr = [];
 
@@ -25,6 +27,7 @@ module.exports = {
         imageArr.push({ key: key, location: location });
       }
       // const image = {key : req.file.key , src : req.file.location}
+
 
       const reviewInfo = Models.Review.findOne({
         where: {
@@ -55,20 +58,20 @@ module.exports = {
       res.status(200).send({ message: '이미지 업로드 완료' });
     } catch (err) {
       console.log(err);
-      res.send({ message: '서버 에러' });
+      res.status(500).send({ message: '서버 에러' });
     }
   },
+
+
+
   delete: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
-      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       }
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
-
-      const { review_id } = req.params;
 
       await Models.Review.destroy({
         where: {
@@ -77,21 +80,6 @@ module.exports = {
       });
 
       res.status(200).send({ message: '리뷰 삭제 완료' });
-    } catch (err) {
-      console.log(err);
-      res.status(500).send({ message: 'Server Error' });
-    }
-  },
-  patch: async (req, res) => {
-    const {} = req.body;
-
-    const userInfo = await User.findOne({
-      where: {
-        user_name: user_name,
-      },
-    });
-
-    try {
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: 'Server Error' });

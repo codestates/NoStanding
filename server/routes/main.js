@@ -2,6 +2,7 @@ const router = require('express').Router();
 const main = require('../controllers/main');
 const uploadReview = require('../middlewares/upload/upload_review');
 const delete_review = require('../middlewares/deleteS3/delete_review');
+
 /**
  * @swagger
  * tags:
@@ -21,6 +22,10 @@ router.post(
   uploadReview.array('file', 4),
   main.review_upload.post,
 );
+router.delete('/review/:id', delete_review.delete);
+router.post('/review/:user_name/:shop_id', main.review.post);
+router.delete('/review/id/:review_id', main.review_upload.delete);
+
 router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
 
 /**
