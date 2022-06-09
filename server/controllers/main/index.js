@@ -5,4 +5,5 @@ module.exports = {
   category: require('./category'),
   search: require('./search'),
   bookmark: require('./bookmark'),
+  review_upload: require('./review_upload'),
 };
