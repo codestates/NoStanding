@@ -19,7 +19,6 @@ const Div = styled.div`
 
 function Review({ userInfo }) {
   const [reviewData, setReviewData] = useState([]);
-  const [shopData, setShopData] = useState("");
   const getReviewData = useCallback(async () => {
     await axios
       .get(

@@ -16,7 +16,7 @@ router.get('/search', main.search.get);
 router.post('/review/:user_name/:shop_id', main.review.post);
 router.post(
   '/review/upload/:user_name/:shop_id',
-  uploadReview.single('file'),
+  uploadReview.array('file', 4),
   main.review_upload.post,
 );
 router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
