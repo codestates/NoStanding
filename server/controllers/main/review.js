@@ -13,7 +13,9 @@ module.exports = {
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { image_src, score, contents } = req.body;
+      const { file, score, contents } = req.body;
+
+      console.log(req.body);
 
       if (!score || !contents) {
         return res
@@ -23,7 +25,6 @@ module.exports = {
       await Models.Review.create({
         user_id: userInfo.dataValues.id,
         shop_id: shop_id,
-        image_src: image_src,
         score: score,
         contents: contents,
       });
