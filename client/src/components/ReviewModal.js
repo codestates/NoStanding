@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useState } from "react";
 import Modal from "react-modal";
+import { connect } from "react-redux";
 import styled from "styled-components";
 const Container = styled.div`
   display: flex;
@@ -28,13 +30,45 @@ const Img = styled.img`
   height: 50px;
   border: 2px solid black;
 `;
-function ReviewModal({ isOpen }) {
+function ReviewModal({ isOpen, userInfo, shopId }) {
   const [writeReview, setWriteReview] = useState("");
   const [imgList, setImgList] = useState([]);
+  const [score, setScore] = useState("1");
   const [submitFormData, setSubmitFormData] = useState([]);
-
+  const formData = new FormData();
+console.log(imgList);
+console.log(submitFormData);
   const submitReview = (e) => {
     e.preventDefault();
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/review/${userInfo.user_name}/${shopId}`,
+        {
+          score:score,
+          contents: writeReview,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        console.log(resp);
+        // for (let i = 0; i < imgList.length; i++) {
+        //   formData.append("file", imgList[i]);
+        // }
+        formData.append('file', submitFormData[1])
+        axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,
+            {
+              formData,
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((resp) => console.log(resp));
+      });
   };
   const changeTextarea = (e) => {
     setWriteReview(e.target.value);
@@ -42,6 +76,7 @@ function ReviewModal({ isOpen }) {
   const clickExitBtn = () => {
     isOpen(false);
   };
+  const changeScore = (e) => setScore(e.target.value);
   const uploadImg = (e) => {
     setSubmitFormData(e.target.files);
     const currentImgList = Array.from(e.target.files).map((file) =>
@@ -53,7 +88,7 @@ function ReviewModal({ isOpen }) {
   const clickImgDelete = (id) => {
     setImgList(imgList.filter((_, index) => index !== id));
   };
-  
+
   const renderImg = (source) => {
     return source.map((image, idx) => {
       return (
@@ -97,10 +132,14 @@ function ReviewModal({ isOpen }) {
       <Container>
         <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
-          <div>
-            <div>이미지 미리보기</div>
-            {renderImg(imgList)}
-          </div>
+          <input
+            type="number"
+            max="5"
+            min="1"
+            placeholder="별점을 입력해주세요. (1~5점)"
+            onChange={changeScore}
+          />
+          <div>{renderImg(imgList)}</div>
           <Textarea
             placeholder="리뷰를 작성해주세요."
             onChange={changeTextarea}
@@ -113,5 +152,10 @@ function ReviewModal({ isOpen }) {
     </Modal>
   );
 }
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  };
+}
 
-export default ReviewModal;
+export default connect(mapStateToProps)(ReviewModal);
