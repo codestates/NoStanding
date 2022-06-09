@@ -19,7 +19,6 @@ const Div = styled.div`
 
 function Review({ userInfo }) {
   const [reviewData, setReviewData] = useState([]);
-  const [shopData, setShopData] = useState("");
   const getReviewData = useCallback(async () => {
     await axios
       .get(
@@ -50,7 +49,7 @@ function Review({ userInfo }) {
       </Div>
       {reviewData.map((data) => (
         <div key={data.id}>
-          <ReviewInfo data={data} />
+          <ReviewInfo data={data} getReviewData={getReviewData} />
         </div>
       ))}
     </Container>

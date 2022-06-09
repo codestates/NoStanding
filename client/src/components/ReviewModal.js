@@ -35,16 +35,13 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
   const [imgList, setImgList] = useState([]);
   const [score, setScore] = useState("1");
   const [submitFormData, setSubmitFormData] = useState([]);
-  const formData = new FormData();
-console.log(imgList);
-console.log(submitFormData);
   const submitReview = (e) => {
     e.preventDefault();
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/review/${userInfo.user_name}/${shopId}`,
         {
-          score:score,
+          score: score,
           contents: writeReview,
         },
         {
@@ -53,16 +50,15 @@ console.log(submitFormData);
       )
       .then((resp) => {
         console.log(resp);
-        // for (let i = 0; i < imgList.length; i++) {
-        //   formData.append("file", imgList[i]);
-        // }
-        formData.append('file', submitFormData[1])
+        const formData = new FormData();
+        for (let i = 0; i < submitFormData.length; i++) {
+          formData.append("file", submitFormData[i]);
+        }
+        // formData.append("file", submitFormData[0]);
         axios
           .post(
             `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,
-            {
-              formData,
-            },
+            formData,
             {
               withCredentials: true,
             }
@@ -77,6 +73,7 @@ console.log(submitFormData);
     isOpen(false);
   };
   const changeScore = (e) => setScore(e.target.value);
+
   const uploadImg = (e) => {
     setSubmitFormData(e.target.files);
     const currentImgList = Array.from(e.target.files).map((file) =>
@@ -85,6 +82,7 @@ console.log(submitFormData);
     setImgList((prevImg) => prevImg.concat(currentImgList));
     Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
   };
+
   const clickImgDelete = (id) => {
     setImgList(imgList.filter((_, index) => index !== id));
   };

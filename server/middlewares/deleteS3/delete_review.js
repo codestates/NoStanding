@@ -13,11 +13,12 @@ const s3 = new aws.S3();
 
 module.exports = {
   delete: async (req, res) => {
+    console.log(req.params.id);
     try {
       await s3.deleteObject(
         {
           Bucket: 'semicolon-nostanding.com',
-          Key: `${req.params.id}`,
+          Key: `review/${req.params.id}`,
         },
         (err, data) => {
           if (err) throw err;

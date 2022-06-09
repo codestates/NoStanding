@@ -1,9 +1,12 @@
 require('dotenv').config();
 const { User } = require('../../models');
 const { ejsCaller } = require('../../middlewares/ejs/ejsCaller');
+const crypto = require('crypto')
+const util = require('util');
+const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
 module.exports = {
-  email: async (req, res) => {
+  emailsend: async (req, res) => {
     try {
       const { user_name } = req.body;
       // 클라이언트로부터 전달받은 user_name이 DB에 존재하는지 확인한다
@@ -33,37 +36,51 @@ module.exports = {
         }
       }, 180000);
 
-      res.status(200).json({ message: '패스워드 변경 완료' });
+      res
+        .status(200)
+        .json({ data: confirmNumber, message: '이메일 전송 완료' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Server Error!' });
     }
   },
-  passwordfind: async (req, res) => {
+  confirm: async (req, res) => {
     try {
-      const { email, confirmNumber, confirm_body, email_key } = req.body;
+      const { user_name, confirmNumber, confirm_body } = req.body;
 
       // 유저 테이블에 email_key 필드를 업데이트
       if (confirmNumber === confirm_body) {
         await User.update(
           { email_key: 'success' },
-          { where: { email: email } },
+          { where: { user_name: user_name } },
         );
       }
-
+      res.status(200).json({ message: '인증 완료' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: 'Server Error!' });
+    }
+  },
+  passwordchange: async (req, res) => {
+    try {
+      const { user_name, password } = req.body;
+      // 클라이언트로부터 전달받은 user_name이 DB에 존재하는지 확인한다
+      const userInfo = await User.findOne({ where: { user_name: user_name } });
       // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
       const salt = crypto.randomBytes(64).toString('base64');
       // password를 salt를 첨가하여 sha512 알고리즘으로 305943번 해싱 후 64바이트 buffer 형식으로 반환
       const key = await pbkdf2Promise(password, salt, 305943, 64, 'sha512');
       // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
       const hashedPassword = key.toString('base64');
-
-      if (email_key === 'success') {
-        User.update({
-          password: password ? hashedPassword : userInfo.dataValues.password,
-          usersalt: password ? salt : userInfo.dataValues.user_salt,
-        });
-      }
+      
+        User.update(
+          {
+            password: password ? hashedPassword : userInfo.dataValues.password,
+            user_salt: password ? salt : userInfo.dataValues.user_salt,
+          },
+          { where: { user_name: user_name } },
+        );
+      
       res.status(200).json({ message: '패스워드 변경 완료' });
     } catch (err) {
       console.log(err);
