@@ -28,6 +28,7 @@ module.exports = {
       }
       //미리 저장해둔 user_salt 컬럼을 불러온다.
       const userSalt = userNameInfo.dataValues.user_salt;
+      console.log(userSalt);
       //req.body의 패스워드값을 userInfo에 담긴 userSalt로 똑같이 해싱한다.
       const key = await pbkdf2Promise(password, userSalt, 305943, 64, 'sha512');
       // 문자열로 변환 후 변수에 저장

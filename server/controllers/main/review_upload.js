@@ -3,7 +3,7 @@ const initModels = require('../../models/init-models');
 const { User, Shop } = require('../../models');
 const Review = require('../../models/Review');
 const Models = initModels(sequelize);
-const { userAuth } = require('../../middlewares/authorized/auth');
+const { userAuth } = require('../../middlewares/authorized/auth'); 
 
 module.exports = {
   post: async (req, res) => {
@@ -16,20 +16,18 @@ module.exports = {
     });
 
     try {
-      //   const imageArr = [];
-      //   req.files.map(el => {
-      //     imageArr.push(el.location);
-      //   });
-      //   const imageArr = [];
 
-      //   for (let i = 0; i < req.files.length; i++) {
-      //     let key = req.files[i].key;
-      //     let location = req.files[i].location;
 
-      //     imageArr.push({ key: key, location: location });
-      //   }
-      console.log(req.file);
-      const image = { key: req.file.key, src: req.file.location };
+        const imageArr = [];
+      // const imageArr = [];
+
+      for (let i = 0; i < req.files.length; i++) {
+        let key = req.files[i].key;
+        let location = req.files[i].location;
+        imageArr.push({ key: key, location: location });
+      }
+      // const image = {key : req.file.key , src : req.file.location}
+
 
       const reviewInfo = Models.Review.findOne({
         where: {
@@ -41,13 +39,13 @@ module.exports = {
       if (!reviewInfo) {
         await Models.Review.create({
           user_id: userInfo.dataValues.id,
-          image_src: JSON.stringify(image),
+          image_src: JSON.stringify(imageArr),
           shop_id: shop_id,
         });
       } else {
         await Models.Review.update(
           {
-            image_src: JSON.stringify(image),
+            image_src: JSON.stringify(imageArr),
           },
           {
             where: {
@@ -64,6 +62,8 @@ module.exports = {
     }
   },
 
+
+
   delete: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
@@ -72,8 +72,6 @@ module.exports = {
       }
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
-
-      const { review_id } = req.params;
 
       await Models.Review.destroy({
         where: {

@@ -48,7 +48,7 @@ function SearchList({ shopInfo }) {
       <ShopAddress>{shopInfo.shop_category_city}</ShopAddress>
       <FlexRow>
         <div>별점</div>
-        <div>리뷰수</div>
+        <div>리뷰 개수 : {shopInfo.review_num}</div>
       </FlexRow>
     </Container>
   );
