@@ -13,9 +13,10 @@ router.get('/', main.main.get);
 router.get('/shop/:id', main.shop.get);
 router.get('/category', main.category.get);
 router.get('/search', main.search.get);
+router.post('/review/:user_name/:shop_id', main.review.post);
 router.post(
   '/review/upload/:user_name/:shop_id',
-  uploadReview.array('file', 4),
+  uploadReview.single('file'),
   main.review_upload.post,
 );
 router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);

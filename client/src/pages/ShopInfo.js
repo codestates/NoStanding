@@ -3,6 +3,8 @@ import styled from "styled-components";
 import dummyimg from "../dummyimg";
 import Map from "../components/Map";
 import axios from "axios";
+import { faL } from "@fortawesome/free-solid-svg-icons";
+import ReservationModal from "../components/ReservationModal";
 const MainImg = styled.img`
   width: 400px;
   height: 400px;
@@ -46,9 +48,11 @@ const Bookbutton = styled.button`
   height: 100px;
 `;
 function ShopInfo() {
-  const [img, setImg] = useState();
+  const [img, setImg] = useState([]);
   const [pickedShop, setPickedShop] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [currentImg, setCurrentImg] = useState(0);
+  const [openReservation, setOpenReservation] = useState(false)
   const getPickedShopInfo = useCallback(async () => {
     const shopId = Number(window.location.pathname.slice(10));
     await axios
@@ -56,15 +60,22 @@ function ShopInfo() {
       .then((resp) => {
         setPickedShop(resp.data.data[0]);
       });
-    let arr = String(pickedShop.image_src).split(",");
-    setImg(arr);
-    console.log(img);
     setIsLoading(false);
   }, []);
+  const clickImg = (idx) => {
+    setCurrentImg(idx);
+  };
+  const clickReservation = () => {
+    setOpenReservation(!openReservation)}
 
   useEffect(() => {
     getPickedShopInfo();
   }, [getPickedShopInfo]);
+
+  useEffect(() => {
+    setImg([...String(pickedShop.image_src).split(",")]);
+  }, [pickedShop]);
+
   return (
     <>
       {isLoading ? (
@@ -73,12 +84,17 @@ function ShopInfo() {
         <>
           <div>{pickedShop.user.shop_name}</div>
           <Imgcontainer>
-            <MainImg src={img[0]}></MainImg>
+            <MainImg src={img[currentImg]}></MainImg>
             <Imgselectbox>
-              <SelectImg src={img[0]}></SelectImg>
-              <SelectImg src={img[1]}></SelectImg>
-              <SelectImg src={img[2]}></SelectImg>
-              <SelectImg src={img[3]}></SelectImg>
+              {img.map((image, idx) => {
+                return (
+                  <SelectImg
+                    onClick={() => clickImg(idx)}
+                    key={idx}
+                    src={image}
+                  ></SelectImg>
+                );
+              })}
             </Imgselectbox>
           </Imgcontainer>
           <Box>
@@ -93,7 +109,8 @@ function ShopInfo() {
             </Info>
             <Review>리뷰자리입니다.</Review>
             {/* pickedShop.reviews.map */}
-            <Bookbutton>예약하기</Bookbutton>
+            {openReservation? <ReservationModal pickedShop={pickedShop} setOpenReservation={setOpenReservation} />:null}
+            <Bookbutton onClick={clickReservation}>예약하기</Bookbutton>
           </Box>
         </>
       )}
