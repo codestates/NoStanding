@@ -20,14 +20,15 @@ module.exports = {
       //   req.files.map(el => {
       //     imageArr.push(el.location);
       //   });
-      const imageArr = [];
+      //   const imageArr = [];
 
-      for (let i = 0; i < req.files.length; i++) {
-        let key = req.files[i].key;
-        let location = req.files[i].location;
+      //   for (let i = 0; i < req.files.length; i++) {
+      //     let key = req.files[i].key;
+      //     let location = req.files[i].location;
 
-        imageArr.push({ key: key, location: location });
-      }
+      //     imageArr.push({ key: key, location: location });
+      //   }
+      const image = { key: req.file.key, src: req.file.location };
 
       const reviewInfo = Models.Review.findOne({
         where: {
@@ -39,13 +40,13 @@ module.exports = {
       if (!reviewInfo) {
         await Models.Review.create({
           user_id: userInfo.dataValues.id,
-          image_src: JSON.stringify(imageArr),
+          image_src: JSON.stringify(image),
           shop_id: shop_id,
         });
       } else {
         await Models.Review.update(
           {
-            image_src: JSON.stringify(imageArr),
+            image_src: JSON.stringify(image),
           },
           {
             where: {
