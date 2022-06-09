@@ -10,15 +10,15 @@ aws.config.update({
 });
 
 const s3 = new aws.S3();
-let upload = multer({
+let uploadReview = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'semicolon-nostanding.com',
     acl: 'public-read-write',
     key: (req, file, callback) => {
-      callback(null, `Shop/${Date.now()}_${file.originalname}`);
+      callback(null, `review/${Date.now()}_${file.originalname}`);
     },
   }),
 });
 
-module.exports = upload;
+module.exports = uploadReview;
