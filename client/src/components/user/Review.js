@@ -49,7 +49,7 @@ function Review({ userInfo }) {
       </Div>
       {reviewData.map((data) => (
         <div key={data.id}>
-          <ReviewInfo data={data} />
+          <ReviewInfo data={data} getReviewData={getReviewData} />
         </div>
       ))}
     </Container>

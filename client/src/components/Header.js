@@ -90,7 +90,7 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
         <Menu>
           {loginState ? (
             <>
-              <div>환영합니다 {userInfo.user_name}님</div>
+              <div>환영합니다 {userInfo.nickname}님</div>
               <button onClick={clickLogoutBtn}>로그아웃</button>
             </>
           ) : (

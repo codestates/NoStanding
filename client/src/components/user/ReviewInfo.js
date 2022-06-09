@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -21,18 +22,38 @@ const Div = styled.div`
 `;
 const DeleteBtn = styled.div`
   align-self: flex-start;
-`
-function ReviewInfo({ data }) {
+`;
+function ReviewInfo({ data, getReviewData }) {
   const [image, setImage] = useState([]);
   const [loding, setLoding] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
   const getImage = useCallback(async () => {
+    console.log(data.image_src);
     const parsing = await JSON.parse(data.image_src);
-    console.log(parsing);
     if (parsing) {
       setImage(parsing);
     }
     setLoding(true);
   }, []);
+  const clickDeleteBtn = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/review/id/${data.id}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        const keys = image.map((el) => el.key);
+        for (let i = 0; i < keys.length; i++) {
+          axios
+            .delete(`${process.env.REACT_APP_API_URL}/${keys[i]}`, {
+              withCredentials: true,
+            })
+            .then((resp) => {
+              console.log(resp);
+              getReviewData();
+            });
+        }
+      });
+  };
   console.log(image);
   useEffect(() => {
     getImage();
@@ -43,7 +64,7 @@ function ReviewInfo({ data }) {
         <>
           <div>
             {image.map((img) => {
-              return <Img src={img.location} />;
+              return <Img src={img.location} key={img.key} />;
             })}
           </div>
           <Div>
@@ -51,12 +72,11 @@ function ReviewInfo({ data }) {
             <div>{data.createdAt}</div>
             <div>{data.contents}</div>
           </Div>
-          <DeleteBtn>
-            X
-          </DeleteBtn>
+          <DeleteBtn onClick={clickDeleteBtn}>X</DeleteBtn>
         </>
       ) : null}
     </Container>
   );
 }
+
 export default ReviewInfo;
