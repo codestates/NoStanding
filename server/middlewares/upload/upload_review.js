@@ -8,7 +8,6 @@ aws.config.update({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
   region: 'ap-northeast-2',
 });
-
 const s3 = new aws.S3();
 let uploadReview = multer({
   storage: multerS3({
@@ -20,5 +19,4 @@ let uploadReview = multer({
     },
   }),
 });
-
 module.exports = uploadReview;

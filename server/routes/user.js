@@ -12,7 +12,7 @@ router.post('/login', user.login.post);
 router.post('/logout', user.logout.post);
 router.post('/signup', user.signup.post);
 router.post('/emailcheck', user.emailcheck.post);
-router.post('/passwordfind', user.passwordfind.email);
+router.post('/email', user.passwordfind.email);
 router.post('/passwordfind', user.passwordfind.passwordfind);
 
 /**

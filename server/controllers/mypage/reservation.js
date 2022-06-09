@@ -21,7 +21,7 @@ module.exports = {
     // })
     // reservation - menu - shop
     if (userInfo.dataValues.is_master === 0) {
-      const query = `SELECT R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id AS shop_id from Reservation R
+      const query = `SELECT R.id, R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id as shop_id from Reservation R
       Join Menu M ON M.id = R.menu_id
       Join Shop S ON S.id = M.shop_id
       Join User U ON S.user_id = U.id
@@ -61,6 +61,7 @@ module.exports = {
   post: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
+      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       }
