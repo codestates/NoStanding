@@ -68,25 +68,45 @@ module.exports = {
     }
   },
   patch: async (req, res) => {
-    const userInfo = await userAuth(req, res);
-    if (!userInfo) {
-      return res.status(400).json({ message: '유저정보 없음' });
-    }
-    delete userInfo.dataValues.password;
-    delete userInfo.dataValues.user_salt;
+    // const userInfo = await userAuth(req, res);
+    // if (!userInfo) {
+    //   return res.status(400).json({ message: '유저정보 없음' });
+    // }
+    // delete userInfo.dataValues.password;
+    // delete userInfo.dataValues.user_salt;
 
     try {
-      const { user_id, image_src } = req.body;
+      const { user_id, image_src, image_number } = req.body;
       const menuInfo = await Models.Shop.findOne({
         where: {
           user_id: user_id,
         },
+        attributes: ['image_src'],
       });
 
+      let menu = menuInfo.dataValues;
+      let menuParse = JSON.parse(menu.image_src);
+      console.log(menuParse[0]);
+
+      // for (let n = 0; n < 4; n++) {
+      //   await Models.Shop.update(
+      //     {
+      //       // x 버튼을 눌러서 true 값으로 변환되면, null값을 줘서 삭제
+      //       image_src: image_src
+      //         ? menuParse[n] === null
+      //         : menuInfo.dataValues.image_src,
+      //     },
+      //     { where: { user_id: user_id } },
+      //   );
+      // }
+
+      menuParse[image_number] = null;
       await Models.Shop.update(
         {
           // x 버튼을 눌러서 true 값으로 변환되면, null값을 줘서 삭제
-          image_src: image_src ? null : menuInfo.dataValues.image_src,
+          image_src: image_src
+            ? JSON.stringify(menuParse)
+            : menuInfo.dataValues.image_src,
         },
         { where: { user_id: user_id } },
       );

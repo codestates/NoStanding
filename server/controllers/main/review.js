@@ -42,6 +42,8 @@ module.exports = {
       // 별점 평균 구하기
       score_average = average / reviewInfo.length;
 
+      // let array = JSON.stringify(['a', 'b', 'c']);
+
       await Models.Shop.update(
         {
           total_views: reviewInfo.length,
