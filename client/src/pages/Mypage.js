@@ -29,7 +29,7 @@ function Mypage() {
      <Route path="review" element={<Review />} />
      <Route path="userinfo" element={<UserInfo />} />
      <Route path="userdelete" element={<UserDelete />} />
-     <Route path="mastermanagement" element={<Management />} />
+     <Route path="mastermanagement/*" element={<Management />} />
      <Route path="masterreservation" element={<MasterReservation />} />
      <Route path="masternotification" element={<MasterNotification />} />
      <Route path="masterreview" element={<MasterReview />} />
