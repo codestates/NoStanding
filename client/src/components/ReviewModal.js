@@ -1,68 +1,105 @@
+import axios from "axios";
 import React, { useState } from "react";
 import Modal from "react-modal";
+import { connect } from "react-redux";
 import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  form{
+  form {
     height: 100%;
     display: flex;
     flex-direction: column;
   }
-`
+`;
 const Button = styled.button`
   width: 7rem;
   height: 3rem;
   align-self: flex-end;
   justify-self: flex-end;
-`
+`;
 const Textarea = styled.textarea`
   width: 100%;
   padding-bottom: 100px;
   text-align: start;
   justify-content: start;
-`
+`;
 const Img = styled.img`
   width: 50px;
   height: 50px;
   border: 2px solid black;
-`
-function ReviewModal({isOpen}) {
-  const [openReviewInput, setOpenReviewInput] = useState(false);
-  const [writeReview, setWriteReview] = useState('')
-  const [imgList, setImgList] = useState([])
+`;
+function ReviewModal({ isOpen, userInfo, shopId }) {
+  const [writeReview, setWriteReview] = useState("");
+  const [imgList, setImgList] = useState([]);
+  const [score, setScore] = useState("1");
+  const [submitFormData, setSubmitFormData] = useState([]);
 
   const submitReview = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/review/${userInfo.user_name}/${shopId}`,
+        {
+          score: score,
+          contents: writeReview,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        console.log(resp);
+
+        const formData = new FormData();
+        for (let i = 0; i < submitFormData.length; i++) {
+          formData.append("file", submitFormData[i]);
+        }
+        // formData.append("file", submitFormData[0]);
+
+        axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,
+            formData,
+            {
+              withCredentials: true,
+            }
+          )
+          .then((resp) => console.log(resp));
+      });
+  };
   const changeTextarea = (e) => {
     setWriteReview(e.target.value);
-  }
-  console.log(writeReview);
+  };
   const clickExitBtn = () => {
-    isOpen(false)
-  }
-  const uploadImg = async (e) => {
-    const currentImgList = Array.from(e.target.files).map(file =>
+    isOpen(false);
+  };
+  const changeScore = (e) => setScore(e.target.value);
+
+  const uploadImg = (e) => {
+    setSubmitFormData(e.target.files);
+    const currentImgList = Array.from(e.target.files).map((file) =>
       URL.createObjectURL(file)
     );
-    setImgList(prevImg => prevImg.concat(currentImgList));
-    Array.from(e.target.files).map(
-      file => URL.revokeObjectURL(file) 
-    );
-}
-const clickImgDelete = (id) => {
-  setImgList(imgList.filter((_, index) => index !== id))
-}
-const renderImg = (source) => {
-  return source.map((image, idx)=> {
-    return <>
-    <Img src={image} alt="" key={idx} />
-    <button onClick={()=>clickImgDelete(idx)}>삭제</button>
-    </>;
-  });
-}
+    setImgList((prevImg) => prevImg.concat(currentImgList));
+    Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+  };
+
+  const clickImgDelete = (id) => {
+    setImgList(imgList.filter((_, index) => index !== id));
+  };
+
+  const renderImg = (source) => {
+    return source.map((image, idx) => {
+      return (
+        <div key={idx}>
+          <Img src={image} alt="" />
+          <button onClick={() => clickImgDelete(idx)}>삭제</button>
+        </div>
+      );
+    });
+  };
 
   return (
     <Modal
@@ -94,19 +131,32 @@ const renderImg = (source) => {
       }}
     >
       <Container>
-      <button onClick={clickExitBtn}>닫기</button>
+        <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
-          <div>
-            <div>이미지 미리보기</div>
-            {renderImg(imgList)}
-          </div>
-            <Textarea placeholder="리뷰를 작성해주세요." onChange={changeTextarea} value={writeReview} />
-            <input type='file' accept='image/*' multiple onChange={uploadImg}/>
-            <Button>리뷰 등록하기</Button>
-          </form>
-          </Container>
+          <input
+            type="number"
+            max="5"
+            min="1"
+            placeholder="별점을 입력해주세요. (1~5점)"
+            onChange={changeScore}
+          />
+          <div>{renderImg(imgList)}</div>
+          <Textarea
+            placeholder="리뷰를 작성해주세요."
+            onChange={changeTextarea}
+            value={writeReview}
+          />
+          <input type="file" accept="image/*" multiple onChange={uploadImg} />
+          <Button>리뷰 등록하기</Button>
+        </form>
+      </Container>
     </Modal>
   );
 }
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  };
+}
 
-export default ReviewModal;
+export default connect(mapStateToProps)(ReviewModal);

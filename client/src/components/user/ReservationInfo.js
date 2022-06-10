@@ -32,6 +32,7 @@ const Textarea = styled.textarea`
   justify-content: start;
 `
 function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
+  console.log(reservate);
   const [openReviewInput, setOpenReviewInput] = useState(false);
   const [writeReview, setWriteReview] = useState('')
   const date = reservate.date.replace("T", " ").replace(/\..*/, "");
@@ -73,7 +74,7 @@ function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
         ) : (
           <Button onClick={clickInputOpen}>리뷰 작성하기</Button>
         )}
-        {openReviewInput ? <ReviewModal isOpen={setOpenReviewInput} /> : null}
+        {openReviewInput ? <ReviewModal isOpen={setOpenReviewInput} shopId={reservate.shop_id} /> : null}
       </Div>
     </Container>
   );

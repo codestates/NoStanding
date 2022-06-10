@@ -75,7 +75,6 @@ function ShopInfo() {
   useEffect(() => {
     setImg([...String(pickedShop.image_src).split(",")]);
   }, [pickedShop]);
-
   return (
     <>
       {isLoading ? (

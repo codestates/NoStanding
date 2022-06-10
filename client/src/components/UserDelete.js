@@ -30,8 +30,8 @@ const Button = styled.button`
 `;
 function UserDelete({ userInfo }) {
   const clickDeleteBtn = () => {
-    // axios.delete(`${process.env.REACT_APP_API_URL}/mypage/userinfo/${userInfo.user_name}`)
-  };
+    axios.delete(`${process.env.REACT_APP_API_URL}/mypage/userinfo/${userInfo.user_name}`)
+  }
   return (
     <Container>
       <Div>
