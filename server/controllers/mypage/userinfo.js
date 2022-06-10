@@ -70,7 +70,7 @@ module.exports = {
 
           await User.update(
             {
-              userSalt: salt ? salt : userInfo.dataValues.salt,
+              user_salt: salt ? salt : userInfo.dataValues.salt,
               user_name,
               password: hashedPassword
                 ? hashedPassword
@@ -121,7 +121,7 @@ module.exports = {
 
           await User.update(
             {
-              userSalt: salt ? salt : userInfo.dataValues.salt,
+              user_salt: salt ? salt : userInfo.dataValues.salt,
               user_name,
               password: hashedPassword
                 ? hashedPassword
@@ -134,10 +134,8 @@ module.exports = {
               shop_category,
               shop_category_city,
               address_line1,
-
               address_line2,
               postal_code,
-
               email,
             },
             { where: { id: userInfo.dataValues.id } },

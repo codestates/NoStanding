@@ -70,7 +70,7 @@ router.patch('/img/:user_name', mypage.img.patch);
 
 router.get('/menu/:user_name', mypage.menu.get);
 router.post('/menu/:user_name', mypage.menu.post);
-router.patch('/menu/:user_name', mypage.menu.patch);
+router.delete('/menu/:user_name', mypage.menu.delete);
 
 router.get('/notification/:user_name', mypage.notification.get);
 
