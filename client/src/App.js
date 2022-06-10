@@ -8,6 +8,7 @@ import Signup from "./pages/SignUp";
 import styled from "styled-components";
 import CallbackGoogle from "./pages/CallbackGoogle";
 import CallbackKakao from "./pages/CallbackKakao";
+import FindPassword from "./pages/FindPassword";
 
 const Body = styled.div`
   height: auto;
@@ -29,6 +30,7 @@ function App() {
             <Route path="/Signup" element={<Signup />} />
             <Route path="/callbackkakao" element={<CallbackKakao />} />
             <Route path="/callbackgoogle" element={<CallbackGoogle />} />
+            <Route path="/Findpassword" element={<FindPassword />} />
           </Routes>
         </Body>
       </Router>

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import axios from "axios";
 import { getUserInfo, getUserLogin } from "../store/store";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const RowDiv = styled.div`
   margin: 5px;
@@ -63,7 +64,7 @@ const Input = styled.input`
   width: 12vw;
 `;
 
-const A = styled.a`
+const Span = styled.span`
   text-align: center;
   align-items: center;
   padding: 5px;
@@ -74,7 +75,8 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIslogin] = useState(false);
-
+  const navigate = useNavigate()
+  
   const idSetter = (e) => {
     setId(e.target.value);
   };
@@ -124,7 +126,10 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
       );
     }
   };
-
+  const clickFindPwdBtn = () => {
+    navigate('/Findpassword')
+    controlClose(false)
+  };
   return (
     <Modal
       ariaHideApp={false}
@@ -172,6 +177,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
             ></Input>
             <Input
               type="password"
+              placeholder="******"
               onChange={(e) => passwordSetter(e)}
               value={password}
             ></Input>
@@ -182,7 +188,7 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
             <input type="checkbox"></input>
             <div>로그인 유지하기</div>
           </RowDiv>
-          <A>아이디/비밀번호 찾기</A>
+          <button onClick={clickFindPwdBtn}>비밀번호 찾기</button>
         </RowDiv>
         <OauthLogin primary="0" onClick={loginHandler}>
           로그인

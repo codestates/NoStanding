@@ -7,12 +7,12 @@ const { userAuth } = require('../../middlewares/authorized/auth');
 module.exports = {
   get: async (req, res) => {
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
       const { user_name } = req.params;
       const shopInfo = await Models.Shop.findAll({
@@ -65,15 +65,15 @@ module.exports = {
   },
   delete: async (req, res) => {
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
-      const { shop_id, name } = req.body;
-
+      const { shop_id, name } = req.params;
+      console.log(req.params);
       await Models.Menu.destroy({ where: { shop_id: shop_id, name: name } });
 
       res.status(201).send({ message: '정보 삭제 완료' });

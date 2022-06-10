@@ -2,6 +2,8 @@ const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
 const { userAuth } = require('../../middlewares/authorized/auth');
+const { User, Shop } = require('../../models');
+const { json } = require('body-parser');
 
 module.exports = {
   get: async (req, res) => {
@@ -33,40 +35,36 @@ module.exports = {
     }
   },
   post: async (req, res) => {
+    const { user_name } = req.params;
+
+    const userInfo = await User.findOne({
+      where: {
+        user_name: user_name,
+      },
+    });
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      const imageArr = [];
 
-      const { user_id, image_src } = req.body;
-      const imgInfo = await Models.Shop.findOne({
-        where: {
-          user_id: user_id,
+      for (let i = 0; i < req.files.length; i++) {
+        let key = req.files[i].key;
+        let location = req.files[i].location;
+
+        imageArr.push({ key: key, location: location });
+      }
+
+      await Shop.update(
+        {
+          image_src: JSON.stringify(imageArr),
         },
-      });
-
-      if (!imgInfo) {
-        return res.status(200).send({ message: '메뉴 정보를 입력해주세요' });
-      } else {
-        const imgUpdate = await Models.Shop.update(
-          {
-            image_src: image_src ? image_src : imgInfo.dataValues.image_src,
-          },
-          { where: { user_id: user_id } },
-        );
-        res.status(200).send({
-          data: { imgInfo: imgUpdate },
-          message: '정보 입력 완료',
-        });
-      }
+        { where: { user_id: userInfo.dataValues.id } },
+      );
+      res.send({ message: '사진 업로드 완료' });
     } catch (err) {
       console.log(err);
-      res.status(500).send({ message: 'Server Error' });
+      res.send('서버 에러');
     }
   },
+
   patch: async (req, res) => {
     // const userInfo = await userAuth(req, res);
     // if (!userInfo) {
@@ -85,6 +83,10 @@ module.exports = {
       });
 
       let menu = menuInfo.dataValues;
+<<<<<<< HEAD
+=======
+      console.log(menu);
+>>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
       let menuParse = JSON.parse(menu.image_src);
       console.log(menuParse[0]);
 
@@ -101,6 +103,7 @@ module.exports = {
       // }
 
       menuParse[image_number] = null;
+<<<<<<< HEAD
       await Models.Shop.update(
         {
           // x 버튼을 눌러서 true 값으로 변환되면, null값을 줘서 삭제
@@ -110,6 +113,17 @@ module.exports = {
         },
         { where: { user_id: user_id } },
       );
+=======
+      // await Models.Shop.update(
+      //   {
+      //     // x 버튼을 눌러서 true 값으로 변환되면, null값을 줘서 삭제
+      //     image_src: image_src
+      //       ? JSON.stringify(menuParse)
+      //       : menuInfo.dataValues.image_src,
+      //   },
+      //   { where: { user_id: user_id } },
+      // );
+>>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
 
       res.status(201).send({ message: '정보 삭제 완료' });
     } catch (err) {

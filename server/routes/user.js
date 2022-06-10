@@ -12,9 +12,17 @@ router.post('/login', user.login.post);
 router.post('/logout', user.logout.post);
 router.post('/signup', user.signup.post);
 router.post('/emailcheck', user.emailcheck.post);
+<<<<<<< HEAD
 router.post('/emailsend', user.passwordfind.emailsend);
 router.post('/confirm', user.passwordfind.confirm);
 router.post('/passwordchange', user.passwordfind.passwordchange);
+=======
+
+router.post('/emailsend', user.passwordfind.emailsend);
+router.post('/confirm', user.passwordfind.confirm);
+router.post('/passwordchange', user.passwordfind.passwordchange);
+
+>>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
 
 /**
  * @swagger

@@ -19,7 +19,6 @@ const Div = styled.div`
 
 function Review({ userInfo }) {
   const [reviewData, setReviewData] = useState([]);
-  const [shopData, setShopData] = useState("");
   const getReviewData = useCallback(async () => {
     await axios
       .get(
@@ -27,6 +26,7 @@ function Review({ userInfo }) {
         { withCredentials: true }
       )
       .then((resp) => {
+        console.log(resp)
         const shopArr = resp.data.shopArr;
         const reviews = resp.data.data.Reviews;
         for (let i = 0; i < reviews.length; i++) {
@@ -50,7 +50,7 @@ function Review({ userInfo }) {
       </Div>
       {reviewData.map((data) => (
         <div key={data.id}>
-          <ReviewInfo data={data} />
+          <ReviewInfo data={data} getReviewData={getReviewData} />
         </div>
       ))}
     </Container>

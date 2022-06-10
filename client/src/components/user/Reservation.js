@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import ReservationInfo from "./ReservationInfo";
@@ -39,15 +39,32 @@ function Reservation({ userInfo }) {
   const [chooseList, setChooseList] = useState(1);
   const [reservationDatas, setReservationDatas] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}`, {
-        withCredentials: true
-      })
+  const getInfo = useCallback(async () => {
+    await axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then((resp) => {
         setReservationDatas([...resp.data.data]);
       });
   }, []);
+
+  useEffect(() => {
+    getInfo();
+  }, [getInfo]);
+
+  useEffect(() => {
+    const nowDate = new Date(+new Date() + 3240 * 10000)
+      .toISOString()
+      .replace(/[^0-9]/g, "");
+    const nowReservations = reservationDatas.filter((data) => {
+      return Number(data.date.replace(/[^0-9]/g, "")) > Number(nowDate);
+    });
+    setReservationList([...nowReservations]);
+  }, [reservationDatas]);
 
   const clickChooseDiv = (data) => {
     setChooseList(data);
@@ -87,6 +104,7 @@ function Reservation({ userInfo }) {
             key={reservate.id}
             reservate={reservate}
             isToday={chooseList}
+            getInfo={getInfo}
           />
         ))}
       </div>
