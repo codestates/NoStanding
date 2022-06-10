@@ -11,15 +11,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 90vw;
+  height: 100%;
+`;
+const MenuContainer = styled.div`
+  border: 2px solid black;
+  height: 100%;
 `;
 const Button = styled.button`
-  box-sizing: border-box;
-  appearance: none;
-  background-color: blue;
-  border: 2px solid $red;
-  border-radius: 0.6em;
-  color: $red;
-  cursor: pointer;
   display: flex;
   align-self: center;
   font-size: 1rem;
@@ -32,51 +30,35 @@ const Button = styled.button`
   text-transform: uppercase;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
-
-  &:focus {
-    color: #fff;
-    outline: 0;
-  }
-
-  /* .third {
-    border-color: $blue;
-    color: #fff;
-    box-shadow: 0 0 40px 40px $blue inset, 0 0 0 0 $blue;
-    transition: all 150ms ease-in-out; */
-
-  &:hover {
-    box-shadow: 0 0 10px 0 $blue inset, 0 0 10px 4px $blue;
-  }
 `;
-const Categorybar = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+
+const Menubar = styled.div`
   border: 2px solid black;
+  width: 100%;
+  height: 100%;
 `;
-
 const Menu = ({ userInfo }) => {
-  console.log(userInfo);
-  const [category, setCategory] = useState("");
-  const [menu, setMenu] = useState("");
-  const [img, setImg] = useState("img/사진1.jpeg");
-  const [price, setPrice] = useState(0);
-  const [shopid, setShopid] = useState("");
-  const [iscategory, setIscategory] = useState(false);
-  const [ismenu, setismenu] = useState(false);
-  const [categorybar, setCategorybar] = useState([]);
+  const [menu, setMenu] = useState(""); //입력하는 메뉴
+  const [img, setImg] = useState("img/사진1.jpeg"); //넣는 이미지
+  const [price, setPrice] = useState(0); //넣는 가격
+  const [shopid, setShopid] = useState(""); //처음에 샵 아이디를 저장하는 스테이트
+  const [ismenu, setIsmenu] = useState(false); // 메뉴 모달창 열고닫히는 스테이트 관리
+  const [menubar, setMenubar] = useState([]); //맵 렌더링 할 메뉴 저장소
+  const [deletenum, setDeletenum] = useState(0);
+
   const getShopData = useCallback(async () => {
+    // 삽 아이디를 뽑아오는 과정(완료)
     await axios
       .get(
         `${process.env.REACT_APP_API_URL}/mypage/shopinfo/${userInfo.user_name}`,
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp.data);
         setShopid(resp.data.data[0].id);
       });
   }, []);
-  const getCategory = useCallback(async () => {
+  const getMenu = useCallback(async () => {
+    //메뉴를 나열하기 위한 과정
     await axios
       .get(
         `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}`,
@@ -84,40 +66,36 @@ const Menu = ({ userInfo }) => {
       )
       .then((resp) => {
         const menus = resp.data.data[0].Menus;
-        console.log(resp.data.data[0]);
-        setCategorybar(
-          menus.map((menu) => {
-            return menu.menu_category;
-          })
-        )
-        setMenu(menus);
+        console.log(resp.data.data[0].Menus);
+
+        setMenubar(menus);
       });
   }, []);
   useEffect(() => {
     getShopData();
-    getCategory();
-  }, [getShopData, getCategory]);
-  const plusCategory = () => {
+    getMenu();
+  }, [getShopData, getMenu]);
+  const minusMenu = (menuname) => {
+    console.log(menuname);
     axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}`,
-        { menu_category: `${category}`, shop_id: `${shopid}` },
+      .delete(
+        `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}/${menuname}/${shopid}`,
+
         { withCredentials: true }
       )
       .then((resp) => {
         console.log(resp);
-        setCategory("");
+        getMenu();
         getShopData();
-        getCategory();
       })
       .catch((err) => console.log(err));
   };
-  const plusMenu = () => {
+  const plusMenu = (idx) => {
+    //메뉴이름을 추가하기위한 과정
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}`,
         {
-          menu_category: `${category}`,
           shop_id: `${shopid}`,
           image_src: `${img}`,
           name: `${menu}`,
@@ -127,20 +105,23 @@ const Menu = ({ userInfo }) => {
       )
       .then((resp) => {
         console.log(resp);
-        setCategory("");
+        getMenu();
         getShopData();
-        getCategory();
+        // setMenu("");
+        // setPrice(null);
+        // setImg("");
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <Container>
       <div>Menu</div>
 
       <Modal
         ariaHideApp={false}
-        isOpen={iscategory ? true : false}
-        onRequestClose={() => setIscategory(false)}
+        isOpen={ismenu}
+        onRequestClose={() => setIsmenu(false)}
         style={{
           overlay: {
             position: "fixed",
@@ -166,22 +147,25 @@ const Menu = ({ userInfo }) => {
           },
         }}
       >
-        <div>카테고리 추가하기</div>
-        <input
-          onChange={(e) => setCategory(e.target.value)}
-          value={category}
-        ></input>
-        <button onClick={plusCategory}>추가하기</button>
+        <div>메뉴추가하기</div>
+        <div>이름</div>
+        <input onChange={(e) => setMenu(e.target.value)} value={menu}></input>
+        <div>가격</div>
+        <input onChange={(e) => setPrice(e.target.value)} value={price}></input>
+        <button onClick={() => plusMenu()}>추가하기</button>
       </Modal>
-      {categorybar.map((el) => {
+      {menubar.map((menu, idx) => {
+        const menuname = menu.name;
         return (
-          <Categorybar>
-            <div>{el}</div>
-            <button onClick={plusMenu}>메뉴추가</button>
-          </Categorybar>
+          <MenuContainer key={idx}>
+            <img src={`${menu.image_src}`}></img>
+            <div>{menu.name}</div>
+            <div>{menu.price}</div>
+            <button onClick={() => minusMenu(menuname)}>삭제하기</button>
+          </MenuContainer>
         );
       })}
-      <Button onClick={() => setIscategory(true)}>
+      <Button onClick={() => setIsmenu(!menu)}>
         <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
       </Button>
     </Container>

@@ -37,7 +37,7 @@ module.exports = {
         {
           model: Models.Menu,
           as: 'Menus',
-          attributes: ['id','image_src', 'menu_category', 'name', 'price'],
+          attributes: ['id', 'image_src', 'name', 'price'],
           include: [
             {
               model: Models.Reservation,
