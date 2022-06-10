@@ -107,9 +107,10 @@ const Menu = ({ userInfo }) => {
         console.log(resp);
         getMenu();
         getShopData();
-        // setMenu("");
-        // setPrice(null);
-        // setImg("");
+        setMenu("");
+        setPrice(null);
+        setImg("");
+        setIsmenu(!ismenu);
       })
       .catch((err) => console.log(err));
   };
