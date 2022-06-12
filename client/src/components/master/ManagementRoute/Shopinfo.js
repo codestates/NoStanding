@@ -42,7 +42,7 @@ const Shopinfo = ({ userInfo }) => {
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp.data.data[0]);
+        console.log(resp.data.data[0].user.shop_name);
         setShop(resp.data.data[0]);
       });
   }, []);
@@ -53,7 +53,7 @@ const Shopinfo = ({ userInfo }) => {
         `${process.env.REACT_APP_API_URL}/mypage/shopinfo/${userInfo.user_name}`,
         {
           user_id: `${userInfo.id}`,
-          shop_name: brand ? `${brand}` : `${shop.user?.shop_name}`,
+          shop_name: brand ? `${brand}` : `${shop.user.shop_name}`,
           business_hour: runtime ? `${runtime}` : `${shop.business_hour}`,
           phone_number: phone ? `${phone}` : `${shop.phone_number}`,
           holiday: breaktime ? `${breaktime}` : `${shop.holiday}`,

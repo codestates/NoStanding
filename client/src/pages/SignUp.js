@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Post from "../components/Post";
 import PopupDom from "../components/PopupDom";
-
+import { useNavigate } from "react-router-dom";
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -90,8 +90,8 @@ function SingUp() {
   };
   const submitCheckEmail = (e) => {
     e.preventDefault();
-    setMinutes(2)
-    setSeconds(59)
+    setMinutes(2);
+    setSeconds(59);
     setCheckEmail(true);
     axios
       .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
@@ -157,6 +157,7 @@ function SingUp() {
   const inputConfirmNum = (e) => setUserConfirmNum(e.target.value);
 
   const clickSignUpBtn = () => {
+    console.log(checkEmail);
     if (onId && onNickname /*&& onPwd */ && onCheckPwd && emailCheckOK) {
       //!주석 풀면 비밀번호 유효성 검사 가능
       axios
@@ -323,7 +324,7 @@ function SingUp() {
                 onChange={inputConfirmNum}
               />
               <div>
-               남은 인증시간 {minutes}:{seconds}
+                남은 인증시간 {minutes}:{seconds}
               </div>
               <button>인증하기</button>
             </form>

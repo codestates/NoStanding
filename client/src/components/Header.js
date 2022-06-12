@@ -41,7 +41,7 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
-  const clickLogoutBtn = () => {
+ const clickLogoutBtn = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/logout`)
       .then((resp) => {

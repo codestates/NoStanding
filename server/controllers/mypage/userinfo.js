@@ -4,6 +4,9 @@ const { Op } = require('sequelize');
 const util = require('util');
 const crypto = require('crypto');
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
+const { sequelize } = require('../../models');
+const initModels = require('../../models/init-models');
+const Models = initModels(sequelize);
 
 module.exports = {
   get: async (req, res) => {
@@ -26,6 +29,7 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
+      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       } else {
@@ -130,15 +134,23 @@ module.exports = {
               phone_number: phone_number
                 ? phone_number
                 : userInfo.dataValues.nickname,
-              shop_name,
-              shop_category,
-              shop_category_city,
-              address_line1,
-
-              address_line2,
-              postal_code,
-
-              email,
+              shop_name: shop_name ? shop_name : userInfo.dataValues.shop_name,
+              shop_category: shop_category
+                ? shop_category
+                : userInfo.dataValues.shop_category,
+              shop_category_city: shop_category_city
+                ? shop_category_city
+                : userInfo.dataValues.shop_category_city,
+              address_line1: address_line1
+                ? address_line1
+                : userInfo.dataValues.address_line1,
+              address_line2: address_line2
+                ? address_line2
+                : userInfo.dataValues.address_line2,
+              postal_code: postal_code
+                ? postal_code
+                : userInfo.dataValues.postal_code,
+              email: email ? email : userInfo.dataValues.email,
             },
             { where: { id: userInfo.dataValues.id } },
           );
@@ -165,7 +177,8 @@ module.exports = {
       const userInfo = await userAuth(req, res);
       if (!userInfo) return res.status(400).send({ message: '유저정보 없음' });
 
-      User.destroy({ where: { id: userInfo.id } }); // 유저 삭제
+      await Models.User.destroy({ where: { id: userInfo.id } }); // 유저 삭제
+      // 유저 삭제
       res.cookie('accessToken', null, { maxAge: 0 }); // 쿠키 삭제
       res.status(200).send({ message: '회원탈퇴 완료' });
     } catch (err) {

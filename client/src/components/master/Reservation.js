@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { connect } from "react-redux";
+import Oneday from "./ReservationRoute.js/Oneday";
 
 const Container = styled.div`
   border: 2px solid black;
@@ -29,138 +32,32 @@ const Timediv = styled.div`
 `;
 const ReservationState = styled.div`
   background-color: beige;
-  width: 10%;
+  width: 100%;
   margin: 4px;
 `;
 const Xbutton = styled.button`
   position: absolute;
   transform: translateX(530%);
 `;
-function Reservation() {
+function Reservation({ userInfo }) {
+  const [pickeddate, setPickeddate] = useState("");
   return (
     <Reservationcontainer>
       <Div>
         <H2>예약 현황</H2>
       </Div>
-      <ReservationbyTime>
-        <Timediv>12시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>1시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>2시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>3시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>4시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>5시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>6시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>7시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
-      <ReservationbyTime>
-        <Timediv>8시</Timediv>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>박상하쌤</div>
-          <div>파워파마</div>
-        </ReservationState>
-        <ReservationState>
-          <Xbutton>X</Xbutton>
-          <div>윤선웅쌤</div>
-          <div>아줌마파마</div>
-        </ReservationState>
-      </ReservationbyTime>
+      <input
+        type="date"
+        onChange={(e) => setPickeddate(e.target.value)}
+      ></input>
+      <Oneday pickeddate={pickeddate}></Oneday>
     </Reservationcontainer>
   );
 }
 
-export default Reservation;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  };
+}
+export default connect(mapStateToProps)(Reservation);

@@ -12,6 +12,7 @@ module.exports = {
     }
     delete userInfo.dataValues.password;
     delete userInfo.dataValues.user_salt;
+
     // const {user_name} = req.params;
 
     // const userInfo = await User.findOne({
@@ -39,7 +40,7 @@ module.exports = {
           .send({ data: reservationlist, message: '정보 전달 완료' });
       }
     } else {
-      const query2 = `SELECT R.user_id , R.date , M.name  FROM Reservation R Join Menu M On R.menu_id = M.id
+      const query2 = `SELECT R.id, R.user_id , R.date , M.name  FROM Reservation R Join Menu M On R.menu_id = M.id
       Join Shop S On M.shop_id = S.id
       Join User U On S.user_id = U.id
       where U.id = ${userInfo.dataValues.id}`;
