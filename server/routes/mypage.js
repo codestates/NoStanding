@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const mypage = require('../controllers/mypage');
 const delete_review = require('../middlewares/deleteS3/delete_review');
-const delete_menu = require('../middlewares/deleteS3/delete.menu')
+const delete_menu = require('../middlewares/deleteS3/delete.menu');
 const upload = require('../middlewares/upload/upload');
 const uploadMenu = require('../middlewares/upload/upload_menu');
 const delete_shop = require('../middlewares/deleteS3/delete_shop');
@@ -74,11 +74,7 @@ router.patch('/img/:user_name', mypage.img.patch);
 
 router.get('/menu/:user_name', mypage.menu.get);
 router.post('/menu/:user_name', mypage.menu.post);
-<<<<<<< HEAD
-router.delete('/menu/:user_name', mypage.menu.delete);
-=======
 router.delete('/menu/:user_name/:name/:shop_id', mypage.menu.delete);
->>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
 
 router.get('/notification/:user_name', mypage.notification.get);
 
@@ -100,7 +96,7 @@ router.post(
 
 router.delete('/review/upload/:id', delete_review.delete);
 router.delete('/menu/upload/:id', delete_menu.delete);
-router.delete('/shop/upload/:id' , delete_shop.delete)
+router.delete('/shop/upload/:id', delete_shop.delete);
 
 /**
  * @swagger

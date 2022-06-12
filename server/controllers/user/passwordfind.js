@@ -1,11 +1,7 @@
 require('dotenv').config();
 const { User } = require('../../models');
 const { ejsCaller } = require('../../middlewares/ejs/ejsCaller');
-<<<<<<< HEAD
 const crypto = require('crypto');
-=======
-const crypto = require('crypto')
->>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
 const util = require('util');
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
 
@@ -15,7 +11,8 @@ module.exports = {
       const { user_name } = req.body;
       // 클라이언트로부터 전달받은 user_name이 DB에 존재하는지 확인한다
       const userInfo = await User.findOne({ where: { user_name: user_name } });
-      if (!userInfo) return res.status(403).json({ message: 'Invalid Email!' });
+      if (!userInfo)
+        return res.status(403).json({ message: '등록되지 않은 아이디 입니다' });
 
       // 6자리 난수 설정
       const max = 999999;
@@ -32,6 +29,9 @@ module.exports = {
 
       // 인증번호 입력 시간이 지나면, email_key가 다시 expired로 변경한다 (email_key !== 'success')
       setTimeout(async () => {
+        const userInfo = await User.findOne({
+          where: { user_name: user_name },
+        });
         if (userInfo.dataValues.email_key !== 'success') {
           await User.update(
             { email_key: 'expired' },
@@ -51,15 +51,20 @@ module.exports = {
   confirm: async (req, res) => {
     try {
       const { user_name, confirmNumber, confirm_body } = req.body;
+      const userInfo = await User.findOne({ where: { user_name: user_name } });
 
       // 유저 테이블에 email_key 필드를 업데이트
-      if (confirmNumber === confirm_body) {
+      if (
+        Number(confirmNumber) === Number(confirm_body) &&
+        userInfo.dataValues.email_key === 'expired'
+      ) {
         await User.update(
           { email_key: 'success' },
           { where: { user_name: user_name } },
         );
+        return res.status(200).json({ message: '인증 완료' });
       }
-      res.status(200).json({ message: '인증 완료' });
+      res.status(403).json({ message: '인증번호가 일치하지 않습니다.' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ message: 'Server Error!' });
@@ -76,7 +81,6 @@ module.exports = {
       const key = await pbkdf2Promise(password, salt, 305943, 64, 'sha512');
       // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
       const hashedPassword = key.toString('base64');
-<<<<<<< HEAD
 
       User.update(
         {
@@ -85,17 +89,7 @@ module.exports = {
         },
         { where: { user_name: user_name } },
       );
-=======
-      
-        User.update(
-          {
-            password: password ? hashedPassword : userInfo.dataValues.password,
-            user_salt: password ? salt : userInfo.dataValues.user_salt,
-          },
-          { where: { user_name: user_name } },
-        );
-      
->>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
+
       res.status(200).json({ message: '패스워드 변경 완료' });
     } catch (err) {
       console.log(err);

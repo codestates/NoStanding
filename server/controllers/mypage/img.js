@@ -83,10 +83,7 @@ module.exports = {
       });
 
       let menu = menuInfo.dataValues;
-<<<<<<< HEAD
-=======
       console.log(menu);
->>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
       let menuParse = JSON.parse(menu.image_src);
       console.log(menuParse[0]);
 
@@ -103,17 +100,6 @@ module.exports = {
       // }
 
       menuParse[image_number] = null;
-<<<<<<< HEAD
-      await Models.Shop.update(
-        {
-          // x 버튼을 눌러서 true 값으로 변환되면, null값을 줘서 삭제
-          image_src: image_src
-            ? JSON.stringify(menuParse)
-            : menuInfo.dataValues.image_src,
-        },
-        { where: { user_id: user_id } },
-      );
-=======
       // await Models.Shop.update(
       //   {
       //     // x 버튼을 눌러서 true 값으로 변환되면, null값을 줘서 삭제
@@ -123,7 +109,6 @@ module.exports = {
       //   },
       //   { where: { user_id: user_id } },
       // );
->>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
 
       res.status(201).send({ message: '정보 삭제 완료' });
     } catch (err) {

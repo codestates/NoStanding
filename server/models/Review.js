@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     image_src: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING(10000),
       allowNull: true
     },
     score: {

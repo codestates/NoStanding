@@ -19,11 +19,7 @@ let upload = multer({
     bucket: 'semicolon-nostanding.com',
     acl: 'public-read-write',
     key: (req, file, callback) => {
-<<<<<<< HEAD
-      callback(null, `Shop/35/${number}${Date.now()}_${file.originalname}`);
-=======
       callback(null, `Shop/${Date.now()}_${file.originalname}`);
->>>>>>> 7319f1c01fc4dc7422f24453fd29d676799ffa68
     },
   }),
 });
