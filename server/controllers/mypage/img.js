@@ -102,6 +102,7 @@ module.exports = {
           },
         );
       }
+      // const image = {key : req.file.key , src : req.file.location}
 
       res.status(200).send({ message: '이미지 업로드 완료' });
     } catch (err) {

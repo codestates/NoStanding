@@ -1,6 +1,7 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
+const Op = sequelize.Op;
 const { userAuth } = require('../../middlewares/authorized/auth');
 
 module.exports = {

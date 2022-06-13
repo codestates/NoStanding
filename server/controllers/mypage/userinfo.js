@@ -168,7 +168,7 @@ module.exports = {
       }
     } catch (err) {
       console.log(err);
-      res.stauts(500).send({ message: 'Server Error' });
+      res.status(500).send({ message: 'Server Error' });
     }
   },
   delete: async (req, res) => {

@@ -64,7 +64,7 @@ module.exports = {
       });
 
       if (!shopInfo) {
-        return res.status(200).send({ message: '메뉴 정보를 입력해주세요' });
+        return res.status(200).send({ message: '가게 정보가 없습니다.' });
       } else {
         const shopUpdate = await Models.Shop.update(
           {
