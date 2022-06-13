@@ -8,4 +8,5 @@ module.exports = {
   bookmark: require('./bookmark'),
   menu: require('./menu'),
   menu_upload: require('./menu_upload'),
+  image_upload: require('./image_upload'),
 };

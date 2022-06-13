@@ -3,7 +3,7 @@ const initModels = require('../../models/init-models');
 const { User, Shop } = require('../../models');
 const Review = require('../../models/Review');
 const Models = initModels(sequelize);
-const { userAuth } = require('../../middlewares/authorized/auth'); 
+const { userAuth } = require('../../middlewares/authorized/auth');
 
 module.exports = {
   post: async (req, res) => {
@@ -16,9 +16,7 @@ module.exports = {
     });
 
     try {
-
-
-        const imageArr = [];
+      const imageArr = [];
       // const imageArr = [];
 
       for (let i = 0; i < req.files.length; i++) {
@@ -27,7 +25,6 @@ module.exports = {
         imageArr.push({ key: key, location: location });
       }
       // const image = {key : req.file.key , src : req.file.location}
-
 
       const reviewInfo = Models.Review.findOne({
         where: {
@@ -62,8 +59,6 @@ module.exports = {
     }
   },
 
-
-
   delete: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
@@ -72,7 +67,7 @@ module.exports = {
       }
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
-
+      const { review_id } = req.params;
       await Models.Review.destroy({
         where: {
           id: review_id,

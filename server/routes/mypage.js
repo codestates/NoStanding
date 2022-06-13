@@ -69,8 +69,14 @@ router.delete('/reservation/:user_name/:id', mypage.reservation.delete);
 router.get('/bookmark/:user_name', mypage.bookmark.get);
 
 router.get('/img/:user_name', mypage.img.get);
-router.post('/img/:user_name', upload.array('file', 4), mypage.img.post);
+router.post('/img/:user_name', mypage.img.post);
 router.patch('/img/:user_name', mypage.img.patch);
+
+router.post(
+  '/img/upload/:user_name',
+  upload.array('file', 4),
+  mypage.image_upload.post,
+);
 
 router.get('/menu/:user_name', mypage.menu.get);
 router.post('/menu/:user_name', mypage.menu.post);
