@@ -6,6 +6,8 @@ import SearchList from "../components/SearchList";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
+import Loader from "../components/Loader";
+import Pagination from "../components/Pagination";
 
 const FlexCol = styled.div`
   display: flex;
@@ -27,6 +29,13 @@ const FlexRow = styled.div`
     border-left: 2px solid black;
   }
 `;
+const SortDiv = styled.div`
+align-self: flex-end;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  border: 2px solid black;
+  width: auto;
+`
 const CategoryList = styled.div`
   background-color: ${(props) =>
     String(props.idx) === props.backgroundOn ? "rgba(0, 0, 0, 0.2)" : null};
@@ -59,13 +68,16 @@ function Main({ searchWord }) {
   const [chooseCategoryCity, setChooseCategoryCity] = useState("");
   const [backgroundOn, setBackgroundOn] = useState("");
   const [backgroundCity, setBackgroundCity] = useState("");
+  const [page, setPage] = useState(1);
+  const [order, setOrder] = useState('')
+  const offset = (page - 1) * 12;
 
   const getShopList = useCallback(async () => {
-    await axios.get(`${process.env.REACT_APP_API_URL}/`).then((resp) => {
+    await axios.get(`${process.env.REACT_APP_API_URL}/?order=${order}`).then((resp) => {
       setShop(resp.data.data);
     });
     setIsLoading(false);
-  }, []);
+  }, [order]);
   useEffect(() => {
     getShopList();
   }, [getShopList]);
@@ -133,6 +145,10 @@ function Main({ searchWord }) {
       setBackgroundCity("");
     }
   };
+
+  const changeSort = (e) => {
+    setOrder(e.target.value)
+  }
   return (
     <>
       <div>
@@ -167,21 +183,28 @@ function Main({ searchWord }) {
             );
           })}
         </FlexRow>
+        <SortDiv>
+          <select onChange={changeSort}>
+            <option value=''>가나다 순</option>
+            <option value='view'>리뷰 순</option>
+            <option value='score'>별점 순</option>
+          </select>
+        </SortDiv>
       </FlexCol>
       <ListView>
-        {isLoading ? (
-          <div>is Loading...</div>
-        ) : (
-          shop.map((shop) => {
-            return (
-              <div key={shop.id}>
-                <Link to={`/ShopInfo/${shop.id}`}>
-                  <SearchList shopInfo={shop}></SearchList>
-                </Link>
-              </div>
-            );
-          })
-        )}
+        {shop.slice(offset, offset + 12).map((shop) => {
+          return (
+            <div key={shop.id}>
+              <Link to={`/ShopInfo/${shop.id}`}>
+                <SearchList shopInfo={shop}></SearchList>
+              </Link>
+            </div>
+          );
+        })}
+        <div>{isLoading && <Loader />}</div>
+        <footer>
+          <Pagination total={shop.length} page={page} setPage={setPage} />
+        </footer>
       </ListView>
     </>
   );
