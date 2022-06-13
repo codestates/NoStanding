@@ -16,7 +16,7 @@ router.get('/category', main.category.get);
 router.get('/search', main.search.get);
 router.post('/review/:user_name/:shop_id', main.review.post);
 router.delete('/review/id/:review_id', main.review_upload.delete);
-router.delete('/review/:id' , delete_review.delete)
+router.delete('/review/:id', delete_review.delete);
 router.post(
   '/review/upload/:user_name/:shop_id',
   uploadReview.array('file', 4),
@@ -39,8 +39,29 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {image.src : image.src, id : id, shop_category : 음식점, shop_category_city : 제주,
+ *                              shop_name : 돈꿀꺽 , address_line1 : 제주특별자치도 제주시 애월읍 평화로 2187 ,  address_line2 : "", is_marked : 1,
+ *                             total_views : 112 , score_average : 3.8}, {message : "정보 전달 완료"}
+ *                          ]
  *        "400":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
  */
 
 /**
@@ -61,8 +82,31 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {image.src : image.src, id : id, shop_category : 음식점, shop_category_city : 제주, user_name : jejudo2,
+ *                              shop_name : 돈꿀꺽 , address_line1 : 제주특별자치도 제주시 애월읍 평화로 2187 ,  address_line2 : "", is_marked : 1,
+ *                             review_score : 4 , review_contents : 완전 맛있어요! , menu_id : 1 , name : 제주 흑돼지삼겹살,
+ *                             price : 13000, business_hour : 0900~2200 , holiday : Mon , shop_contents : 제주도 식당에 오신 걸 환영합니다!,
+ *                             review_image.src : image.src , x : 126.777 , y : 38.123 , total_views : 150, score_average : 4.7}, {message : "정보 전달 완료"}
+ *                          ]
  *        "400":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
  */
 
 /**
@@ -89,8 +133,29 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {image.src : image.src, id : id, shop_category : 음식점, shop_category_city : 제주,
+ *                              shop_name : 돈꿀꺽 , address_line1 : 제주특별자치도 제주시 애월읍 평화로 2187 ,  address_line2 : "", is_marked : 1,
+ *                             total_views : 112 , score_average : 3.8}, {message : "정보 전달 완료"}
+ *                          ]
  *        "400":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
  */
 
 /**
@@ -111,8 +176,29 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {image.src : image.src, id : id, shop_category : 음식점, shop_category_city : 제주,
+ *                              shop_name : 돈꿀꺽 , address_line1 : 제주특별자치도 제주시 애월읍 평화로 2187 ,  address_line2 : "", is_marked : 1,
+ *                             total_views : 112 , score_average : 3.8}, {message : "정보 전달 완료"}
+ *                          ]
  *        "400":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
  */
 
 /**
@@ -127,7 +213,7 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *        - in: path
  *          name: shop_id
  *          required: true
- *          description: 샵 ID
+ *          description: 가게 고유 ID
  *          schema:
  *            type: number
  *        - in: path
@@ -137,9 +223,27 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *            type: string
  *      responses:
  *        "200":
- *          description: 정보 전달 완료
- *        "400":
- *          description: 자료 조회 실패
+ *          description: 리뷰 작성 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "리뷰 작성 완료"}
+ *        "500":
+ *          description: 서버 에러 / 작성 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 module.exports = router;

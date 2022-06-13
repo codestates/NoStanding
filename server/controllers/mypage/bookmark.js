@@ -56,7 +56,7 @@ module.exports = {
             },
           ],
           where: { id: bookmarkInfo[i].dataValues.shop_id },
-          attributes: ['image_src', 'contents', 'map', 'id'],
+          attributes: ['image_src', 'contents', 'id'],
         });
 
         bookmarkData.push(shopInfo);

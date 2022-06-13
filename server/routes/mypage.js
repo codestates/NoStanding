@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const mypage = require('../controllers/mypage');
 const delete_review = require('../middlewares/deleteS3/delete_review');
-const delete_menu = require('../middlewares/deleteS3/delete.menu')
+const delete_menu = require('../middlewares/deleteS3/delete.menu');
 const upload = require('../middlewares/upload/upload');
 const uploadMenu = require('../middlewares/upload/upload_menu');
 const delete_shop = require('../middlewares/deleteS3/delete_shop');
@@ -96,117 +96,333 @@ router.post(
 
 router.delete('/review/upload/:id', delete_review.delete);
 router.delete('/menu/upload/:id', delete_menu.delete);
-router.delete('/shop/upload/:id' , delete_shop.delete)
+router.delete('/shop/upload/:id', delete_shop.delete);
 
 /**
  * @swagger
  * paths:
- *  mypage/reservation/:user_id:
+ *  mypage/reservation/:user_name:
  *    get:
  *      summary: "예약 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
  *      tags: [mypage_reservation]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 정보 전달 완료
+ *          description: 고객 예약 정보
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {id : 1 , user_id : user1 , shop_name : 돈꿀꺽 , address_line1 : 제주특별자치도 제주시 애월읍 평화로 2187,
+ *                             menu_name : 제주 흑돼지삼겹살, date : 20220618-09:00:00 , shop_id : 90} , {message : "정보 전달 완료"}]
+ *        "201":
+ *          description: 점주 예약 정보
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ { user_id : user1 , menu_name : 제주 흑돼지삼겹살, date : 20220618-09:00:00} , {message : "정보 전달 완료"}]
  *        "400":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/reservation/:user_id:
+ *  mypage/reservation/:user_name:
  *    post:
  *      summary: "예약 추가"
  *      description: ""
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      tags: [mypage_reservation]
  *      responses:
  *        "200":
- *          description: 예약 완료
+ *          description: 예약 추가 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "예약 추가 완료"}
  *        "400":
- *          description: 예약 실패
+ *          description: 중복 예약
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "중복된 예약입니다"}
+ *        "500":
+ *          description: 예약 실패 / 서버 에러
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Server Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/reservation/:user_id:
+ *  mypage/reservation/:user_name/:reservation_id:
  *    delete:
  *      summary: "예약 취소"
  *      description: ""
  *      tags: [mypage_reservation]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
+ *      - in: path
+ *        name: reservation_id
+ *        required: true
+ *        description: 예약 번호
+ *        schema:
+ *          type: number
  *      responses:
  *        "200":
- *          description: 정보 전달 완료
- *        "400":
- *          description: 자료 조회 실패
+ *          description: 예약 삭제 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "예약 삭제 완료"}
+ *        "500":
+ *          description: 예약 삭제 실패 / 서버 에러
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Server Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/bookmark/:user_id:
+ *  mypage/bookmark/:user_name:
  *    get:
  *      summary: "즐겨찾기 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
  *      tags: [mypage_bookmark]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 정보 전달 완료
- *        "400":
+ *          description: 즐겨찾기 정보
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {id : 1 , user_id : 3 , shop_name : 돈꿀꺽 , address_line1 : 제주특별자치도 제주시 애월읍 평화로 2187, user_name : jejudo2,
+ *                             score : 4, review_contents : 존맛!, review_id : 1, shop_id : 90, shop.image_src : image.src} , {message : "정보 전달 완료"}]
+ *        "500":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Server Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/img/:user_id:
+ *  mypage/img/:user_name:
  *    get:
  *      summary: "가게 사진 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
  *      tags: [mypage_img]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 정보 전달 완료
+ *          description: 즐겨찾기 정보
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ { user_name : jejudo2 , image_src : image_src,
+ *                             user_id : 4} , {message : "정보 전달 완료"}]
  *        "400":
+ *          description: 유저 정보 없음
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "유저 정보 없음"}
+ *        "500":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Server Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/img/:user_id:
+ *  mypage/img/:user_name:
  *    post:
  *      summary: "가게 사진 추가"
  *      description: ""
  *      tags: [mypage_img]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 사진 추가 성공
+ *          description: 리뷰 작성 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "리뷰 작성 완료"}
  *        "400":
- *          description: 사진 추가 실패
+ *          description: 서버 에러 / 작성 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
-
 /**
  * @swagger
  * paths:
- *  mypage/img/:user_id:
+ *  mypage/img/:user_name:
  *    patch:
  *      summary: "가게 사진 수정"
  *      description: ""
  *      tags: [mypage_img]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 사진 추가 성공
- *        "400":
- *          description: 사진 추가 실패
+ *          description: 리뷰 작성 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "리뷰 작성 완료"}
+ *        "500":
+ *          description: 서버 에러 / 작성 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/menu/:user_id:
+ *  mypage/menu/:user_name:
  *    get:
  *      summary: "가게 메뉴 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -214,53 +430,108 @@ router.delete('/shop/upload/:id' , delete_shop.delete)
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                          [ {user_name : jejudo2 , menu_id : 1, shop_id : 90,
+ *                             image_src : image_src, name : 제주 흑돼지삼겹살 , price : 13000}, {message : "정보 전달 완료"}
+ *                          ]
  *        "400":
  *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/menu/:user_id:
+ *  mypage/menu/:user_name:
  *    post:
  *      summary: "가게 메뉴 추가"
  *      description: ""
  *      tags: [mypage_menu]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 메뉴 추가 성공
- *        "400":
- *          description: 메뉴 추가 실패
+ *          description: 메뉴 추가 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "메뉴 추가 완료"}
+ *        "500":
+ *          description: 서버 에러 / 추가 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/menu/:user_id:
+ *  mypage/menu/:user_name:
  *    patch:
  *      summary: "가게 메뉴 수정"
  *      description: ""
  *      tags: [mypage_menu]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 메뉴 추가 성공
- *        "400":
- *          description: 메뉴 추가 실패
- */
-
-/**
- * @swagger
- * paths:
- *  mypage/notification/:user_id:
- *    get:
- *      summary: "알림 조회"
- *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
- *      tags: [mypage_notification]
- *      responses:
- *        "200":
- *          description: 정보 전달 완료
- *        "400":
- *          description: 자료 조회 실패
+ *          description: 메뉴 수정 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "메뉴 수정 완료"}
+ *        "500":
+ *          description: 서버 에러 / 수정 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
@@ -281,22 +552,47 @@ router.delete('/shop/upload/:id' , delete_shop.delete)
 /**
  * @swagger
  * paths:
- *  mypage/re_review/:user_id:
+ *  mypage/re_review/:user_name:
  *    post:
  *      summary: "리뷰 추가"
  *      description: "점주가 답글달 때, Post방식으로 요청"
  *      tags: [mypage_re_review]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 리뷰 추가 성공
- *        "400":
- *          description: 리뷰 추가 실패
+ *          description: 리뷰 추가 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "리뷰 추가 완료"}
+ *        "500":
+ *          description: 서버 에러 / 추가 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
  * @swagger
  * paths:
- *  mypage/shopinfo/:user_id:
+ *  mypage/shopinfo/:user_name:
  *    get:
  *      summary: "가게 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -311,16 +607,41 @@ router.delete('/shop/upload/:id' , delete_shop.delete)
 /**
  * @swagger
  * paths:
- *  mypage/shopinfo/:user_id:
+ *  mypage/shopinfo/:user_name:
  *    patct:
  *      summary: "가게 정보 수정"
  *      description: ""
  *      tags: [mypage_shopinfo]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 정보 수정 완료
- *        "400":
- *          description: 정보 수정 실패
+ *          description: 가게 정보 수정 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "가게 정보 수정 완료"}
+ *        "500":
+ *          description: 서버 에러 / 수정 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
@@ -356,16 +677,41 @@ router.delete('/shop/upload/:id' , delete_shop.delete)
 /**
  * @swagger
  * paths:
- *  mypage/userinfo/:user_id:
+ *  mypage/userinfo/:user_name:
  *    delete:
  *      summary: "회원 탈퇴"
  *      description: ""
  *      tags: [mypage_userinfo]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
- *          description: 회원 탈퇴 성공
- *        "400":
- *          description: 회원 탈퇴 실패
+ *          description: 회원 탈퇴 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "회원 탈퇴 완료"}
+ *        "500":
+ *          description: 서버 에러 / 탈퇴 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 module.exports = router;
