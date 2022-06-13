@@ -7,16 +7,20 @@ const Container = styled.div`
   flex-direction: column;
   width: 90vw;
 `;
+
 const H2 = styled.h2`
   margin: 1em;
 `;
+
 const Div = styled.div`
   border-bottom: 2px solid black;
 `;
+
 const Reservationcontainer = styled.div`
   border: solid black 2px;
   width: 100%;
 `;
+
 const ReservationbyTime = styled.div`
   border: solid black 2px;
   display: flex;
@@ -27,15 +31,18 @@ const Timediv = styled.div`
   text-align: left;
   margin: 2px;
 `;
+
 const ReservationState = styled.div`
   background-color: beige;
   width: 10%;
   margin: 4px;
 `;
+
 const Xbutton = styled.button`
   position: absolute;
   transform: translateX(530%);
 `;
+
 function Reservation() {
   return (
     <Reservationcontainer>

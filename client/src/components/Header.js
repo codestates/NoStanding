@@ -74,7 +74,7 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
       <Navbar>
         <Logo>
           <Link to="/">
-            <Img src="img/nostandinglogo2.jpeg" />
+            <Img src="img/nostandinglogo.png" />
           </Link>
         </Logo>
         <Search>

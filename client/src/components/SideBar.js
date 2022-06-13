@@ -17,6 +17,10 @@ const UserImg = styled.img`
   height: 8em;
   margin: 1em;
 `;
+const H2 = styled.h2`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+`
 function SideBar({ userInfo }) {
   return (
     <Container>
@@ -29,7 +33,7 @@ function SideBar({ userInfo }) {
           </Flex>
           <Flex grow={7}>
             <div>
-              <h2>예약</h2>
+              <H2>예약</H2>
               <Link to="reservation">
                 <div>예약내역</div>
               </Link>
@@ -38,13 +42,19 @@ function SideBar({ userInfo }) {
               </Link>
             </div>
             <div>
-              <h2>알림</h2>
+              <H2>즐겨찾기</H2>
+              <Link to='bookmark'>
+                <div>즐겨찾기</div>
+              </Link>
+            </div>
+            <div>
+              <H2>알림</H2>
               <Link to="notification">
                 <div>알림</div>
               </Link>
             </div>
             <div>
-              <h2>내 정보</h2>
+              <H2>내 정보</H2>
               <Link to="userinfo">
                 <div>회원 정보 수정</div>
               </Link>
@@ -63,7 +73,7 @@ function SideBar({ userInfo }) {
           </Flex>
           <Flex grow={7}>
             <div>
-              <h2>예약</h2>
+              <H2>예약</H2>
               <Link to="masterreservation">
                 <div>예약현황</div>
               </Link>
@@ -72,13 +82,13 @@ function SideBar({ userInfo }) {
               </Link>
             </div>
             <div>
-              <h2>알림</h2>
+              <H2>알림</H2>
               <Link to="masternotification">
                 <div>알림</div>
               </Link>
             </div>
             <div>
-              <h2>내 정보</h2>
+              <H2>내 정보</H2>
               <Link to="mastermanagement">
                 <div>내 가게 관리</div>
               </Link>

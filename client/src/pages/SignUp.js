@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Post from "../components/Post";
 import PopupDom from "../components/PopupDom";
+import { useNavigate } from "react-router-dom";
 
 const FlexRow = styled.div`
   display: flex;
@@ -73,6 +74,7 @@ function SingUp() {
   const [onCheckPwd, setOnCheckPwd] = useState(true);
   const [minutes, setMinutes] = useState(3);
   const [seconds, setSeconds] = useState(0);
+  const navigate = useNavigate();
   const category = ["음식", "카페", "미용"];
   const categoryCity = [
     "서울",
@@ -90,8 +92,8 @@ function SingUp() {
   };
   const submitCheckEmail = (e) => {
     e.preventDefault();
-    setMinutes(2)
-    setSeconds(59)
+    setMinutes(2);
+    setSeconds(59);
     setCheckEmail(true);
     axios
       .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
@@ -199,6 +201,7 @@ function SingUp() {
           setAddress("");
           setEmail("");
           alert("회원가입 완료");
+          navigate("/");
         })
         .catch((err) => {
           alert(err.response.data.message);
@@ -323,7 +326,7 @@ function SingUp() {
                 onChange={inputConfirmNum}
               />
               <div>
-               남은 인증시간 {minutes}:{seconds}
+                남은 인증시간 {minutes}:{seconds}
               </div>
               <button>인증하기</button>
             </form>
