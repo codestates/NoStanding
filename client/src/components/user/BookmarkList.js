@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.li`
@@ -36,23 +37,19 @@ const FlexRow = styled.div`
     margin: 0 10px 0 10px;
   }
 `;
-function SearchList({ shopInfo }) {
-  const img = JSON.parse(shopInfo.image_src)[0].location
-  const score = shopInfo.score_average ||0
-  const reviewNum = shopInfo.total_views || 0
+function BookmarkList({ bookmarkInfo }) {
+  let img = JSON.parse(bookmarkInfo.image_src)[0].location
 
   return (
     <Container>
-      <Star>☆</Star>
       <Img src={img}></Img>
-      <ShopName>{shopInfo.shop_name}</ShopName>
-      <ShopAddress>{shopInfo.shop_category_city}</ShopAddress>
+      <ShopName>{bookmarkInfo.user.shop_name}</ShopName>
+      <ShopAddress>{bookmarkInfo.user.address_line1}</ShopAddress>
       <FlexRow>
-        <div>별점 : {score}</div>
-        <div>리뷰 개수 : {reviewNum}</div>
+        <div>리뷰 개수 : {bookmarkInfo.Reviews.length}</div>
       </FlexRow>
     </Container>
   );
 }
 
-export default SearchList;
+export default BookmarkList;

@@ -73,6 +73,7 @@ function SingUp() {
   const [onCheckPwd, setOnCheckPwd] = useState(true);
   const [minutes, setMinutes] = useState(3);
   const [seconds, setSeconds] = useState(0);
+  const navigate = useNavigate();
   const category = ["음식", "카페", "미용"];
   const categoryCity = [
     "서울",
@@ -200,6 +201,7 @@ function SingUp() {
           setAddress("");
           setEmail("");
           alert("회원가입 완료");
+          navigate("/");
         })
         .catch((err) => {
           alert(err.response.data.message);
