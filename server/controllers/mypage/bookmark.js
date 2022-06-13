@@ -13,11 +13,9 @@ module.exports = {
       // delete userInfo.dataValues.user_salt;
 
       const { user_name } = req.params;
-
       const userInfo = await Models.User.findOne({
         where: { user_name: user_name },
       });
-
       const bookmarkInfo = await Models.Bookmark.findAll({
         where: {
           user_id: userInfo.dataValues.id,

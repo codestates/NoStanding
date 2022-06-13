@@ -46,26 +46,17 @@ module.exports = {
       // delete userInfo.dataValues.user_salt;
 
       const { shop_id, image_src, name, price } = req.body;
-      const menuInfo = await Models.Menu.findOne({
-        where: {
-          shop_id: shop_id,
-        },
-      });
 
-      if (!menuInfo) {
-        return res.status(400).send({ message: '존재하지 않는 가게입니다.' });
-      } else {
-        const menuUpdate = await Models.Menu.create({
-          shop_id: shop_id,
-          image_src: image_src,
-          name: name,
-          price: price,
-        });
-        res.status(200).send({
-          data: { menuInfo: menuUpdate },
-          message: '정보 입력 완료',
-        });
-      }
+      const menuUpdate = await Models.Menu.create({
+        shop_id: shop_id,
+        image_src: image_src,
+        name: name,
+        price: price,
+      });
+      res.status(200).send({
+        data: { menuInfo: menuUpdate },
+        message: '정보 입력 완료',
+      });
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: 'Server Error' });

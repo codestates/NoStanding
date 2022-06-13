@@ -8,6 +8,7 @@ module.exports = {
   get: async (req, res) => {
     const { order } = req.query;
 
+
     if (order === 'score') {
       const mainInfo = await Models.Shop.findAll({
         // 샵사진, 리뷰별점, 리뷰리뷰
@@ -204,6 +205,7 @@ module.exports = {
           score_average: el.score_average,
         });
       });
+
 
       return res
         .status(200)

@@ -32,9 +32,8 @@ const Textarea = styled.textarea`
   justify-content: start;
 `
 function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
-  console.log(reservate);
+  const img = JSON.parse(reservate.image_src)[0].location
   const [openReviewInput, setOpenReviewInput] = useState(false);
-  const [writeReview, setWriteReview] = useState('')
   const date = reservate.date.replace("T", " ").replace(/\..*/, "");
   const clickCancleBtn = () => {
     axios
@@ -52,17 +51,10 @@ function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
   const clickInputOpen = () => {
     setOpenReviewInput(true);
   };
-  const changeTextarea = (e) => {
-    setOpenReviewInput(e.target.value);
-  }
-  const submitReview = (e) => {
-    e.preventDefault()
-    console.log('등록!');
-  }
   return (
     <Container>
       <div>
-        <Img src="img/test2.png" />
+        <Img src={img} />
       </div>
       <Div>
         <div>{reservate.shop_name}</div>

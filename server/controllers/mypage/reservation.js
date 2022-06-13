@@ -12,6 +12,7 @@ module.exports = {
     }
     delete userInfo.dataValues.password;
     delete userInfo.dataValues.user_salt;
+
     // const {user_name} = req.params;
 
     // const userInfo = await User.findOne({
@@ -21,7 +22,9 @@ module.exports = {
     // })
     // reservation - menu - shop
     if (userInfo.dataValues.is_master === 0) {
-      const query = `SELECT R.id, R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id as shop_id , S.image_src from Reservation R
+
+      const query = `SELECT R.id, R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id as shop_id, S.image_src from Reservation R
+
       Join Menu M ON M.id = R.menu_id
       Join Shop S ON S.id = M.shop_id
       Join User U ON S.user_id = U.id
@@ -39,7 +42,9 @@ module.exports = {
           .send({ data: reservationlist, message: '정보 전달 완료' });
       }
     } else {
+
       const query2 = `SELECT R.id ,R.user_id , R.date , M.name  FROM Reservation R Join Menu M On R.menu_id = M.id
+
       Join Shop S On M.shop_id = S.id
       Join User U On S.user_id = U.id
       where U.id = ${userInfo.dataValues.id}`;

@@ -13,6 +13,11 @@ const Container = styled.div`
     flex-direction: column;
   }
 `;
+const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+  justify-content: space-between;
+`;
 const Button = styled.button`
   width: 7rem;
   height: 3rem;
@@ -35,7 +40,7 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
   const [imgList, setImgList] = useState([]);
   const [score, setScore] = useState("1");
   const [submitFormData, setSubmitFormData] = useState([]);
-
+  const radioNumber = [1, 2, 3, 4, 5];
   const submitReview = (e) => {
     e.preventDefault();
     axios
@@ -51,7 +56,6 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
       )
       .then((resp) => {
         console.log(resp);
-
         const formData = new FormData();
         for (let i = 0; i < submitFormData.length; i++) {
           formData.append("file", submitFormData[i]);
@@ -67,7 +71,8 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
             }
           )
           .then((resp) => console.log(resp));
-      });
+      })
+      .then(() => isOpen(false));
   };
   const changeTextarea = (e) => {
     setWriteReview(e.target.value);
@@ -133,13 +138,19 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
       <Container>
         <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
-          <input
-            type="number"
-            max="5"
-            min="1"
-            placeholder="별점을 입력해주세요. (1~5점)"
-            onChange={changeScore}
-          />
+          <FlexDiv direction="row">
+            {radioNumber.map((val) => (
+              <FlexDiv direction="column">
+                {val}점
+                <input
+                  type="radio"
+                  name="score"
+                  value={val}
+                  onChange={changeScore}
+                />
+              </FlexDiv>
+            ))}
+          </FlexDiv>
           <div>{renderImg(imgList)}</div>
           <Textarea
             placeholder="리뷰를 작성해주세요."
