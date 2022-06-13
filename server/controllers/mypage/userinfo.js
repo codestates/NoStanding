@@ -4,7 +4,6 @@ const { Op } = require('sequelize');
 const util = require('util');
 const crypto = require('crypto');
 const pbkdf2Promise = util.promisify(crypto.pbkdf2);
-
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
@@ -12,12 +11,12 @@ const Models = initModels(sequelize);
 module.exports = {
   get: async (req, res) => {
     try {
-      const userInfo = await userAuth(req, res);
-      if (!userInfo) {
-        return res.status(400).json({ message: '유저정보 없음' });
-      }
-      delete userInfo.dataValues.password;
-      delete userInfo.dataValues.user_salt;
+      // const userInfo = await userAuth(req, res);
+      // if (!userInfo) {
+      //   return res.status(400).json({ message: '유저정보 없음' });
+      // }
+      // delete userInfo.dataValues.password;
+      // delete userInfo.dataValues.user_salt;
 
       return res
         .status(200)
@@ -30,6 +29,7 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
+      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       } else {
@@ -178,6 +178,7 @@ module.exports = {
       if (!userInfo) return res.status(400).send({ message: '유저정보 없음' });
 
       await Models.User.destroy({ where: { id: userInfo.id } }); // 유저 삭제
+      // 유저 삭제
       res.cookie('accessToken', null, { maxAge: 0 }); // 쿠키 삭제
       res.status(200).send({ message: '회원탈퇴 완료' });
     } catch (err) {

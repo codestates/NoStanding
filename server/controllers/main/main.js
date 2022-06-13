@@ -7,7 +7,7 @@ require('dotenv').config();
 module.exports = {
   get: async (req, res) => {
     const { order } = req.query;
-
+    console.log(order);
     if (order === 'score') {
       const mainInfo = await Models.Shop.findAll({
         // 샵사진, 리뷰별점, 리뷰리뷰

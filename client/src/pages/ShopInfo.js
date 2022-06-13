@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import dummyimg from "../dummyimg";
 import Map from "../components/Map";
 import axios from "axios";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 import ReservationModal from "../components/ReservationModal";
 const MainImg = styled.img`
   width: 400px;
@@ -53,18 +51,23 @@ function ShopInfo() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentImg, setCurrentImg] = useState(0);
   const [openReservation, setOpenReservation] = useState(false)
+
   const getPickedShopInfo = useCallback(async () => {
     const shopId = Number(window.location.pathname.slice(10));
     await axios
       .get(`${process.env.REACT_APP_API_URL}/shop/${shopId}`)
       .then((resp) => {
+        const image = JSON.parse(resp.data.data[0].image_src)
         setPickedShop(resp.data.data[0]);
+        setImg(image)
       });
     setIsLoading(false);
   }, []);
+
   const clickImg = (idx) => {
     setCurrentImg(idx);
   };
+  
   const clickReservation = () => {
     setOpenReservation(!openReservation)}
 
@@ -72,9 +75,6 @@ function ShopInfo() {
     getPickedShopInfo();
   }, [getPickedShopInfo]);
 
-  useEffect(() => {
-    setImg([...String(pickedShop.image_src).split(",")]);
-  }, [pickedShop]);
   return (
     <>
       {isLoading ? (
@@ -83,14 +83,14 @@ function ShopInfo() {
         <>
           <div>{pickedShop.user.shop_name}</div>
           <Imgcontainer>
-            <MainImg src={img[currentImg]}></MainImg>
+            <MainImg src={img[currentImg].location}></MainImg>
             <Imgselectbox>
               {img.map((image, idx) => {
                 return (
                   <SelectImg
                     onClick={() => clickImg(idx)}
                     key={idx}
-                    src={image}
+                    src={image.location}
                   ></SelectImg>
                 );
               })}

@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-
+import { deleteUserInfo, getUserLogout } from "../store/store";
 const Div = styled.div`
   border-bottom: 2px solid black;
 `;
@@ -26,12 +26,23 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   width: 40%;
-  height: 30%;
+  height: 100%;
 `;
-function UserDelete({ userInfo }) {
+function UserDelete({ userInfo, logout, deleteUserInfo }) {
+  console.log(userInfo);
   const clickDeleteBtn = () => {
-    axios.delete(`${process.env.REACT_APP_API_URL}/mypage/userinfo/${userInfo.user_name}`)
-  }
+    axios
+      .delete(
+        `${process.env.REACT_APP_API_URL}/mypage/userinfo/${userInfo.user_name}`,
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        console.log(resp);
+        deleteUserInfo();
+        logout();
+      })
+      .catch((err) => console.log(err.response.data));
+  };
   return (
     <Container>
       <Div>
@@ -39,17 +50,17 @@ function UserDelete({ userInfo }) {
       </Div>
       <Flex direction="column">
         {/* <Flex direction="row">
-        <div>아이디:</div>
-        <input type="text" />
-      </Flex>
-      <Flex direction="row">
-        <div>비밀번호:</div>
-        <input type="password" />
-      </Flex>
-      <Flex direction="row">
-        <div>비밀번호 확인:</div>
-        <input type="password" />
-      </Flex> */}
+          <div>아이디:</div>
+          <input type="text" />
+        </Flex>
+        <Flex direction="row">
+          <div>비밀번호:</div>
+          <input type="password" />
+        </Flex>
+        <Flex direction="row">
+          <div>비밀번호 확인:</div>
+          <input type="password" />
+        </Flex> */}
         <Button onClick={clickDeleteBtn}>탈퇴하기</Button>
       </Flex>
     </Container>
@@ -60,4 +71,14 @@ function mapStateToProps(state) {
     userInfo: state.loginInfo.userInfo,
   };
 }
-export default connect(mapStateToProps)(UserDelete);
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => {
+      dispatch(getUserLogout());
+    },
+    deleteUserInfo: () => {
+      dispatch(deleteUserInfo());
+    },
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(UserDelete);
