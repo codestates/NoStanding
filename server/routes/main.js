@@ -22,10 +22,6 @@ router.post(
   uploadReview.array('file', 4),
   main.review_upload.post,
 );
-router.delete('/review/:id', delete_review.delete);
-router.post('/review/:user_name/:shop_id', main.review.post);
-router.delete('/review/id/:review_id', main.review_upload.delete);
-
 router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
 
 /**
