@@ -5,14 +5,13 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 18rem;
-  height: 28rem;
+  width: 100%;
+  height: 25rem;
   background-color: white;
-  position: fixed;
-  align-self: flex-end;
-  margin-right: 2rem;
+  bottom: 50px;
+  position: sticky;
+  justify-self: center;
   z-index: 100;
-  top: 60px;
   border: 2px solid black;
   overflow-y: scroll;
   button {
@@ -37,7 +36,6 @@ const Select = styled.select`
   margin-bottom: 2rem;
 `;
 function ReservationModal({ pickedShop, userInfo, setOpenReservation }) {
-  console.log(pickedShop);
   const [date, setdate] = useState("");
   const [menu, setMenu] = useState({});
   const [menuId, setMenuId] = useState("");

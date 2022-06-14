@@ -19,7 +19,6 @@ module.exports = {
       const min = 100000;
       const confirmNumber = Math.floor(Math.random() * (max - min)) + min;
 
-      userInfo.dataValues.email_key = 'expired';
       email = userInfo.dataValues.email;
 
       // User 이메일로 인증번호 발송
@@ -54,10 +53,7 @@ module.exports = {
       const userInfo = await User.findOne({ where: { user_name: user_name } });
 
       // 유저 테이블에 email_key 필드를 업데이트
-      if (
-        Number(confirmNumber) === Number(confirm_body) &&
-        userInfo.dataValues.email_key === 'expired'
-      ) {
+      if (Number(confirmNumber) === Number(confirm_body)) {
         await User.update(
           { email_key: 'success' },
           { where: { user_name: user_name } },

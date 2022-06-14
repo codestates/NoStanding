@@ -33,7 +33,7 @@ function Bookmark({ userInfo }) {
         `${process.env.REACT_APP_API_URL}/mypage/bookmark/${userInfo.user_name}`
       )
       .then((resp) => {
-        console.log(resp.data.data[0][0]);
+        console.log(resp.data);
         setBookmarks(resp.data.data);
       });
   }, []);
