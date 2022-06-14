@@ -81,6 +81,9 @@ router.post('/menu/:user_name', mypage.menu.post);
 router.delete('/menu/:user_name/:id', mypage.menu.delete);
 
 router.get('/notification/:user_name', mypage.notification.get);
+router.patch('/notification/:user_name', mypage.notification.patch);
+router.patch('/notification/:user_name', mypage.notification.reviewpatch);
+router.delete('/notification/:user_name', mypage.notification.delete);
 
 router.get('/re_review/:user_name', mypage.re_review.get);
 router.post('/re_review/:review_id/:user_name', mypage.re_review.post);
