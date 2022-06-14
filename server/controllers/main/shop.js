@@ -27,11 +27,19 @@ module.exports = {
           model: Models.Review,
           as: 'Reviews',
           attributes: [
+            'user_id',
             'image_src',
             'score',
             'contents',
             'createdAt',
             'updatedAt',
+          ],
+          include: [
+            {
+              model: Models.User,
+              as: 'user',
+              attributes: ['id', 'user_name'],
+            },
           ],
         },
         {
