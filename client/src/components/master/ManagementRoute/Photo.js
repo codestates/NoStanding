@@ -17,8 +17,6 @@ const Container = styled.div`
 const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
-  justify-content: space-between;
-  height: 100%;
 `;
 const Plusimgbutton = styled.button`
   width: 7rem;
@@ -27,12 +25,20 @@ const Plusimgbutton = styled.button`
   justify-self: flex-end;
 `;
 const Imgcontainerbox = styled.div`
-  height: 30%;
+  height: 30vw;
 `;
-
+const FlexDiv2 = styled.div`
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+  height: 25%;
+  width: 100%;
+`;
 const Img = styled.img`
-  height: 4px;
-  width: 4px;
+  height: 100%;
+  width: 100%;
+`;
+const Floatbutton = styled.button`
+  float: inline-end;
 `;
 
 const Photo = ({ userInfo }) => {
@@ -42,34 +48,56 @@ const Photo = ({ userInfo }) => {
   const [submitFormData, setSubmitFormData] = useState("");
   const getPhoto = useCallback(async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/mypage/img/${userInfo.id}`, {
-        withCredentials: true,
-      })
-      .then((resp) => {
-        console.log(resp.data);
-        setImgstore(imgstore);
-      })
-      .catch((err) => err.response.data);
-  }, []);
-  const postPhoto = (e) => {
-    e.preventDefault();
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/mypage/img/${userInfo.id}`,
-        { user_name: userInfo.user_name },
+      .get(
+        `${process.env.REACT_APP_API_URL}/mypage/img/${userInfo.user_name}`,
         {
           withCredentials: true,
         }
       )
       .then((resp) => {
-        console.log(resp);
-        const formData = new FormData();
-        for (let i = 0; i < submitFormData.length; i++) {
-          formData.append("file", submitFormData[i]);
+        console.log(resp.data.data[0].image_src);
+
+        const parsing = JSON.parse(resp.data.data[0]?.image_src);
+        console.log(parsing);
+        if (parsing) {
+          setImgstore(parsing);
         }
-      axios.post(`${process.env.REACT_APP_API_URL}/mypage/img/upload/${userInfo.id}`)
-        
-      });
+      })
+      .catch((err) => err.response);
+  }, []);
+  const deletePhoto = (idx) => {
+    axios
+      .patch(
+        `${process.env.REACT_APP_API_URL}/mypage/img/${userInfo.user_name}`,
+        { image_number: idx },
+        { withCredentials: true }
+      )
+      .then((resp) => {
+        const keys = imgstore.map((el) => el?.key);
+        console.log(keys[idx]);
+        axios.delete(`${process.env.REACT_APP_API_URL}/mypage/${keys[idx]}`, {
+          withCredentials: true,
+        });
+      })
+      .then((resp) => console.log(resp));
+  };
+  const postPhoto = (e) => {
+    e.preventDefault();
+    console.log(submitFormData);
+    const formData = new FormData();
+    for (let i = 0; i < submitFormData.length; i++) {
+      formData.append("file", submitFormData[i]);
+    }
+    console.log(formData);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/mypage/img/${userInfo.user_name}`,
+        formData,
+        { withCredentials: true }
+      )
+      .then((resp) => console.log(resp))
+      .catch((err) => console.log(err.response.data));
   };
   const getShopData = useCallback(async () => {
     // 삽 아이디를 뽑아오는 과정(완료)
@@ -82,20 +110,33 @@ const Photo = ({ userInfo }) => {
         setShopid(resp.data.data[0].id);
       });
   }, []);
+
   const upLoadImg = (e) => {
+    console.log(e.target.files);
     setSubmitFormData(e.target.files);
     const currentImgList = Array.from(e.target.files).map((file) =>
-      URL.revokeObjectURL(file)
+      URL.createObjectURL(file)
     );
+    console.log(currentImgList);
     setImgstore((previmg) => previmg.concat(currentImgList));
     Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
   };
+
   const renderImg = (el) => {
-    return el.map((img, idx) => {
-      return <Img src={img}></Img>;
-    });
+    return (
+      <FlexDiv2 direction="row">
+        {el.map((img, idx) => {
+          return (
+            <>
+              <Img key={img?.key} src={img?.location} idx={idx} alt=""></Img>
+              <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
+            </>
+          );
+        })}
+      </FlexDiv2>
+    );
   };
-  
+
   useEffect(() => {
     getShopData();
     getPhoto();
@@ -115,7 +156,6 @@ const Photo = ({ userInfo }) => {
     </Container>
   );
 };
-
 function mapStateToProps(state) {
   return {
     userInfo: state.loginInfo.userInfo,
