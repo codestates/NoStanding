@@ -26,7 +26,7 @@
 
 # 사용 스택
 
-![NoStanding](https://user-images.githubusercontent.com/95732945/170860155-6d836071-d9ff-44d9-be2c-a4ac0e3c77db.png)
+![Nostanding](https://user-images.githubusercontent.com/95732945/173584663-749d234f-da61-413e-8106-18d9829396d2.png)
 
 ## FRONT
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/Redux Toolkit-764ABC?style=for-the-badge&logo=Redux&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/style_component-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/AXIOS-A100FF?style=for-the-badge&logoColor=white" width="150" height="50"/>
