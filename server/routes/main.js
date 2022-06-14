@@ -10,6 +10,20 @@ const delete_review = require('../middlewares/deleteS3/delete_review');
  *   description: 메인 페이지 조회
  */
 
+/**
+ * @swagger
+ * tags:
+ *   name: main_review
+ *   description: 리뷰 작성 및 삭제
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: main_bookmark
+ *   description: 리뷰 작성 및 삭제
+ */
+
 router.get('/', main.main.get);
 router.get('/shop/:id', main.shop.get);
 router.get('/category', main.category.get);
@@ -204,7 +218,7 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *    post:
  *      summary: "리뷰 추가"
  *      description: ""
- *      tags: [main]
+ *      tags: [main_review]
  *      parameters:
  *        - in: path
  *          name: shop_id
@@ -249,7 +263,7 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *    delete:
  *      summary: "등록된 리뷰 삭제"
  *      description: ""
- *      tags: [main]
+ *      tags: [main_review]
  *      parameters:
  *        - in: path
  *          name: review_id
@@ -289,7 +303,7 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *    delete:
  *      summary: "s3 버킷 업로드 이미지 삭제"
  *      description: ""
- *      tags: [main]
+ *      tags: [main_review]
  *      parameters:
  *        - in: path
  *          name: id
@@ -311,6 +325,98 @@ router.post('/bookmark/:shop_id/:user_name', main.bookmark.post);
  *                    {message : "이미지 삭제 완료"}
  *        "500":
  *          description: 서버 에러 / 삭제 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /review/upload/:user_name/:shop_id:
+ *    post:
+ *      summary: "s3 버킷 이미지 업로드"
+ *      description: ""
+ *      tags: [main_review]
+ *      parameters:
+ *        - in: path
+ *          name: user_name
+ *          required: true
+ *          description: 리뷰 작성자 name
+ *          schema:
+ *            type: string
+ *        - in: path
+ *          name: shop_id
+ *          required: true
+ *          description: 리뷰 작성할 가게 id
+ *          schema:
+ *            type: number
+ *      responses:
+ *        "200":
+ *          description: 이미지 업로드 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "이미지 업로드 완료"}
+ *        "500":
+ *          description: 서버 에러 / 업로드 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /bookmark/:shop_id/:user_name:
+ *    post:
+ *      summary: "즐겨찾기 추가"
+ *      description: ""
+ *      tags: [main_bookmark]
+ *      parameters:
+ *        - in: path
+ *          name: shop_id
+ *          required: true
+ *          description: 즐겨찾기 할 가게 id
+ *          schema:
+ *            type: number
+ *        - in: path
+ *          name: user_name
+ *          required: true
+ *          description: 유저 name
+ *          schema:
+ *            type: string
+ *      responses:
+ *        "200":
+ *          description: 즐겨찾기 추가 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "즐겨찾기 추가 완료"}
+ *        "500":
+ *          description: 서버 에러 / 즐겨찾기 추가 실패
  *          content:
  *            application/json:
  *              schema:

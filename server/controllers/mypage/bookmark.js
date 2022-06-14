@@ -27,7 +27,6 @@ module.exports = {
 
       for (let i = 0; i < bookmarkInfo.length; i++) {
         const shopInfo = await Models.Shop.findAll({
-          // 리뷰리뷰수, 리뷰별점
           include: [
             {
               model: Models.User,

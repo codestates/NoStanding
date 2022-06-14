@@ -9,9 +9,6 @@ aws.config.update({
   region: 'ap-northeast-2',
 });
 
-//숫자 순서대로 발생하는 반복문 하나 만들고
-// let number = ~~
-
 const s3 = new aws.S3();
 let upload = multer({
   storage: multerS3({
