@@ -44,13 +44,6 @@ const delete_shop = require('../middlewares/deleteS3/delete_shop');
 /**
  * @swagger
  * tags:
- *   name: mypage_review
- *   description: 리뷰 조회 추가
- */
-
-/**
- * @swagger
- * tags:
  *   name: mypage_shopinfo
  *   description: 가게 정보 조회 수정
  */
@@ -352,7 +345,7 @@ router.delete('/Shop/:id', delete_shop.delete);
  * paths:
  *  mypage/img/:user_name:
  *    post:
- *      summary: "가게 사진 추가"
+ *      summary: "가게 사진 추가 / s3 업로드"
  *      description: ""
  *      tags: [mypage_img]
  *      parameters:
@@ -364,7 +357,7 @@ router.delete('/Shop/:id', delete_shop.delete);
  *          type: string
  *      responses:
  *        "200":
- *          description: 리뷰 작성 완료
+ *          description: 가게 사진 추가 완료
  *          content:
  *            application/json:
  *              schema:
@@ -373,9 +366,9 @@ router.delete('/Shop/:id', delete_shop.delete);
  *                data :
  *                 type :  object
  *                example :
- *                    {message : "리뷰 작성 완료"}
+ *                    {message : "가게 사진 추가 완료"}
  *        "400":
- *          description: 서버 에러 / 작성 실패
+ *          description: 서버 에러 / 사진 추가 실패
  *          content:
  *            application/json:
  *              schema:
@@ -386,6 +379,7 @@ router.delete('/Shop/:id', delete_shop.delete);
  *                example :
  *                    {message : "Servor Error"}
  */
+
 /**
  * @swagger
  * paths:
@@ -403,7 +397,7 @@ router.delete('/Shop/:id', delete_shop.delete);
  *          type: string
  *      responses:
  *        "200":
- *          description: 리뷰 작성 완료
+ *          description: 가게 사진 수정 완료
  *          content:
  *            application/json:
  *              schema:
@@ -412,9 +406,49 @@ router.delete('/Shop/:id', delete_shop.delete);
  *                data :
  *                 type :  object
  *                example :
- *                    {message : "리뷰 작성 완료"}
+ *                    {message : "가게 사진 수정 완료"}
  *        "500":
- *          description: 서버 에러 / 작성 실패
+ *          description: 서버 에러 / 사진 수정 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  mypage/Shop/:id:
+ *    delete:
+ *      summary: "s3 버킷 업로드 이미지 삭제"
+ *      description: ""
+ *      tags: [mypage_img]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: 버킷 업로드 이미지의 key
+ *          schema:
+ *            type: number
+ *      responses:
+ *        "200":
+ *          description: 이미지 삭제 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "이미지 삭제 완료"}
+ *        "500":
+ *          description: 서버 에러 / 삭제 실패
  *          content:
  *            application/json:
  *              schema:
@@ -544,6 +578,46 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
+ *  mypage/menu/:id:
+ *    delete:
+ *      summary: "s3 버킷 업로드 이미지 삭제"
+ *      description: ""
+ *      tags: [mypage_menu]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: 버킷 업로드 이미지의 key
+ *          schema:
+ *            type: number
+ *      responses:
+ *        "200":
+ *          description: 이미지 삭제 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "이미지 삭제 완료"}
+ *        "500":
+ *          description: 서버 에러 / 삭제 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
+ */
+
+/**
+ * @swagger
+ * paths:
  *  mypage/re_review/:user_id:
  *    get:
  *      summary: "리뷰 조회"
@@ -551,9 +625,27 @@ router.delete('/Shop/:id', delete_shop.delete);
  *      tags: [mypage_re_review]
  *      responses:
  *        "200":
- *          description: 정보 전달 완료
- *        "400":
- *          description: 자료 조회 실패
+ *          description: 리뷰 조회 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "리뷰 조회 완료"}
+ *        "500":
+ *          description: 서버 에러 / 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
@@ -615,7 +707,7 @@ router.delete('/Shop/:id', delete_shop.delete);
  * @swagger
  * paths:
  *  mypage/shopinfo/:user_name:
- *    patct:
+ *    patch:
  *      summary: "가게 정보 수정"
  *      description: ""
  *      tags: [mypage_shopinfo]
@@ -659,6 +751,13 @@ router.delete('/Shop/:id', delete_shop.delete);
  *      summary: "유저 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
  *      tags: [mypage_userinfo]
+ *      parameters:
+ *      - in: path
+ *        name: user_id
+ *        required: true
+ *        description: 유저 고유 id
+ *        schema:
+ *          type: string
  *      responses:
  *        "200":
  *          description: 정보 전달 완료
@@ -676,9 +775,27 @@ router.delete('/Shop/:id', delete_shop.delete);
  *      tags: [mypage_userinfo]
  *      responses:
  *        "200":
- *          description: 정보 수정 완료
- *        "400":
- *          description: 정보 수정 실패
+ *          description: 회원 정보 수정 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "회원 정보 수정 완료"}
+ *        "500":
+ *          description: 서버 에러 / 정보 수정 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Servor Error"}
  */
 
 /**
