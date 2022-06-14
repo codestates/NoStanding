@@ -6,7 +6,6 @@ const schedule = require('node-schedule');
 const axios = require('axios');
 
 const { Sequelize } = require('../../models/index');
-const { CloudWatchLogs } = require('aws-sdk');
 const Op = Sequelize.Op;
 
 module.exports = {
@@ -32,12 +31,35 @@ module.exports = {
       });
 
       const notificationInfo = await Models.Notification.findAll({
+        include: [
+          {
+            model: Models.Reservation,
+            as: 'reservation',
+            include: [
+              {
+                model: Models.Menu,
+                as: 'menu',
+                attribute: ['shop_id'],
+              },
+            ],
+          },
+          {
+            model: Models.Review,
+            as: 'Review',
+          },
+          {
+            model: Models.ReReview,
+            as: 'rereview',
+          },
+        ],
         where: { user_id: userInfo.dataValues.id },
       });
+
       if (notificationInfo) {
-        return res
-          .status(200)
-          .send({ data: notificationInfo, message: '알림 정보 전달 완료' });
+        return res.status(200).send({
+          data: notificationInfo,
+          message: '알림 정보 전달 완료',
+        });
       }
       res.status(201).send({ message: '삭제된 알림 입니다.' });
     } catch (err) {
@@ -109,7 +131,6 @@ module.exports = {
       where: { user_id: userInfo.dataValues.id },
       order: [['updated_date', 'ASC']],
     });
-    console.log('확인확인확인확인');
 
     if (curr > notificationDate?.dataValues?.updated_date) {
       const notificationInfo = await Models.Notification.findOne({

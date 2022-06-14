@@ -30,7 +30,6 @@ module.exports = {
     // reservation - menu - shop
     if (userInfo.dataValues.is_master === 0) {
       const query = `SELECT R.id, R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id as shop_id, S.image_src from Reservation R
-
       Join Menu M ON M.id = R.menu_id
       Join Shop S ON S.id = M.shop_id
       Join User U ON S.user_id = U.id
