@@ -81,6 +81,7 @@ function ReservationModal({ pickedShop, userInfo, setOpenReservation }) {
       .post(
         `${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}`,
         {
+          shop_name:pickedShop.user.shop_name,
           menu_id: menu.id,
           date: `${date} ${sendChooseHour}`,
         },
@@ -90,7 +91,10 @@ function ReservationModal({ pickedShop, userInfo, setOpenReservation }) {
       )
       .then((resp) => {
         alert('예약 완료')
-        setOpenReservation(false)});
+        setOpenReservation(false)})
+        .catch((err)=> {
+          alert('에러')
+        })
   };
 
   return (

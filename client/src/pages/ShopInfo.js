@@ -4,6 +4,7 @@ import Map from "../components/Map";
 import axios from "axios";
 import ReservationModal from "../components/ReservationModal";
 import ShopInfoReview from "../components/ShopInfoReview";
+import { connect } from "react-redux";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,6 +14,20 @@ const NameScoreContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   border: 2px solid black;
+`;
+const HeartContainer = styled.div`
+  align-items: flex-end;
+  font-size: 30px;
+  color: lightcoral;
+  text-align: right;
+  margin-right: 10rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  p {
+    :hover {
+      color: red;
+    }
+  }
 `;
 
 const ShopName = styled.div`
@@ -98,21 +113,21 @@ const Bookbutton = styled.button`
   z-index: 100;
   align-self: center;
   justify-self: flex-end;
-  background-color: rgba(21,64,99,0.5);
-  p{
-    :hover{
+  background-color: rgba(21, 64, 99, 0.5);
+  p {
+    :hover {
       transform: scale(1.05);
     }
   }
 `;
 
-function ShopInfo() {
+function ShopInfo({ userInfo }) {
   const [img, setImg] = useState([]);
   const [pickedShop, setPickedShop] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [currentImg, setCurrentImg] = useState(0);
   const [openReservation, setOpenReservation] = useState(false);
-  console.log(pickedShop);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const getPickedShopInfo = useCallback(async () => {
     const shopId = Number(window.location.pathname.slice(10));
     await axios
@@ -120,11 +135,20 @@ function ShopInfo() {
       .then((resp) => {
         const image = JSON.parse(resp.data.data[0].image_src);
         setPickedShop(resp.data.data[0]);
+        for (let i = 0; i < resp.data.data[0].Bookmarks.length; i++) {
+          if (resp.data.data[0].Bookmarks[i].user_id === userInfo.id) {
+            if (resp.data.data[0].Bookmarks[i].is_marked === 1) {
+              setIsBookmarked(true);
+            }
+          }
+        }
         setImg(image);
       });
     setIsLoading(false);
   }, []);
-
+  useEffect(() => {
+    getPickedShopInfo();
+  }, [getPickedShopInfo]);
   const clickImg = (idx) => {
     setCurrentImg(idx);
   };
@@ -132,10 +156,18 @@ function ShopInfo() {
   const clickReservation = () => {
     setOpenReservation(!openReservation);
   };
-
-  useEffect(() => {
-    getPickedShopInfo();
-  }, [getPickedShopInfo]);
+  const clickBookmark = () => {
+    setIsBookmarked(!isBookmarked);
+    axios.post(
+      `${process.env.REACT_APP_API_URL}/bookmark/${pickedShop.id}/${userInfo.user_name}`,
+      {
+        is_marked: !isBookmarked,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  };
 
   return (
     <Container>
@@ -143,6 +175,9 @@ function ShopInfo() {
         <div>로딩중...</div>
       ) : (
         <>
+          <HeartContainer onClick={clickBookmark}>
+            {isBookmarked ? <p>♥️</p> : <p>♡</p>}
+          </HeartContainer>
           <Imgcontainer>
             <MainImg src={img[currentImg]?.location}></MainImg>
             <Imgselectbox>
@@ -186,12 +221,18 @@ function ShopInfo() {
                 setOpenReservation={setOpenReservation}
               />
             ) : null}
-            <Bookbutton onClick={clickReservation}><p>예약하기</p></Bookbutton>
+            <Bookbutton onClick={clickReservation}>
+              <p>예약하기</p>
+            </Bookbutton>
           </Box>
         </>
       )}
     </Container>
   );
 }
-
-export default ShopInfo;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  };
+}
+export default connect(mapStateToProps)(ShopInfo);

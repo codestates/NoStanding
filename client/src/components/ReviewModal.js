@@ -55,12 +55,12 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
         }
       )
       .then((resp) => {
-        console.log(resp);
         const formData = new FormData();
+        
         for (let i = 0; i < submitFormData.length; i++) {
           formData.append("file", submitFormData[i]);
+          
         }
-        // formData.append("file", submitFormData[0]);
 
         axios
           .post(
@@ -70,16 +70,18 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
               withCredentials: true,
             }
           )
-          .then((resp) => console.log(resp));
       })
       .then(() => isOpen(false));
   };
+
   const changeTextarea = (e) => {
     setWriteReview(e.target.value);
   };
+
   const clickExitBtn = () => {
     isOpen(false);
   };
+  
   const changeScore = (e) => setScore(e.target.value);
 
   const uploadImg = (e) => {
@@ -139,8 +141,8 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
         <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
           <FlexDiv direction="row">
-            {radioNumber.map((val) => (
-              <FlexDiv direction="column">
+            {radioNumber.map((val,idx) => (
+              <FlexDiv key={val} direction="column">
                 {val}점
                 <input
                   type="radio"

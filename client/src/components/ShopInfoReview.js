@@ -42,7 +42,6 @@ function ShopInfoReview({review}) {
   const slicedName = userName.slice(0,-2)+'**'
   const date = review.createdAt.split('T')[0]
   const stars = ['★','★★','★★★','★★★★','★★★★★']
-  console.log(review.score);
   return (
     <Container>
       <ContentContainer>

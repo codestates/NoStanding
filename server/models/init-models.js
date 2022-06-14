@@ -20,6 +20,14 @@ function initModels(sequelize) {
 
   Reservation.belongsTo(Menu, { as: 'menu', foreignKey: 'menu_id' });
   Menu.hasMany(Reservation, { as: 'Reservations', foreignKey: 'menu_id' });
+  Notification.belongsTo(ReReview, {
+    as: 'rereview',
+    foreignKey: 'rereview_id',
+  });
+  ReReview.hasMany(Notification, {
+    as: 'Notifications',
+    foreignKey: 'rereview_id',
+  });
   Notification.belongsTo(Reservation, {
     as: 'reservation',
     foreignKey: 'reservation_id',
@@ -27,6 +35,11 @@ function initModels(sequelize) {
   Reservation.hasMany(Notification, {
     as: 'Notifications',
     foreignKey: 'reservation_id',
+  });
+  Notification.belongsTo(Review, { as: 'Review', foreignKey: 'review_id' });
+  Review.hasMany(Notification, {
+    as: 'Notifications',
+    foreignKey: 'review_id',
   });
   ReReview.belongsTo(Review, { as: 'review', foreignKey: 'review_id' });
   Review.hasMany(ReReview, { as: 'ReReviews', foreignKey: 'review_id' });
@@ -40,6 +53,8 @@ function initModels(sequelize) {
   Shop.hasMany(Review, { as: 'Reviews', foreignKey: 'shop_id' });
   Bookmark.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
   User.hasMany(Bookmark, { as: 'Bookmarks', foreignKey: 'user_id' });
+  Notification.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
+  User.hasMany(Notification, { as: 'Notifications', foreignKey: 'user_id' });
   Reservation.belongsTo(User, { as: 'user', foreignKey: 'user_id' });
   User.hasMany(Reservation, { as: 'Reservations', foreignKey: 'user_id' });
   Review.belongsTo(User, { as: 'user', foreignKey: 'user_id' });

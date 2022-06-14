@@ -17,7 +17,7 @@ module.exports = {
       await s3.deleteObject(
         {
           Bucket: 'semicolon-nostanding.com',
-          Key: `${req.params.id}`,
+          Key: `menu/${req.params.id}`,
         },
         (err, data) => {
           if (err) throw err;

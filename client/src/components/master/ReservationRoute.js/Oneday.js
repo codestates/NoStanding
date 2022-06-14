@@ -66,10 +66,10 @@ const Oneday = ({ userInfo, pickeddate }) => {
         return (
           <Timebar key={idx}>
             <div>{hour}시</div>
-            {realreservationlist.map((el) => {
+            {realreservationlist.map((el, idx) => {
               const time = el.date.replace(/[^0-9]/g, "").slice(8, 10);
               return String(time) === hour ? (
-                <OneRes>
+                <OneRes key={idx}>
                   <div>{el.name}</div>
                   <div>
                     {time}시{el.date.replace(/[^0-9]/g, "").slice(10, 12)}분

@@ -1,4 +1,5 @@
 import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit";
+import axios from "axios";
 import {
   persistReducer,
   FLUSH,
@@ -11,12 +12,22 @@ import {
 import storage from "redux-persist/lib/storage"; //로컬스토리지 사용
 // import session from 'redux-persist/lib/storage/session'; //세션스토리지 사용
 
+const alarmState = createSlice({
+  name: "alarm",
+  initialState: [],
+  reducers: {
+    getAlarm: (state, action) => {
+      return action.payload;
+    },
+  },
+});
+
 const checkLoginHold = createSlice({
   name: "holdLogin",
   initialState: false,
   reducers: {
     clickCheckBox: (state) => {
-      return state = !state;
+      return (state = !state);
     },
   },
 });
@@ -68,6 +79,7 @@ const rootReducer = combineReducers({
   loginState: loginState.reducer,
   shopSearch: shopSearch.reducer,
   checkLoginHold: checkLoginHold.reducer,
+  alarmState: alarmState.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -87,3 +99,4 @@ export const { getUserLogout, getUserLogin } = loginState.actions;
 export const { getShopSearch } = shopSearch.actions;
 export const { getUserInfo, deleteUserInfo } = loginInfo.actions;
 export const { clickCheckBox } = checkLoginHold.actions;
+export const { isRead, getAlarm } = alarmState.actions;

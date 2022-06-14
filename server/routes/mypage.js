@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const mypage = require('../controllers/mypage');
 const delete_review = require('../middlewares/deleteS3/delete_review');
-const delete_menu = require('../middlewares/deleteS3/delete.menu');
+const delete_menu = require('../middlewares/deleteS3/delete_menu');
 const upload = require('../middlewares/upload/upload');
 const uploadMenu = require('../middlewares/upload/upload_menu');
 const delete_shop = require('../middlewares/deleteS3/delete_shop');
@@ -63,7 +63,11 @@ const delete_shop = require('../middlewares/deleteS3/delete_shop');
  */
 
 router.get('/reservation/:user_name', mypage.reservation.get);
-router.post('/reservation/:user_name', mypage.reservation.post);
+router.post(
+  '/reservation/:user_name',
+
+  mypage.reservation.post,
+);
 router.delete('/reservation/:user_name/:id', mypage.reservation.delete);
 
 router.get('/bookmark/:user_name', mypage.bookmark.get);
@@ -74,9 +78,12 @@ router.patch('/img/:user_name', mypage.img.patch);
 
 router.get('/menu/:user_name', mypage.menu.get);
 router.post('/menu/:user_name', mypage.menu.post);
-router.delete('/menu/:user_name/:name/:shop_id', mypage.menu.delete);
+router.delete('/menu/:user_name/:id', mypage.menu.delete);
 
 router.get('/notification/:user_name', mypage.notification.get);
+router.patch('/notification/:user_name', mypage.notification.patch);
+router.patch('/notification/:user_name', mypage.notification.reviewpatch);
+router.delete('/notification/:user_name', mypage.notification.delete);
 
 router.get('/re_review/:user_name', mypage.re_review.get);
 router.post('/re_review/:review_id/:user_name', mypage.re_review.post);
@@ -89,14 +96,14 @@ router.patch('/userinfo/:user_name', mypage.userinfo.patch);
 router.delete('/userinfo/:user_name', mypage.userinfo.delete);
 
 router.post(
-  '/upload/:user_name',
+  '/upload/:user_name/:id',
   uploadMenu.array('file', 4),
   mypage.menu_upload.post,
 );
 
 router.delete('/review/upload/:id', delete_review.delete);
-router.delete('/menu/upload/:id', delete_menu.delete);
-router.delete('/shop/upload/:id', delete_shop.delete);
+router.delete('/menu/:id', delete_menu.delete);
+router.delete('/Shop/:id', delete_shop.delete);
 
 /**
  * @swagger

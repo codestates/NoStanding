@@ -58,6 +58,7 @@ const OauthLogin = styled.div`
 const Button = styled.button`
   width: 7rem;
   background-color: #fff;
+  font-weight: 600;
   cursor: pointer;
   :hover{
     transform: scale(1.03);
