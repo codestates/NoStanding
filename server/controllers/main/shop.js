@@ -33,6 +33,12 @@ module.exports = {
             'contents',
             'createdAt',
             'updatedAt',
+          ],include: [
+            {
+              model: Models.User,
+              as: 'user',
+              attributes: ['id', 'user_name'],
+            },
           ],
           include: [
             {

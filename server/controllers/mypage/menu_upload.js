@@ -1,10 +1,11 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
-const { User, Shop } = require('../../models');
+const { User, Menu } = require('../../models');
+const Shop = require('../../models/Shop');
 
 module.exports = {
   post: async (req, res) => {
-    const { user_name } = req.params;
+    const { user_name, id } = req.params;
 
     const userInfo = await User.findOne({
       where: {
@@ -23,11 +24,11 @@ module.exports = {
       }
 
       console.log(req.files);
-      await Shop.update(
+      await Menu.update(
         {
           image_src: JSON.stringify(imageArr),
         },
-        { where: { user_id: userInfo.dataValues.id } },
+        { where: { id: id } },
       );
       res.status(200).send({ message: '이미지 업로드 완료' });
     } catch (err) {

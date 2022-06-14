@@ -13,6 +13,11 @@ const Container = styled.div`
   width: 90vw;
   height: 100%;
 `;
+
+const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+`;
 const MenuContainer = styled.div`
   border: 2px solid black;
   height: 100%;
@@ -39,11 +44,13 @@ const Menubar = styled.div`
 `;
 const Menu = ({ userInfo }) => {
   const [menu, setMenu] = useState(""); //입력하는 메뉴
-  const [img, setImg] = useState("img/사진1.jpeg"); //넣는 이미지
+  const [img, setImg] = useState([]); //넣는 이미지
   const [price, setPrice] = useState(0); //넣는 가격
   const [shopid, setShopid] = useState(""); //처음에 샵 아이디를 저장하는 스테이트
   const [ismenu, setIsmenu] = useState(false); // 메뉴 모달창 열고닫히는 스테이트 관리
   const [menubar, setMenubar] = useState([]); //맵 렌더링 할 메뉴 저장소
+  const [submitFormData, setSubmitFormData] = useState([]);
+  const [menuid, setMenuid] = useState(null);
   const [deletenum, setDeletenum] = useState(0);
 
   const getShopData = useCallback(async () => {
@@ -66,8 +73,19 @@ const Menu = ({ userInfo }) => {
       )
       .then((resp) => {
         const menus = resp.data.data[0].Menus;
-        console.log(resp.data.data[0].Menus);
+        console.log(
+          menus
+          // menus.map((menu) => {
+          //   return menu.image_src;
+          // })
+        );
 
+        for (let i = 0; i < menus.length; i++) {
+          if (menus[i].image_src) {
+            menus[i].image_src = JSON.parse(menus[i].image_src);
+          }
+        }
+        console.log(menus);
         setMenubar(menus);
       });
   }, []);
@@ -75,21 +93,35 @@ const Menu = ({ userInfo }) => {
     getShopData();
     getMenu();
   }, [getShopData, getMenu]);
-  const minusMenu = (menuname) => {
-    console.log(menuname);
+
+  const minusMenu = (menu) => {
     axios
       .delete(
-        `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}/${menuname}/${shopid}`,
+        `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}/${menu.id}`,
 
         { withCredentials: true }
       )
       .then((resp) => {
         console.log(resp);
-        getMenu();
-        getShopData();
+        console.log(img);
+        console.log(menu);
+        const keys = menu.image_src[0].key;
+
+        console.log(keys);
+
+        axios
+          .delete(`${process.env.REACT_APP_API_URL}/mypage/${keys}`, {
+            withCredentials: true,
+          })
+          .then((resp) => {
+            console.log(resp);
+            getMenu();
+            getShopData();
+          });
       })
       .catch((err) => console.log(err));
   };
+
   const plusMenu = (idx) => {
     //메뉴이름을 추가하기위한 과정
     axios
@@ -97,22 +129,55 @@ const Menu = ({ userInfo }) => {
         `${process.env.REACT_APP_API_URL}/mypage/menu/${userInfo.user_name}`,
         {
           shop_id: `${shopid}`,
-          image_src: `${img}`,
           name: `${menu}`,
           price: `${price}`,
         },
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp);
+        console.log(resp.data.data.menuInfo.id);
+
+        postPhoto(resp.data.data.menuInfo.id);
         getMenu();
-        getShopData();
-        setMenu("");
-        setPrice(null);
-        setImg("");
         setIsmenu(!ismenu);
       })
       .catch((err) => console.log(err));
+  };
+
+  const upLoadImg = (e) => {
+    console.log(e.target.files);
+    setSubmitFormData(e.target.files);
+    const currentImgList = Array.from(e.target.files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    setImg((previmg) => previmg.concat(currentImgList));
+    Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+  };
+
+  const postPhoto = (id) => {
+    const formData = new FormData();
+    for (let i = 0; i < submitFormData.length; i++) {
+      formData.append("file", submitFormData[i]);
+    }
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/mypage/upload/${userInfo.user_name}/${id}`,
+        formData,
+        { withCredentials: true }
+      )
+      .then((resp) => console.log(resp))
+      .catch((err) => console.log(err.response.data));
+  };
+  const renderImg = (el) => {
+    return (
+      <FlexDiv direction="row">
+        {/* {el.map((img, idx) => {
+          return (
+            <img key={img?.key} src={img?.location} idx={idx} alt=""></img>
+          );
+        })} */}
+      </FlexDiv>
+    );
   };
 
   return (
@@ -153,16 +218,18 @@ const Menu = ({ userInfo }) => {
         <input onChange={(e) => setMenu(e.target.value)} value={menu}></input>
         <div>가격</div>
         <input onChange={(e) => setPrice(e.target.value)} value={price}></input>
+        <input type="file" accept="image/*" onChange={upLoadImg}></input>
+        <div>{renderImg(img)}</div>
         <button onClick={() => plusMenu()}>추가하기</button>
       </Modal>
       {menubar.map((menu, idx) => {
-        const menuname = menu.name;
+        const menuid = menu.id;
         return (
-          <MenuContainer key={idx}>
-            <img src={`${menu.image_src}`}></img>
+          <MenuContainer key={menuid}>
+            <img src={menu.image_src[0].location}></img>
             <div>{menu.name}</div>
             <div>{menu.price}</div>
-            <button onClick={() => minusMenu(menuname)}>삭제하기</button>
+            <button onClick={() => minusMenu(menu)}>삭제하기</button>
           </MenuContainer>
         );
       })}

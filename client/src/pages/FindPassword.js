@@ -38,18 +38,26 @@ function FindPassword() {
   const submitConfirmNum = (e) => {
     e.preventDefault();
     setEmailcheckOK(true);
-    setCheckEmail(false);
+    console.log(confirmNum, userConfirmNum);
+    if(Number(confirmNum) === Number(userConfirmNum)) {
     axios
       .post(`${process.env.REACT_APP_API_URL}/confirm`, {
         user_name: findId,
-        confirmNumber: confirmNum,
-        confirm_body: userConfirmNum,
+        confirmNumber: Number(confirmNum),
+        confirm_body: Number(userConfirmNum),
       })
       .then((resp) => {
         console.log(resp);
-      });
-    alert("인증완료!");
+        alert("인증완료!");
+        setCheckEmail(false);
+      }).catch((resp) => {
+        console.log(resp.data);
+      })
+    }else {
+      alert('인증번호가 맞지 않습니다.')
+    }
   };
+  
   const clickModifyPwd = () => {
     if (changePwd === checkPassword) {
       axios.post(`${process.env.REACT_APP_API_URL}/passwordchange`, {
