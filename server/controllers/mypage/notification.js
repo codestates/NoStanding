@@ -6,6 +6,7 @@ const schedule = require('node-schedule');
 const axios = require('axios');
 
 const { Sequelize } = require('../../models/index');
+const { CloudWatchLogs } = require('aws-sdk');
 const Op = Sequelize.Op;
 
 module.exports = {
@@ -38,7 +39,7 @@ module.exports = {
           .status(200)
           .send({ data: notificationInfo, message: '알림 정보 전달 완료' });
       }
-      res.status(400).send({ message: '삭제된 알림 입니다.' });
+      res.status(201).send({ message: '삭제된 알림 입니다.' });
     } catch (err) {
       res.status(500).send({ message: 'Server Error' });
     }
@@ -52,12 +53,12 @@ module.exports = {
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { read } = req.body;
+      const { id, read } = req.body;
       const notificationUpdate = await Models.Notification.update(
         {
           read: read,
         },
-        { where: { user_id: userInfo.dataValues.id } },
+        { where: { user_id: userInfo.dataValues.id, id: id } },
       );
       return res.status(200).send({
         data: { notificationInfo: notificationUpdate },
@@ -76,12 +77,12 @@ module.exports = {
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { review } = req.body;
+      const { id, review } = req.body;
       const notificationUpdate = await Models.Notification.update(
         {
           review: review,
         },
-        { where: { user_id: userInfo.dataValues.id } },
+        { where: { user_id: userInfo.dataValues.id, id: id } },
       );
       return res.status(200).send({
         data: { notificationInfo: notificationUpdate },
@@ -108,8 +109,9 @@ module.exports = {
       where: { user_id: userInfo.dataValues.id },
       order: [['updated_date', 'ASC']],
     });
+    console.log('확인확인확인확인');
 
-    if (curr > notificationDate.dataValues.updated_date) {
+    if (curr > notificationDate?.dataValues?.updated_date) {
       const notificationInfo = await Models.Notification.findOne({
         //* Notification테이블에 삭제할 기준의 날짜와 동일한 정보들 불러오기
         where: { updated_date: notificationDate.dataValues.updated_date },
@@ -128,7 +130,8 @@ module.exports = {
         },
       });
 
-      res.status(200).send({ message: '정보 삭제 완료' });
+      return res.status(200).send({ message: '정보 삭제 완료' });
     }
+    res.status(200).send({ message: '삭제할 정보 없음' });
   },
 };
