@@ -8,7 +8,8 @@ import axios from "axios";
 import { connect } from "react-redux";
 import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,6 +23,7 @@ const FlexRow = styled.div`
   border: 2px solid black;
   height: 5vh;
   align-items: center;
+  margin-top: 1rem;
   div {
     height: 100%;
     flex-grow: 1;
@@ -30,19 +32,47 @@ const FlexRow = styled.div`
   }
 `;
 const SortDiv = styled.div`
-align-self: flex-end;
+  align-self: flex-end;
   margin-right: 1rem;
   margin-top: 1rem;
-  border: 2px solid black;
-  width: auto;
-`
+  border-radius: 3px;
+  width: 100px;
+  height: 4vh;
+  select {
+    width: 100%;
+    height: 90%;
+    font-size: 15px;
+  }
+`;
 const CategoryList = styled.div`
   background-color: ${(props) =>
-    String(props.idx) === props.backgroundOn ? "rgba(0, 0, 0, 0.2)" : null};
+    String(props.idx) === props.backgroundOn ? "rgba(239,128,128, 0.2)" : null};
+  transition: 0.4s;
+  font-size: 15px;
+  font-weight: bold;
+  padding-top: 1vh;
+  cursor: pointer;
+  :hover {
+    p {
+      transform: scale(1.1);
+    }
+  }
 `;
 const CategortCityList = styled.div`
   background-color: ${(props) =>
-    String(props.idx) === props.backgroundCity ? "rgba(0, 0, 0, 0.2)" : null};
+    String(props.idx) === props.backgroundCity
+      ? "rgba(239,128,128, 0.2)"
+      : null};
+  transition: 0.4s;
+  font-size: 15px;
+  font-weight: bold;
+  padding-top: 1vh;
+  cursor: pointer;
+  :hover {
+    p {
+      transform: scale(1.1);
+    }
+  }
 `;
 const ListView = styled.ul`
   display: flex;
@@ -50,8 +80,11 @@ const ListView = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
 `;
+
+const BannerDiv = styled.div``;
+
 function Main({ searchWord }) {
-  const category = ["음식점", "카페", "미용"];
+  const category = ["음식점", "카페"];
   const categoryCity = [
     "서울",
     "부산",
@@ -69,13 +102,15 @@ function Main({ searchWord }) {
   const [backgroundOn, setBackgroundOn] = useState("");
   const [backgroundCity, setBackgroundCity] = useState("");
   const [page, setPage] = useState(1);
-  const [order, setOrder] = useState('')
+  const [order, setOrder] = useState("");
   const offset = (page - 1) * 12;
-
+  console.log(shop);
   const getShopList = useCallback(async () => {
-    await axios.get(`${process.env.REACT_APP_API_URL}/?order=${order}`).then((resp) => {
-      setShop(resp.data.data);
-    });
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/?order=${order}`)
+      .then((resp) => {
+        setShop(resp.data.data);
+      });
     setIsLoading(false);
   }, [order]);
   useEffect(() => {
@@ -147,13 +182,13 @@ function Main({ searchWord }) {
   };
 
   const changeSort = (e) => {
-    setOrder(e.target.value)
-  }
+    setOrder(e.target.value);
+  };
   return (
     <>
-      <div>
+      <BannerDiv>
         <Banner />
-      </div>
+      </BannerDiv>
       <FlexCol>
         <FlexRow>
           {category.map((category, idx) => {
@@ -164,7 +199,7 @@ function Main({ searchWord }) {
                 backgroundOn={backgroundOn}
                 onClick={() => clickCategory(category, idx)}
               >
-                {category}
+                <p>{category}</p>
               </CategoryList>
             );
           })}
@@ -178,16 +213,16 @@ function Main({ searchWord }) {
                 backgroundCity={backgroundCity}
                 onClick={() => clickCategoryCity(category, idx)}
               >
-                {category}
+                <p>{category}</p>
               </CategortCityList>
             );
           })}
         </FlexRow>
         <SortDiv>
           <select onChange={changeSort}>
-            <option value=''>가나다 순</option>
-            <option value='view'>리뷰 순</option>
-            <option value='score'>별점 순</option>
+            <option value="">가나다 순</option>
+            <option value="view">리뷰 순</option>
+            <option value="score">별점 순</option>
           </select>
         </SortDiv>
       </FlexCol>

@@ -32,7 +32,7 @@ const Textarea = styled.textarea`
   justify-content: start;
 `
 function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
-  const img = JSON.parse(reservate.image_src)[0].location
+  const img = JSON.parse(reservate.image_src)[0]?.location
   const [openReviewInput, setOpenReviewInput] = useState(false);
   const date = reservate.date.replace("T", " ").replace(/\..*/, "");
   const clickCancleBtn = () => {
