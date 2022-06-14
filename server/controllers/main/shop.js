@@ -40,6 +40,13 @@ module.exports = {
               attributes: ['id', 'user_name'],
             },
           ],
+          include: [
+            {
+              model: Models.User,
+              as: 'user',
+              attributes: ['id', 'user_name'],
+            },
+          ],
         },
         {
           model: Models.Menu,
