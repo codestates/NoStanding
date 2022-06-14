@@ -149,7 +149,7 @@ module.exports = {
             {
               reservation_id: newReservation.dataValues.id,
               user_id: shopInfo.dataValues.id,
-              contents: `${userInfo.dataValues.nickname}님께서 ${date} 에 점주님의 ${shop_name} 예약이 완료되었습니다.`,
+              contents: `${userInfo.dataValues.nickname}님께서 ${date} 에 사장님의 ${shop_name} 예약이 완료되었습니다.`,
               read: 0,
               created_date: null,
               updated_date: updated,

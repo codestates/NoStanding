@@ -132,6 +132,6 @@ module.exports = {
 
       return res.status(200).send({ message: '정보 삭제 완료' });
     }
-    res.status(200).send({ message: '삭제할 정보 없음' });
+    res.status(201).send({ message: '삭제할 정보 없음' });
   },
 };
