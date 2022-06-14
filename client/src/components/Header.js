@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import Login from "./Login.js";
@@ -80,6 +80,7 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchedshop, setSearchedshop] = useState("");
   const [goMypage, setGoMypage] = useState("/");
+  const logoImg = "img/nostandinglogo.png"
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
@@ -109,12 +110,16 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
       setGoMypage("/Mypage");
     }
   };
+
+  const clickAlarm = ()=> {
+    console.log('클릭');
+  }
   return (
     <Container>
       <Navbar>
         <Logo>
           <Link to="/">
-            <Img src="img/nostandinglogo.png" />
+            <Img src={logoImg} />
           </Link>
         </Logo>
         <Search onSubmit={searchShop}>
@@ -145,6 +150,7 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
           <Link to={goMypage}>
             <NavMenu onClick={clickMypage}>마이페이지</NavMenu>
           </Link>
+          <FontAwesomeIcon icon={faBell} onClick={clickAlarm}></FontAwesomeIcon>
           {isOpen ? <Login controlClose={controlClose} /> : null}
         </Menu>
       </Navbar>

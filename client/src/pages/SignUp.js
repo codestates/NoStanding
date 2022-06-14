@@ -7,33 +7,59 @@ import { useNavigate } from "react-router-dom";
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  margin: 1em;
-  border: 2px solid black;
+  width: 100%;
+  margin-bottom: 20px;
 `;
+const Form = styled.form`
+  width: 100%;
+  height: 100%;
+`
 const ChooseDiv = styled.div`
-  margin-top: 2em;
-  border: 2px solid black;
-  font-size: 25px;
-  font-weight: bold;
-  width: 5em;
+  margin-top: 1rem;
+  border: 1px solid rgb(231, 231, 231);
+  font-size: 15px;
+  font-weight: 550;
+  height: auto;
+  padding: 12px;
+  width: 12rem;
   text-align: center;
+  margin-bottom: 3rem;
+  flex-grow: 1;
+  color: ${(props) => (props.backgroundOn ? "white" : "black")};
+  background-color: ${(props) =>
+    props.backgroundOn ? "rgb(21,64,99)" : null};
 `;
 const Container = styled.div`
-  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  margin: 0px auto;
+  h1 {
+    color: rgba(68,68,68,0.8);
+    margin: 1rem;
+    align-self: flex-start;
+  }
 `;
+const Input = styled.input`
+  width: 100%;
+  height: 100%;
+`
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2em;
+  justify-content: center;
+  align-self: flex-start;
+  width: 100%;
 `;
-const Img = styled.img`
-  width: 10em;
-  height: 10em;
-  margin: 1em;
-`;
+const TagDiv = styled.div`
+  align-self: start;
+  margin: 4px;
+  font-size: 15px;
+  font-weight: 600;
+`
 const Button = styled.button`
   margin: 1em;
   width: 10em;
@@ -213,26 +239,34 @@ function SingUp() {
 
   return (
     <Container>
+      <h1>회원가입</h1>
       <FlexRow>
-        <ChooseDiv onClick={(e) => clickChooseBtn(false)}>고객회원</ChooseDiv>
-        <ChooseDiv onClick={(e) => clickChooseBtn(true)}>점주회원</ChooseDiv>
+        <ChooseDiv
+          backgroundOn={!isMaster}
+          onClick={(e) => clickChooseBtn(false)}
+        >
+          고객 회원
+        </ChooseDiv>
+        <ChooseDiv
+          backgroundOn={isMaster}
+          onClick={(e) => clickChooseBtn(true)}
+        >
+          점주 회원
+        </ChooseDiv>
       </FlexRow>
       <FlexCol>
-        <FlexRow>
-          <Img src="img/test2.png"></Img>
-          <FlexCol>
-            <FlexRow>
-              <div value={userName}>아이디 : </div>
-              <input type="text" onChange={inputUserName} value={userName} />
+            <FlexCol>
+              <TagDiv value={userName}>* 아이디</TagDiv>
+              <Input type="text" onChange={inputUserName} value={userName} />
               {onId ? null : (
                 <MessageDiv>
                   아이디는 영문자, 숫자로 된 4~12 길이입니다.
                 </MessageDiv>
               )}
-            </FlexRow>
-            <FlexRow>
-              <div value={password}>패스워드 : </div>
-              <input type="password" onChange={inputPwd} value={password} />
+            </FlexCol>
+            <FlexCol>
+              <TagDiv value={password}>* 패스워드</TagDiv>
+              <Input type="password" onChange={inputPwd} value={password} />
               {/* {onPwd ? null : (
                 <MessageDiv>
                   비밀번호는 영문자, 숫자, 특수문자가 포함된 8자 이상입니다.
@@ -240,10 +274,10 @@ function SingUp() {
               )} 
               !주석 풀면 비밀번호 유효성 검사 가능
               */}
-            </FlexRow>
-            <FlexRow>
-              <div value={checkPassword}>패스워드 확인 : </div>
-              <input
+            </FlexCol>
+            <FlexCol>
+              <TagDiv value={checkPassword}>* 패스워드 확인</TagDiv>
+              <Input
                 type="password"
                 onChange={inputCheckPwd}
                 value={checkPassword}
@@ -251,45 +285,43 @@ function SingUp() {
               {onCheckPwd ? null : (
                 <MessageDiv>비밀번호가 맞지 않습니다.</MessageDiv>
               )}
-            </FlexRow>
-          </FlexCol>
-        </FlexRow>
-        <FlexRow>
-          <div value={nickname}>닉네임 : </div>
-          <input type="text" onChange={inputNickname} value={nickname} />
+            </FlexCol>
+        <FlexCol>
+          <TagDiv value={nickname}>* 닉네임</TagDiv>
+          <Input type="text" onChange={inputNickname} value={nickname} />
           {onNickname ? null : (
             <MessageDiv>
               닉네임은 영문자, 한글, 숫자로 된 2~10 길이만 가능합니다
             </MessageDiv>
           )}
-        </FlexRow>
+        </FlexCol>
         {isMaster ? (
           <>
-            <FlexRow>
-              <div value={shopName}>가게이름(점주) : </div>
-              <input type="text" onChange={inputShopName} value={shopName} />
-            </FlexRow>
-            <FlexRow>
-              <div>가게 위치(점주) : </div>
+            <FlexCol>
+              <TagDiv value={shopName}>* 가게이름</TagDiv>
+              <Input type="text" onChange={inputShopName} value={shopName} />
+            </FlexCol>
+            <FlexCol>
+              <TagDiv>* 가게 위치</TagDiv>
               <select onChange={inputShopCategoryCity}>
                 <option value="none">=== 선택 ===</option>
                 {categoryCity.map((locate, idx) => {
                   return <option key={idx}>{locate}</option>;
                 })}
               </select>
-            </FlexRow>
-            <FlexRow>
-              <div>업종(점주) : </div>
+            </FlexCol>
+            <FlexCol>
+              <TagDiv>* 업종</TagDiv>
               <select onChange={inputShopCategory}>
                 <option value="none">=== 선택 ===</option>
                 {category.map((category, idx) => {
                   return <option key={idx}>{category}</option>;
                 })}
               </select>
-            </FlexRow>
-            <FlexRow>
-              <div value={address}>주소지(점주) : </div>
-              <input
+            </FlexCol>
+            <FlexCol>
+              <TagDiv value={address}>* 주소지</TagDiv>
+              <Input
                 type="text"
                 onChange={(e) => setAddress(e)}
                 value={address}
@@ -304,22 +336,26 @@ function SingUp() {
               {popup ? (
                 <Post address={address} setAddress={setAddress}></Post>
               ) : null}
-            </FlexRow>
+            </FlexCol>
           </>
         ) : null}
-        <FlexRow>
-          <div value={phoneNumber}>핸드폰 번호(인증) : </div>
-          <input type="text" onChange={inputPhoneNum} value={phoneNumber} />
-        </FlexRow>
-        <FlexRow>
-          <div value={email}>이메일 중복확인 : </div>
-          <form onSubmit={submitCheckEmail}>
-            <input type="text" onChange={inputEmail} value={email} />
-            <button>인증 메일 보내기</button>
-          </form>
+        <FlexCol>
+          <TagDiv value={phoneNumber}>핸드폰 번호</TagDiv>
+          <Input type="text" onChange={inputPhoneNum} value={phoneNumber} />
+        </FlexCol>
+        <FlexCol>
+          <TagDiv value={email}>* 이메일 중복확인</TagDiv>
+          <Form onSubmit={submitCheckEmail}>
+            <FlexRow>
+            <Input type="text" onChange={inputEmail} value={email} />
+            <button>중복검사</button>
+            </FlexRow>
+          </Form>
+          </FlexCol>
+          <FlexCol>
           {checkEmail ? (
-            <form onSubmit={submitConfirmNum}>
-              <input
+            <Form onSubmit={submitConfirmNum}>
+              <Input
                 type="text"
                 placeholder="인증번호를 입력하세요"
                 value={userConfirmNum}
@@ -329,9 +365,9 @@ function SingUp() {
                 남은 인증시간 {minutes}:{seconds}
               </div>
               <button>인증하기</button>
-            </form>
+            </Form>
           ) : null}
-        </FlexRow>
+          </FlexCol>
         <Button onClick={clickSignUpBtn}>가입하기</Button>
       </FlexCol>
     </Container>

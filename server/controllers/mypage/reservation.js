@@ -66,7 +66,6 @@ module.exports = {
   post: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
-      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       }
@@ -74,9 +73,6 @@ module.exports = {
       delete userInfo.dataValues.user_salt;
 
       const { menu_id, date } = req.body;
-
-      console.log(req.params);
-      console.log(userInfo);
       const reservationPrev = await Reservation.findOne({
         where: {
           user_id: userInfo.dataValues.id,

@@ -104,7 +104,6 @@ function Main({ searchWord }) {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState("");
   const offset = (page - 1) * 12;
-  console.log(shop);
   const getShopList = useCallback(async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/?order=${order}`)
