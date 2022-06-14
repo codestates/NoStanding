@@ -79,17 +79,19 @@ module.exports = {
         console.log(newReview);
 
         const curr = new Date();
+        const newCurr = curr.toLocaleDateString('ko-kr');
+        const updated = curr.setDate(curr.getDate() + 4);
 
         const masterNotification = await Models.Notification.create(
           //* 고객알림
           {
             user_id: newReview.dataValues.shop.user.id,
             review_id: newReview.dataValues.id,
-            contents: `${userInfo.dataValues.nickname}님께서 사장님의 ${newReview.dataValues.shop.user.shop_name} 리뷰를 작성하셨습니다.
+            contents: `${userInfo.dataValues.nickname}님께서 ${newCurr} 사장님의 ${newReview.dataValues.shop.user.shop_name} 리뷰를 작성하셨습니다.
 고객님의 리뷰에 답글을 작성해주세요.
 (답글 쓰기는 예약 이후 3일동안 가능합니다)`,
             read: 0,
-            updated_date: curr.setDate(curr.getDate() + 4),
+            updated_date: updated,
             review: 1,
           },
           { transaction },

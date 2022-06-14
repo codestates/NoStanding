@@ -184,15 +184,17 @@ module.exports = {
         );
 
         const curr = new Date();
+        const newCurr = curr.toLocaleDateString('ko-kr');
+        const updated = curr.setDate(curr.getDate() + 4);
 
         const masterNotification = await Models.Notification.create(
           //* 고객알림
           {
             user_id: newRe_review.dataValues.review.user_id,
             rereview_id: newRe_review.dataValues.id,
-            contents: `${userInfo.dataValues.shop_name} 사장님이 고객님의 리뷰에 답글을 작성하셨습니다.`,
+            contents: `${userInfo.dataValues.shop_name} 사장님이 ${newCurr} 고객님의 리뷰에 답글을 작성하셨습니다.`,
             read: 0,
-            updated_date: curr.setDate(curr.getDate() + 4),
+            updated_date: updated,
           },
           { transaction },
         );
