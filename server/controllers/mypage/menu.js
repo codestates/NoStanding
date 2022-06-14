@@ -39,18 +39,17 @@ module.exports = {
   },
   post: async (req, res) => {
     try {
-      // const userInfo = await userAuth(req, res);
-      // if (!userInfo) {
-      //   return res.status(400).json({ message: '유저정보 없음' });
-      // }
-      // delete userInfo.dataValues.password;
-      // delete userInfo.dataValues.user_salt;
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
 
-      const { shop_id, image_src, name, price } = req.body;
+      const { shop_id, name, price } = req.body;
 
       const menuUpdate = await Models.Menu.create({
         shop_id: shop_id,
-        image_src: image_src,
         name: name,
         price: price,
       });
@@ -65,16 +64,16 @@ module.exports = {
   },
   delete: async (req, res) => {
     try {
-      // const userInfo = await userAuth(req, res);
-      // if (!userInfo) {
-      //   return res.status(400).json({ message: '유저정보 없음' });
-      // }
-      // delete userInfo.dataValues.password;
-      // delete userInfo.dataValues.user_salt;
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
 
-      const { shop_id, name } = req.params;
+      const { id } = req.params;
       console.log(req.params);
-      await Models.Menu.destroy({ where: { shop_id: shop_id, name: name } });
+      await Models.Menu.destroy({ where: { id: id } });
 
       res.status(201).send({ message: '정보 삭제 완료' });
     } catch (err) {
