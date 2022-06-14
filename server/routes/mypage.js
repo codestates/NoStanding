@@ -63,7 +63,11 @@ const delete_shop = require('../middlewares/deleteS3/delete_shop');
  */
 
 router.get('/reservation/:user_name', mypage.reservation.get);
-router.post('/reservation/:user_name', mypage.reservation.post);
+router.post(
+  '/reservation/:user_name',
+
+  mypage.reservation.post,
+);
 router.delete('/reservation/:user_name/:id', mypage.reservation.delete);
 
 router.get('/bookmark/:user_name', mypage.bookmark.get);

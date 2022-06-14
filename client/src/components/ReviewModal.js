@@ -57,8 +57,10 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
       .then((resp) => {
         console.log(resp);
         const formData = new FormData();
+        
         for (let i = 0; i < submitFormData.length; i++) {
           formData.append("file", submitFormData[i]);
+          
         }
         // formData.append("file", submitFormData[0]);
 

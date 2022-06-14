@@ -63,8 +63,7 @@ module.exports = {
             nullIdx.push(i);
           }
         }
-        console.log(nullIdx);
-
+        console.log(req.files);
         for (let i = 0; i < req.files.length; i++) {
           let key = req.files[i].key;
           let location = req.files[i].location;
@@ -72,7 +71,7 @@ module.exports = {
           imageParse[nullIdx[i]] = imageEle;
         }
         // const image = {key : req.file.key , src : req.file.location}
-        console.log(imageParse);
+
         await Models.Shop.update(
           {
             image_src: JSON.stringify(imageParse),
@@ -105,6 +104,7 @@ module.exports = {
           },
         );
       }
+      // const image = {key : req.file.key , src : req.file.location}
 
       res.status(200).send({ message: '이미지 업로드 완료' });
     } catch (err) {
@@ -112,7 +112,6 @@ module.exports = {
       res.status(500).send({ message: '서버 에러' });
     }
   },
-
   patch: async (req, res) => {
     const userInfo = await userAuth(req, res);
     if (!userInfo) {
@@ -130,16 +129,16 @@ module.exports = {
         },
         attributes: ['image_src'],
       });
-
+      console.log(shopInfo);
       let image = shopInfo.dataValues.image_src;
 
-      let imageParse = JSON.parse(image.image_src);
+      let imageParse = JSON.parse(image);
 
       imageParse[image_number] = null;
 
       await Models.Shop.update(
         {
-          image_src: JSON.stringify(imageArr),
+          image_src: JSON.stringify(imageParse),
         },
         {
           where: {
@@ -147,7 +146,7 @@ module.exports = {
           },
         },
       );
-      res.status(201).send({ message: '' });
+      res.status(201).send({ message: '이미지 변경 완료' });
     } catch (err) {
       console.log(err);
       res.status(500).send({ message: 'Server Error' });

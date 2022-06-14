@@ -3,53 +3,68 @@ import styled from "styled-components";
 
 const Container = styled.li`
   width: 22.2vw;
-  height: 38vh;
-  border: 2px solid black;
+  height: 40vh;
   margin: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 4px;
+  border: 1px solid black;
+  overflow: hidden;
+  cursor: default;
 `;
+
 const Img = styled.img`
   width: 100%;
   height: 60%;
-  border: 2px solid black;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
-const Star = styled.div`
-  align-self: flex-start;
-`;
-const ShopName = styled.div`
-  margin-top: 2%;
-  align-self: flex-start;
-`;
-const ShopAddress = styled.div`
-  margin-top: 2%;
-  align-self: flex-start;
+
+const InfoDiv = styled.div`
+  margin-top: 1rem;
+  align-self: center;
+  font-weight: ${(props) => (props.weight ? "bold" : null)};
+  color: ${(props) => (props.color ? "rgba(85,85,85)" : null)};
 `;
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: 2%;
-  div {
-    border: 2px solid black;
-    margin: 0 10px 0 10px;
+  justify-content: space-around;
+  margin-top: 7%;
+  svg{
+    
   }
 `;
+const ScoreDiv = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 10px 0 10px;
+  color: #ef5e28;
+`;
+const ReviewDiv = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 10px 0 10px;
+  color: #368bca;
+`;
+
 function SearchList({ shopInfo }) {
-  const img = JSON.parse(shopInfo.image_src)[0].location
-  const score = shopInfo.score_average ||0
-  const reviewNum = shopInfo.total_views || 0
+  console.log(shopInfo.id);
+  const img = JSON.parse(shopInfo.image_src)[0]?.location;
+  const score = shopInfo.score_average || 0;
+  const reviewNum = shopInfo.total_views || 0;
 
   return (
     <Container>
-      <Star>☆</Star>
       <Img src={img}></Img>
-      <ShopName>{shopInfo.shop_name}</ShopName>
-      <ShopAddress>{shopInfo.shop_category_city}</ShopAddress>
+      <InfoDiv weight={true}>{shopInfo.shop_name}</InfoDiv>
+      <InfoDiv color={"true"}>{shopInfo.shop_category_city}</InfoDiv>
       <FlexRow>
-        <div>별점 : {score}</div>
-        <div>리뷰 개수 : {reviewNum}</div>
+        <ScoreDiv>★ {score}</ScoreDiv>
+        <ReviewDiv>✎ {reviewNum}</ReviewDiv>
       </FlexRow>
     </Container>
   );
