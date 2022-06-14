@@ -21,7 +21,7 @@ module.exports = {
 
       const { user_name } = req.params;
 
-      // 현재 시간(Locale)
+      // 현재 시간(Local)
       const curr = new Date();
       curr.setSeconds(curr.getSeconds() + 10);
 
@@ -93,7 +93,7 @@ module.exports = {
     }
   },
   delete: async (req, res) => {
-    // 현재 시간(Locale)
+    // 현재 시간(Local)
     const curr = new Date();
     curr.setMinutes(curr.getMinutes() + 10);
 
