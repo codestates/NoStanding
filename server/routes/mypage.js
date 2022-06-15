@@ -75,7 +75,10 @@ router.delete('/menu/:user_name/:id', mypage.menu.delete);
 
 router.get('/notification/:user_name', mypage.notification.get);
 router.patch('/notification/:user_name', mypage.notification.patch);
-router.patch('/notification/:user_name', mypage.notification.reviewpatch);
+router.patch(
+  '/notification/reviewpatch/:user_name',
+  mypage.notification.reviewpatch,
+);
 router.delete('/notification/:user_name', mypage.notification.delete);
 
 router.get('/re_review/:user_name', mypage.re_review.get);
@@ -101,7 +104,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/reservation/:user_name:
+ *  /mypage/reservation/:user_name:
  *    get:
  *      summary: "예약 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -153,7 +156,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/reservation/:user_name:
+ *  /mypage/reservation/:user_name:
  *    post:
  *      summary: "예약 추가"
  *      description: ""
@@ -204,7 +207,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/reservation/:user_name/:reservation_id:
+ *  /mypage/reservation/:user_name/:reservation_id:
  *    delete:
  *      summary: "예약 취소"
  *      description: ""
@@ -250,7 +253,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/bookmark/:user_name:
+ *  /mypage/bookmark/:user_name:
  *    get:
  *      summary: "즐겨찾기 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -291,7 +294,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/img/:user_name:
+ *  /mypage/img/:user_name:
  *    get:
  *      summary: "가게 사진 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -343,7 +346,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/img/:user_name:
+ *  /mypage/img/:user_name:
  *    post:
  *      summary: "가게 사진 추가 / s3 업로드"
  *      description: ""
@@ -383,7 +386,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/img/:user_name:
+ *  /mypage/img/:user_name:
  *    patch:
  *      summary: "가게 사진 수정"
  *      description: ""
@@ -463,7 +466,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/menu/:user_name:
+ *  /mypage/menu/:user_name:
  *    get:
  *      summary: "가게 메뉴 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -498,7 +501,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/menu/:user_name:
+ *  /mypage/menu/:user_name:
  *    post:
  *      summary: "가게 메뉴 추가"
  *      description: ""
@@ -538,7 +541,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/menu/:user_name:
+ *  /mypage/menu/:user_name:
  *    patch:
  *      summary: "가게 메뉴 수정"
  *      description: ""
@@ -651,7 +654,213 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/re_review/:user_name:
+ *  /mypage/notification/:user_name:
+ *    get:
+ *      summary: "알람 정보 조회"
+ *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
+ *      tags: [mypage_notification]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
+ *      responses:
+ *        "200":
+ *          description: 고객 알람 정보
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                               [
+ *                                  {
+ *                                    "id": 122,
+ *                                     "user_id": 26,
+ *                                     "reservation_id": 129,
+ *                                     "review_id": null,
+ *                                     "rereview_id": null,
+ *                                     "contents": "test123님 2022-06-15 01:44:00 녹고뫼맛골 예약이 완료되었습니다.",
+ *                                     "read": 1,
+ *                                     "created_date": "2022-06-14T17:44:00.000Z",
+ *                                     "updated_date": "2022-06-18T17:44:00.000Z",
+ *                                     "review": null
+ *                                   },
+ *                                  {"message": "알림 정보 전달 완료"}
+ *                                ]
+ *        "201":
+ *          description: 점주 알람 정보
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                    data:
+ *                      type: object
+ *                      example:
+ *                               [
+ *                                  {
+ *                                    "id": 123,
+ *                                    "user_id": 89,
+ *                                    "reservation_id": 129,
+ *                                    "review_id": null,
+ *                                    "rereview_id": null,
+ *                                    "contents": "test123님께서 2022-06-15 01:44:00 에 사장님의 녹고뫼맛골 예약이 완료되었습니다.",
+ *                                    "read": 0,
+ *                                    "created_date": null,
+ *                                    "updated_date": "2022-06-18T17:44:00.000Z",
+ *                                    "review": null
+ *                                  },
+ *                                  {"message": "알림 정보 전달 완료"}
+ *                               ]
+ *        "400":
+ *          description: 자료 조회 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "자료 조회 실패"}
+ *        "500":
+ *          description: Server Error
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /mypage/notification/:user_name:
+ *    patch:
+ *      summary: "DB 값 수정 요청"
+ *      description: "읽음처리 확인을 위한 DB 값 변경"
+ *      tags: [mypage_notification]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
+ *      requestBody:
+ *        description: id,ㄱㄷ퍋ㅈ 값 요청
+ *        required: true
+ *        content:
+ *          application/json:
+ *             schema:
+ *                   example:
+ *                            {
+ *                              "id": "28",
+ *                              "read": "1",
+ *                            }
+ *      responses:
+ *        "200":
+ *          description: 알림 수정 완료
+ *          content:
+ *            application/json:
+ *                      example:
+ *                          {
+ *                            message : "정보 입력 완료"
+ *                          }
+ *        "400":
+ *          description: 유저 정보 없음
+ *          content:
+ *            application/json:
+ *                      example:
+ *                          {
+ *                            message : "유저 정보 없음"
+ *                          }
+ *        "500":
+ *          description: Server Error
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /mypage/notification/reviewpatch/:user_name:
+ *    patch:
+ *      summary: "DB 값 수정 요청"
+ *      description: "리뷰작성 확인을 위한 DB 값 변경"
+ *      tags: [mypage_notification]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
+ *      requestBody:
+ *        description: id,review 값 요청
+ *        required: true
+ *        content:
+ *          application/json:
+ *             schema:
+ *                   example:
+ *                            {
+ *                              "id": "28",
+ *                              "review": "0",
+ *                            }
+ *      responses:
+ *        "200":
+ *          description: 알림 수정 완료
+ *          content:
+ *            application/json:
+ *                      example:
+ *                          {
+ *                            message : "정보 입력 완료"
+ *                          }
+ *        "400":
+ *          description: 유저 정보 없음
+ *          content:
+ *            application/json:
+ *                      example:
+ *                          {
+ *                            message : "유저 정보 없음"
+ *                          }
+ *        "500":
+ *          description: Server Error
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /mypage/notification/:user_name:
+ *    delete:
+ *      summary: "정보 삭제"
+ *      description: ""
+ *      tags: [mypage_notification]
+ *      parameters:
+ *      - in: path
+ *        name: user_name
+ *        required: true
+ *        description: 유저 이름
+ *        schema:
+ *          type: string
+ *      responses:
+ *        "200":
+ *          description: 정보 삭제 완료
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "정보 삭제 완료"}
+ *        "500":
+ *          description: Server Error
+ */
+
+/**
+ * @swagger
+ * paths:
+ *  /mypage/re_review/:user_name:
  *    post:
  *      summary: "리뷰 추가"
  *      description: "점주가 답글달 때, Post방식으로 요청"
@@ -691,7 +900,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/shopinfo/:user_name:
+ *  /mypage/shopinfo/:user_name:
  *    get:
  *      summary: "가게 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -746,7 +955,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/userinfo/:user_id:
+ *  /mypage/userinfo/:user_id:
  *    get:
  *      summary: "유저 정보 조회"
  *      description: "서버에 데이터를 보내지 않고 Get방식으로 요청"
@@ -768,7 +977,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/userinfo/:user_id:
+ *  /mypage/userinfo/:user_id:
  *    patch:
  *      summary: "유저 정보 수정"
  *      description: ""
@@ -801,7 +1010,7 @@ router.delete('/Shop/:id', delete_shop.delete);
 /**
  * @swagger
  * paths:
- *  mypage/userinfo/:user_name:
+ *  /mypage/userinfo/:user_name:
  *    delete:
  *      summary: "회원 탈퇴"
  *      description: ""
