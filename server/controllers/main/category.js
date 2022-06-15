@@ -42,7 +42,7 @@ module.exports = {
             attributes: [],
           },
         ],
-        attributes: ['id', 'image_src'],
+        attributes: ['id', 'image_src', 'total_views', 'score_average'],
       });
 
       const arrInfo = [];
@@ -56,6 +56,8 @@ module.exports = {
           address_line1: el.user.address_line1,
           address_line2: el.user.address_line2,
           is_marked: el.Bookmarks.is_marked,
+          total_views: el.total_views,
+          score_average: el.score_average
         });
       });
 

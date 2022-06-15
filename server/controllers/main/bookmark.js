@@ -22,7 +22,7 @@ module.exports = {
       
 
       if (bookmarkInfo.length === 0) {
-        if (is_marked === 'true') {
+        if (is_marked === true) {
           await Models.Bookmark.create({
             user_id: userInfo.dataValues.id,
             shop_id: shop_id,
@@ -32,7 +32,7 @@ module.exports = {
           res.status(200).send({ message: '즐겨찾기 추가 완료' });
         }
       } else {
-        if (is_marked === 'false') {
+        if (is_marked === false) {
           await Models.Bookmark.update(
             {
               is_marked: false,
@@ -46,7 +46,7 @@ module.exports = {
           );
 
           res.status(200).send({ message: '즐겨찾기 삭제 완료' });
-        } else if (is_marked === 'true') {
+        } else if (is_marked === true) {
           await Models.Bookmark.update(
             {
               is_marked: true,

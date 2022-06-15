@@ -5,10 +5,15 @@ import styled from "styled-components";
 import ReviewInfo from "./ReviewInfo";
 
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 600px;
+  margin: 0px auto;
+  h1 {
+    color: rgba(68,68,68,0.8);
+    margin: 1rem;
+    align-self: flex-start;
+  }
 `;
 const H2 = styled.h2`
   margin: 1em;

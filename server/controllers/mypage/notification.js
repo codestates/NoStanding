@@ -54,7 +54,6 @@ module.exports = {
         ],
         where: { user_id: userInfo.dataValues.id },
       });
-
       if (notificationInfo) {
         return res.status(200).send({
           data: notificationInfo,

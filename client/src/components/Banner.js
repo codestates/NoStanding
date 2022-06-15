@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import styled from "styled-components";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Container = styled.div`
   background-image: url(${(props) => props.img});
@@ -19,9 +19,10 @@ const Arrows = styled.div`
 `;
 
 function Banner() {
+  const bannerImg = "img/test.jpeg";
   return (
     <>
-      <Container img={'img/test.jpeg'}>
+      <Container img={bannerImg}>
         <Arrows>
           <FontAwesomeIcon icon={faAngleLeft} size="3x" />
         </Arrows>
