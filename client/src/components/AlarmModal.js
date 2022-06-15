@@ -38,6 +38,7 @@ const Button = styled.button`
 
 function AlarmModal({ alarmData, userInfo }) {
   const [openReview, setOpenReview] = useState(false);
+  const [chooseIdx, setChooseIdx] = useState(0)
   console.log(alarmData);
   const clickAlarm = (id) => {
     axios
@@ -53,24 +54,26 @@ function AlarmModal({ alarmData, userInfo }) {
       )
       .then((resp) => console.log(resp));
   };
-  const clickOpenReview = () => {
+  const clickOpenReview = (id) => {
     setOpenReview(true);
+    setChooseIdx(id);
   };
+  console.log(chooseIdx);
   return (
     <Wrapper>
-      {alarmData.map((data) => (
+      {alarmData.map((data,idx) => (
         <div key={data.id}>
           <P isRead={data.read} onClick={() => clickAlarm(data.id)}>
             {data.contents}
           </P>
-          {data.review === 1 ? (
-            <Button onClick={clickOpenReview}>리뷰 작성하기</Button>
-          ) : null}
-          {openReview ? (
-            <ReviewModal isOpen={setOpenReview} shopId={data.reservation.menu.shop_id} />
+          {data.review === 1 || data.rereview === 1? (
+            <Button onClick={()=>clickOpenReview(idx)}>리뷰 작성하기</Button>
           ) : null}
         </div>
       ))}
+      {openReview ? (
+            <ReviewModal isOpen={setOpenReview} shopId={alarmData[chooseIdx].reservation.menu.shop_id} alarmData={alarmData[chooseIdx]} />
+          ) : null}
     </Wrapper>
   );
 }

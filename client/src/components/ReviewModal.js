@@ -35,7 +35,10 @@ const Img = styled.img`
   height: 50px;
   border: 2px solid black;
 `;
-function ReviewModal({ isOpen, userInfo, shopId }) {
+
+function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
+  console.log(shopId);
+  console.log(alarmData);
   const [writeReview, setWriteReview] = useState("");
   const [imgList, setImgList] = useState([]);
   const [score, setScore] = useState("1");
@@ -56,20 +59,33 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
       )
       .then((resp) => {
         const formData = new FormData();
-        
+
         for (let i = 0; i < submitFormData.length; i++) {
           formData.append("file", submitFormData[i]);
-          
         }
 
-        axios
-          .post(
-            `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,
-            formData,
-            {
-              withCredentials: true,
-            }
-          )
+        axios.post(
+          `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,
+          formData,
+          {
+            withCredentials: true,
+          }
+        );
+      })
+      .then((resp) => {
+        if(alarmData) {
+          console.log('알람에서 바로');
+        axios.patch(
+          `${process.env.REACT_APP_API_URL}/mypage/notification/reviewpatch/${userInfo.user_name}`,
+          {
+            id: alarmData.id,
+            review: 0,
+          },
+          {
+            withCredentials: true,
+          }
+        ).then((resp)=> console.log(resp))
+        }
       })
       .then(() => isOpen(false));
   };
@@ -81,7 +97,7 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
   const clickExitBtn = () => {
     isOpen(false);
   };
-  
+
   const changeScore = (e) => setScore(e.target.value);
 
   const uploadImg = (e) => {
@@ -141,7 +157,7 @@ function ReviewModal({ isOpen, userInfo, shopId }) {
         <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
           <FlexDiv direction="row">
-            {radioNumber.map((val,idx) => (
+            {radioNumber.map((val, idx) => (
               <FlexDiv key={val} direction="column">
                 {val}점
                 <input

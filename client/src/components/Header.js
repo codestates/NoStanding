@@ -45,13 +45,13 @@ const Search = styled.form`
   align-items: center;
   justify-content: center;
   border: 3px solid #154063;
-  border-radius: 8px;
+  border-radius: 20px;
   input {
     width: 100%;
     height: 3rem;
     background-color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 15px;
     &:focus {
       outline: none;

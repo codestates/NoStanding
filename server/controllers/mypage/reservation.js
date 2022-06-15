@@ -29,9 +29,7 @@ module.exports = {
     // })
     // reservation - menu - shop
     if (userInfo.dataValues.is_master === 0) {
-
       const query = `SELECT R.id, R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id as shop_id, S.image_src from Reservation R
-
       Join Menu M ON M.id = R.menu_id
       Join Shop S ON S.id = M.shop_id
       Join User U ON S.user_id = U.id
@@ -49,7 +47,6 @@ module.exports = {
           .send({ data: reservationlist, message: '정보 전달 완료' });
       }
     } else {
-
       const query2 = `SELECT R.id ,R.user_id , R.date , M.name  FROM Reservation R Join Menu M On R.menu_id = M.id
 
       Join Shop S On M.shop_id = S.id
@@ -105,6 +102,14 @@ module.exports = {
         );
 
         await sequelize.transaction(async transaction => {
+          const newReservation = await Reservation.findOne(
+            //* 로그인한 고객의 id 찾기
+            {
+              where: { user_id: userInfo.dataValues.id },
+              order: [['id', 'DESC']],
+            },
+            { transaction },
+          );
           let newdate = newReservation.dataValues.date;
           let created = newdate.setHours(newdate.getHours() + 1);
           let updated = newdate.setDate(newdate.getDate() + 4);
@@ -124,7 +129,7 @@ module.exports = {
 
           if (!userNotification) {
             //* 유저 알림이 생성되지 않았다면 오류 메세지
-            throw new Error('userNotification가 없습니다.');
+            throw new Error('userNotification 생성 오류');
           }
 
           const shopInfo = await Models.User.findOne(
@@ -143,7 +148,7 @@ module.exports = {
             {
               reservation_id: newReservation.dataValues.id,
               user_id: shopInfo.dataValues.id,
-              contents: `${userInfo.dataValues.nickname}님께서 ${date} 에 점주님의 ${shop_name} 예약이 완료되었습니다.`,
+              contents: `${userInfo.dataValues.nickname}님께서 ${date} 에 사장님의 ${shop_name} 예약이 완료되었습니다.`,
               read: 0,
               created_date: null,
               updated_date: updated,
@@ -153,7 +158,7 @@ module.exports = {
 
           if (!masterNotification) {
             //* 점주 알림이 생성되지 않았다면 오류 메세지
-            throw new Error('masterNotification가 없습니다.');
+            throw new Error('masterNotification 생성 오류');
           }
         });
 
@@ -167,9 +172,9 @@ module.exports = {
             order: [['id', 'DESC']],
           },
         );
-        console.log(newNotification);
 
         let createdDate = newNotification.dataValues.created_date;
+        //! 서버 바꾸면 밑에 로직 지우기
         createdDate.setMinutes(createdDate.getMinutes() - 540);
 
         const a = schedule.scheduleJob(createdDate, async function () {
@@ -188,7 +193,6 @@ module.exports = {
             },
           );
         });
-        console.log(a);
 
         res.status(200).send({
           message: '예약 추가 완료',
