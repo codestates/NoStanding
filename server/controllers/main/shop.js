@@ -33,7 +33,8 @@ module.exports = {
             'contents',
             'createdAt',
             'updatedAt',
-          ],include: [
+          ],
+          include: [
             {
               model: Models.User,
               as: 'user',
