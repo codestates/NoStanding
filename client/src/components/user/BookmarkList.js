@@ -4,38 +4,43 @@ import styled from "styled-components";
 
 const Container = styled.li`
   width: 22.2vw;
-  height: 38vh;
-  border: 2px solid black;
+  height: 40vh;
   margin: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-radius: 4px;
+  border: 1px solid black;
+  overflow: hidden;
+  cursor: default;
 `;
 const Img = styled.img`
   width: 100%;
   height: 60%;
-  border: 2px solid black;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
-const Star = styled.div`
-  align-self: flex-start;
+const InfoDiv = styled.div`
+  margin-top: 1rem;
+  align-self: center;
+  font-weight: ${(props) => (props.weight ? "bold" : null)};
+  color: ${(props) => (props.color ? "rgba(85,85,85)" : null)};
 `;
-const ShopName = styled.div`
-  margin-top: 2%;
-  align-self: flex-start;
-`;
-const ShopAddress = styled.div`
-  margin-top: 2%;
-  align-self: flex-start;
-`;
+
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: 2%;
-  div {
-    border: 2px solid black;
-    margin: 0 10px 0 10px;
-  }
+  justify-content: space-around;
+  margin-top: 7%;
+`;
+const ReviewDiv = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 10px 0 10px;
+  color: #368bca;
 `;
 function BookmarkList({ bookmarkInfo }) {
   let img = JSON.parse(bookmarkInfo.image_src)[0].location
@@ -43,10 +48,10 @@ function BookmarkList({ bookmarkInfo }) {
   return (
     <Container>
       <Img src={img}></Img>
-      <ShopName>{bookmarkInfo.user.shop_name}</ShopName>
-      <ShopAddress>{bookmarkInfo.user.address_line1}</ShopAddress>
+      <InfoDiv weight={true}>{bookmarkInfo.user.shop_name}</InfoDiv>
+      <InfoDiv color={"true"}>{bookmarkInfo.user.address_line1}</InfoDiv>
       <FlexRow>
-        <div>리뷰 개수 : {bookmarkInfo.Reviews.length}</div>
+        <ReviewDiv>✎ {bookmarkInfo.Reviews.length}</ReviewDiv>
       </FlexRow>
     </Container>
   );

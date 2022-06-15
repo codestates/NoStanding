@@ -11,13 +11,13 @@ const Nav = styled.nav`
 
 const Button = styled.button`
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 8px;
   margin: 0;
   background: black;
   color: white;
   font-size: 1rem;
-
+  transition: all 0.4s;
   &:hover {
     background: navy;
     cursor: pointer;

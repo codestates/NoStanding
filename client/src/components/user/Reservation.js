@@ -8,14 +8,9 @@ const Container = styled.div`
   flex-direction: column;
   width: 600px;
   margin: 0px auto;
-  h1 {
-    color: rgba(68,68,68,0.8);
-    margin: 1rem;
-    align-self: flex-start;
+  h2{
+    margin: 1em;
   }
-`;
-const H2 = styled.h2`
-  margin: 1em;
 `;
 const Div = styled.div`
 `;
@@ -104,7 +99,7 @@ function Reservation({ userInfo }) {
   return (
     <Container>
       <Div>
-        <H2>예약 내역</H2>
+        <h2>예약 내역</h2>
       </Div>
       <FlexRow>
         <ChooseDiv idx={1} onClick={() => clickChooseDiv(1)} backgroundOn={chooseList}>

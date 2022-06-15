@@ -18,6 +18,7 @@ const Img = styled.img`
   width: 100%;
   height: 60%;
   cursor: pointer;
+  transition: all 0.3s;
   &:hover {
     transform: scale(1.05);
   }
@@ -34,8 +35,6 @@ const FlexRow = styled.div`
   flex-direction: row;
   justify-content: space-around;
   margin-top: 7%;
-  svg {
-  }
 `;
 const ScoreDiv = styled.div`
   font-size: 14px;
