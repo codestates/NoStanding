@@ -3,12 +3,19 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  border-bottom: 2px solid black;
-  width: 100%;
-  justify-content: space-around;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  background-color: rgba(21,64,99,0.6);
+  color: white;
 `;
+const ShopNameDiv = styled.div`
+  font-size: larger;
+  font-weight: bold;
+`
 const Img = styled.img`
   width: 4em;
   height: 4em;
@@ -28,10 +35,11 @@ function ReviewInfo({ data, getReviewData }) {
   const [loding, setLoding] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
   const getImage = useCallback(async () => {
-    console.log(data.image_src);
     const parsing = await JSON.parse(data.image_src);
-    if (parsing) {
+    if (parsing.length !== 0) {
       setImage(parsing);
+    }else {
+      setImage([{location: '/img/default.png', key:1}])
     }
     setLoding(true);
   }, []);
@@ -54,7 +62,6 @@ function ReviewInfo({ data, getReviewData }) {
         }
       });
   };
-  console.log(image);
   useEffect(() => {
     getImage();
   }, [getImage]);
@@ -68,7 +75,7 @@ function ReviewInfo({ data, getReviewData }) {
             })}
           </div>
           <Div>
-            <div>{data.shop_name}</div>
+            <ShopNameDiv>{data.shop_name}</ShopNameDiv>
             <div>{data.createdAt}</div>
             <div>{data.contents}</div>
           </Div>
