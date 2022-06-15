@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import axios from "axios";
 import ReviewModal from "./ReviewModal";
+import RereviewModal from "./RereviewModal";
 const Wrapper = styled.div`
   width: 18rem;
   height: 30rem;
@@ -31,15 +32,13 @@ const Button = styled.button`
   background-color: rgb(21, 64, 99);
   color: white;
   border-radius: 0.5rem;
-  :hover{
+  :hover {
     transform: scale(1.03);
   }
 `;
-
 function AlarmModal({ alarmData, userInfo }) {
   const [openReview, setOpenReview] = useState(false);
-  const [chooseIdx, setChooseIdx] = useState(0)
-  console.log(alarmData);
+  const [chooseIdx, setChooseIdx] = useState(0);
   const clickAlarm = (id) => {
     axios
       .patch(
@@ -58,22 +57,32 @@ function AlarmModal({ alarmData, userInfo }) {
     setOpenReview(true);
     setChooseIdx(id);
   };
-  console.log(chooseIdx);
   return (
     <Wrapper>
-      {alarmData.map((data,idx) => (
+      {alarmData.map((data, idx) => (
         <div key={data.id}>
           <P isRead={data.read} onClick={() => clickAlarm(data.id)}>
             {data.contents}
           </P>
-          {data.review === 1 || data.rereview === 1? (
-            <Button onClick={()=>clickOpenReview(idx)}>리뷰 작성하기</Button>
+          {userInfo.is_master === 1 ? (
+            <P isRead={1}>{data.Review?.contents}</P>
+          ) : null}
+          {data.review === 1 || data.rereview === 1 ? (
+            <Button onClick={() => clickOpenReview(idx)}>리뷰 작성하기</Button>
           ) : null}
         </div>
       ))}
       {openReview ? (
-            <ReviewModal isOpen={setOpenReview} shopId={alarmData[chooseIdx].reservation.menu.shop_id} alarmData={alarmData[chooseIdx]} />
-          ) : null}
+        userInfo.is_master === 0 ? (
+          <ReviewModal
+            isOpen={setOpenReview}
+            shopId={alarmData[chooseIdx].reservation.menu.shop_id}
+            alarmData={alarmData[chooseIdx]}
+          />
+        ) : (
+          <RereviewModal isOpen={setOpenReview} alarmData={alarmData[chooseIdx]} />
+        )
+      ) : null}
     </Wrapper>
   );
 }
