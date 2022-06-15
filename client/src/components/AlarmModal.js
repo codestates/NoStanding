@@ -88,8 +88,8 @@ function AlarmModal({ alarmData, userInfo }) {
 }
 function mapStateToProps(state) {
   return {
-    userInfo: state.loginInfo.userInfo,
     alarmData: state.alarmState,
+    userInfo: state.loginInfo.userInfo,
   };
 }
 

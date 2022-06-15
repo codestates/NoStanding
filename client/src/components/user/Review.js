@@ -9,14 +9,9 @@ const Container = styled.div`
   flex-direction: column;
   width: 600px;
   margin: 0px auto;
-  h1 {
-    color: rgba(68, 68, 68, 0.8);
-    margin: 1rem;
-    align-self: flex-start;
+  h2{
+    margin: 1em;
   }
-`;
-const H2 = styled.h2`
-  margin: 1em;
 `;
 function Review({ userInfo }) {
   const [reviewData, setReviewData] = useState([]);
@@ -46,9 +41,7 @@ function Review({ userInfo }) {
 
   return (
     <Container>
-      <div>
-        <H2>내가 쓴 후기</H2>
-      </div>
+        <h2>내가 쓴 후기</h2>
       {reviewData.map((data) => (
         <ReviewInfo data={data} getReviewData={getReviewData} />
       ))}

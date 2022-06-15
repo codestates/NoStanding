@@ -3,18 +3,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: row;
-  border: 2px solid black;
+  border: 2px solid rgb(21,64,99);
   border-radius: 0.5rem;
   margin-bottom: 2rem;
-  background-color: rgba(21,64,99,0.6);
-  color: white;
 `;
 const ShopNameDiv = styled.div`
   font-size: larger;
   font-weight: bold;
+`
+const DateDiv = styled.div`
+  font-size: small;
+  color: rgb(85,85,85);
+  margin-bottom: 1rem;
 `
 const Img = styled.img`
   width: 4em;
@@ -25,10 +28,24 @@ const Div = styled.div`
   margin: 1em;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 70%;
+  margin-right: 2rem;
 `;
 const DeleteBtn = styled.div`
+  color: black;
+`;
+const Button = styled.button`
+  margin: 1em;
+  width: 7em;
+  height: 2em;
+  background-color: rgb(21,64,99);
+  color: white;
+  border-radius: 0.5rem;
   align-self: flex-start;
+  :hover{
+    transform: scale(1.05);
+    background-color: tomato;
+  }
 `;
 function ReviewInfo({ data, getReviewData }) {
   const [image, setImage] = useState([]);
@@ -76,10 +93,10 @@ function ReviewInfo({ data, getReviewData }) {
           </div>
           <Div>
             <ShopNameDiv>{data.shop_name}</ShopNameDiv>
-            <div>{data.createdAt}</div>
+            <DateDiv>{data.createdAt}</DateDiv>
             <div>{data.contents}</div>
           </Div>
-          <DeleteBtn onClick={clickDeleteBtn}>X</DeleteBtn>
+          <Button onClick={clickDeleteBtn}>리뷰 삭제</Button>
         </>
       ) : null}
     </Container>

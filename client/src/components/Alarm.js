@@ -1,26 +1,72 @@
-import React from 'react';
-import styled from 'styled-components';
+import axios from "axios";
+import React, { useState } from "react";
+import styled from "styled-components";
+import ReviewModal from "./ReviewModal";
 
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`
 const Container = styled.div`
-  border: 2px solid black;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  width: 90vw;
+  flex-direction: row;
+  justify-content: center;
+`
+
+const P = styled.p`
+  color: ${(props) => (props.isRead === 1 ? "gray" : "black")};
 `;
-const H2 = styled.h2`
-  margin: 1em;
+
+const Button = styled.button`
+  width: 7em;
+  height: 2em;
+  margin-top: 5px;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  :hover {
+    transform: scale(1.03);
+  }
 `;
-function Alarm() {
-  return(
+
+function Alarm({userInfo, data, idx }) {
+  const [openReview, setOpenReview] = useState(false);
+  const [chooseIdx, setChooseIdx] = useState(0);
+
+  const clickAlarm = (id) => {
+    axios
+      .patch(
+        `${process.env.REACT_APP_API_URL}/mypage/notification/${userInfo.user_name}`,
+        {
+          id: id,
+          read: 1,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => console.log(resp));
+  };
+
+  const clickOpenReview = (id) => {
+    setOpenReview(true);
+    setChooseIdx(id);
+  };
+
+  return (
     <Container>
-      <Div>
-        <H2>알림</H2>
-      </Div>
-      <Div>메세지</Div>
+      <P isRead={data.read} onClick={() => clickAlarm(data.id)}>
+        {data.contents}
+      </P>
+      {data.review === 1 || data.rereview === 1 ? (
+        <Button onClick={() => clickOpenReview(idx)}>리뷰 작성하기</Button>
+      ) : null}
+      {openReview ? (
+        <ReviewModal
+          isOpen={setOpenReview}
+          shopId={data[chooseIdx].reservation.menu.shop_id}
+          alarmData={data[chooseIdx]}
+        />
+      ) : null}
     </Container>
   )
 }
-export default Alarm
+
+export default Alarm;

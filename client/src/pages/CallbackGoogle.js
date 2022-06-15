@@ -1,25 +1,21 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import store, { getUserInfo, getUserLogin } from "../store/store";
+import { getUserInfo, getUserLogin } from "../store/store";
 
 function CallbackGoogle({ getUserLogin, getUserInfo }) {
   const navigate = useNavigate();
   const url = new URL(window.location.href);
   const authorizationCode = url.searchParams.get("code");
-  useEffect(() => {
-    callbackCheck();
-  }, [authorizationCode]);
-
-  const callbackCheck = async () => {
+  const callbackCheck = useCallback(async () => {
     try {
       if (authorizationCode) {
-        const response = await axios
+        await axios
           .post(
             `${process.env.REACT_APP_API_URL}/oauth/google`,
             { authorizationCode },
-            { withCredentials: true }
+            { headers: { accept: "application/json" }, withCredentials: true }
           )
           .then((resp) => {
             const userInfo = resp.data.data.userInfo;
@@ -29,11 +25,15 @@ function CallbackGoogle({ getUserLogin, getUserInfo }) {
             navigate("/");
           });
       }
-      console.log(store.getState());
     } catch (err) {
       navigate("/");
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    callbackCheck();
+  }, [callbackCheck]);
+
   return <div>구글로그인</div>;
 }
 

@@ -72,6 +72,19 @@ const Img = styled.img`
   width: 120px;
   height: 100%;
   margin-left: 1rem;
+  @keyframes logoHover {
+      50% {
+        transform: translateY(-3px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+  :hover{
+    animation-name: logoHover;
+    animation-duration : 0.8s;
+    animation-iteration-count : 2;
+  }
 `;
 const NavMenu = styled.div`
   position: relative;
@@ -151,8 +164,12 @@ function Header({
   };
 
   const clickAlarm = () => {
+    if(loginState === false) {
+      alert("로그인이 필요합니다")
+    }else {
     setAlarmOpen(!alarmOpen);
     setRingAlarm(false)
+    }
   };
   return (
     <Container>
