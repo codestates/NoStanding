@@ -48,8 +48,7 @@
 <details><summary>김상한</summary>
 
 ***
-* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-
-Sangkan.K-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
+* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-Sangkan.K-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Back-End(Team Leader)**
 * Stack : `Node` `Sequelize` `JWT` `Express` `MySQL` `Axios`
 * Contributions :
