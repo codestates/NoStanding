@@ -226,7 +226,7 @@ const Menu = ({ userInfo }) => {
         const menuid = menu.id;
         return (
           <MenuContainer key={menuid}>
-            <img src={menu.image_src[0].location}></img>
+            <img src={menu.image_src[0]?.location}></img>
             <div>{menu.name}</div>
             <div>{menu.price}</div>
             <button onClick={() => minusMenu(menu)}>삭제하기</button>

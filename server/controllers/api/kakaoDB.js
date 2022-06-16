@@ -14,7 +14,6 @@ module.exports = {
     const info = await axios
       .get(url, { headers: headers })
       .catch(err => res.send(err));
-    console.log(info.data.documents[0]);
 
     // {
     //   [User]shop_category: '음식점',        category_group_name

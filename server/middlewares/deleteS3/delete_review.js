@@ -13,7 +13,6 @@ const s3 = new aws.S3();
 
 module.exports = {
   delete: async (req, res) => {
-    console.log(req.params.id);
     try {
       await s3.deleteObject(
         {

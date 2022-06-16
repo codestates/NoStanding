@@ -52,6 +52,7 @@ module.exports = {
             as: 'rereview',
           },
         ],
+        order: [['id', 'DESC']],
         where: { user_id: userInfo.dataValues.id },
       });
       if (notificationInfo) {
