@@ -13,7 +13,6 @@ import {
   getAlarm,
 } from "../store/store";
 import AlarmModal from "./AlarmModal.js";
-
 const Container = styled.div`
   padding-bottom: 1px solid black;
 `;
@@ -114,7 +113,6 @@ function Header({
   const [goMypage, setGoMypage] = useState("/");
   const [alarmOpen, setAlarmOpen] = useState(false);
   const [ringAlarm, setRingAlarm] = useState(false);
-  const logoImg = "img/nostandinglogo.png";
   useEffect(() => {
     if (loginState) {
       axios
@@ -178,7 +176,7 @@ function Header({
       <Navbar>
         <Logo>
           <Link to="/">
-            <Img src={logoImg} />
+            <Img src={require("../img/nostandinglogo.png")} />
           </Link>
         </Logo>
         <Search onSubmit={searchShop}>
@@ -195,7 +193,7 @@ function Header({
         <Menu ringing={ringAlarm} >
           {loginState ? (
             <>
-              <WelcomeDiv>환영합니다 {userInfo.nickname}님</WelcomeDiv>
+              <WelcomeDiv>환영합니다 {userInfo.nickname || userInfo.user_name}님</WelcomeDiv>
               <NavMenu onClick={clickLogoutBtn}>로그아웃</NavMenu>
             </>
           ) : (
