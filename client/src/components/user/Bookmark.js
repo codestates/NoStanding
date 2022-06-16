@@ -46,7 +46,7 @@ function Bookmark({ userInfo }) {
         {bookmarks.map((shopInfo) => (
           <div key={shopInfo[0].id}>
             <Link to={`/ShopInfo/${shopInfo[0].id}`}>
-            <BookmarkList bookmarkInfo={shopInfo[0]} />
+              <BookmarkList bookmarkInfo={shopInfo[0]} />
             </Link>
           </div>
         ))}

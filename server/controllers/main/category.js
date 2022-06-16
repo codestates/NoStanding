@@ -3,8 +3,6 @@ const initModels = require('../../models/init-models');
 const Models = initModels(sequelize);
 const { Op } = require('sequelize');
 
-const db = require('../../models');
-
 module.exports = {
   get: async (req, res) => {
     // 가게 이름 , 주소 ,
@@ -57,7 +55,7 @@ module.exports = {
           address_line2: el.user.address_line2,
           is_marked: el.Bookmarks.is_marked,
           total_views: el.total_views,
-          score_average: el.score_average
+          score_average: el.score_average,
         });
       });
 

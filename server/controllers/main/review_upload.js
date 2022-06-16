@@ -1,7 +1,6 @@
 const { sequelize } = require('../../models');
 const initModels = require('../../models/init-models');
-const { User, Shop } = require('../../models');
-const Review = require('../../models/Review');
+const { User } = require('../../models');
 const Models = initModels(sequelize);
 const { userAuth } = require('../../middlewares/authorized/auth');
 

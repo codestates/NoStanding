@@ -70,42 +70,6 @@ const ejsCaller = async (type, email, object) => {
       html: passwordFindHtml,
     });
   }
-  // else if (type === 'concertAlarm') {
-  //   const {
-  //     username,
-  //     concertTitle,
-  //     concertOpenDate,
-  //     concertImageUrl,
-  //     concertUrl,
-  //     hotConcertList,
-  //   } = object;
-
-  //   // ejs 파일에서 html 받아오기
-  //   let emailAlarmHtml;
-  //   ejs.renderFile(
-  //     __dirname + '/ejsForm/emailAlarm.ejs',
-  //     {
-  //       username,
-  //       concertTitle,
-  //       concertOpenDate,
-  //       concertImageUrl,
-  //       concertUrl,
-  //       hotConcertList,
-  //     },
-  //     (err, data) => {
-  //       if (err) console.log(err);
-  //       emailAlarmHtml = data;
-  //     },
-  //   );
-
-  // 송신 이메일 포맷 및 내용 설정
-  // const emailFormat = await transporter.sendMail({
-  //   from: `<${process.env.EMAIL_ID}>`,
-  //   to: `${email}`,
-  //   subject: `🔔[All-Con] 콘서트 티켓오픈일 알림 - ${concertTitle}`,
-  //   html: emailAlarmHtml,
-  // });
-  // }
 };
 
 module.exports = {

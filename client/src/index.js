@@ -6,13 +6,13 @@ import { PersistGate } from "redux-persist/integration/react";
 import store from "./store/store";
 import persistStore from "redux-persist/es/persistStore";
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const persistor = persistStore(store)
+const persistor = persistStore(store);
 root.render(
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
-      </PersistGate>
-    </Provider>
+    </PersistGate>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

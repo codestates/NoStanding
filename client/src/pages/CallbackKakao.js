@@ -7,6 +7,7 @@ import { getUserInfo, getUserLogin } from "../store/store";
 function CallbackKakao({ getUserLogin, getUserInfo }) {
   const navigate = useNavigate();
   const url = new URL(window.location.href);
+  console.log(url);
   const authorizationCode = url.searchParams.get("code");
   const callbackCheck = useCallback(async () => {
     try {
@@ -35,7 +36,7 @@ function CallbackKakao({ getUserLogin, getUserInfo }) {
     callbackCheck();
   }, [callbackCheck]);
 
-  return (<div>카카오로그인</div>)
+  return <div>카카오로그인</div>;
 }
 
 function mapDispatchToProps(dispatch) {
