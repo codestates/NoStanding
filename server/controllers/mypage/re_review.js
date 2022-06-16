@@ -6,12 +6,12 @@ const { userAuth } = require('../../middlewares/authorized/auth');
 module.exports = {
   get: async (req, res) => {
     try {
-      // const userInfo = await userAuth(req, res);
-      // if (!userInfo) {
-      //   return res.status(400).json({ message: '유저정보 없음' });
-      // }
-      // delete userInfo.dataValues.password;
-      // delete userInfo.dataValues.user_salt;
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
 
       const { user_name } = req.params;
       //고객 정보 불러오기
@@ -59,22 +59,6 @@ module.exports = {
           });
           shopArr.push(shopinfo);
         }
-
-        // const data = [];
-        // const reviews = userInfo2.Reviews;
-
-        // const shopNameArr = [];
-        // shopArr.map(el => shopNameArr.push(el.user.shop_name));
-
-        // console.log(shopNameArr);
-        // reviews.map(el => {
-        //   data.push({
-        //     id: el.id,
-        //     shop_id: el.shop_id,
-        //     image_src : el.image_src,
-        //     shop_name :
-        //   });
-        // });
 
         return res
           .status(200)

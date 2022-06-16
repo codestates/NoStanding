@@ -16,8 +16,6 @@ module.exports = {
 
       const { score, contents } = req.body;
 
-      console.log(req.body);
-
       if (!score || !contents) {
         return res
           .status(400)
@@ -76,7 +74,6 @@ module.exports = {
           },
           { transaction },
         );
-        console.log(newReview);
 
         const curr = new Date();
         const newCurr = curr.toLocaleDateString('ko-kr');

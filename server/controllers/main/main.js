@@ -139,8 +139,6 @@ module.exports = {
         });
       });
 
-      console.log(mainInfo);
-
       return res
         .status(200)
         .send({ data: arrInfo, message: '리뷰수 재정렬 전달 완료' });

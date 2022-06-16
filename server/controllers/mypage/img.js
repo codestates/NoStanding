@@ -49,7 +49,6 @@ module.exports = {
     });
 
     try {
-      console.log(req.files);
       const image = shopInfo.dataValues.image_src;
 
       if (image) {
@@ -63,7 +62,7 @@ module.exports = {
             nullIdx.push(i);
           }
         }
-        console.log(req.files);
+
         for (let i = 0; i < req.files.length; i++) {
           let key = req.files[i].key;
           let location = req.files[i].location;
@@ -129,7 +128,6 @@ module.exports = {
         },
         attributes: ['image_src'],
       });
-      console.log(shopInfo);
       let image = shopInfo.dataValues.image_src;
 
       let imageParse = JSON.parse(image);

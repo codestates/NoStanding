@@ -11,12 +11,12 @@ const Models = initModels(sequelize);
 module.exports = {
   get: async (req, res) => {
     try {
-      // const userInfo = await userAuth(req, res);
-      // if (!userInfo) {
-      //   return res.status(400).json({ message: '유저정보 없음' });
-      // }
-      // delete userInfo.dataValues.password;
-      // delete userInfo.dataValues.user_salt;
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
 
       return res
         .status(200)
@@ -29,7 +29,6 @@ module.exports = {
   patch: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
-      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       } else {

@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   border-radius: 0.5rem;
   overflow-y: scroll;
   border: 2px solid black;
+  z-index: 100;
   > div {
     text-align: left;
     margin: 10px 5px;
@@ -80,7 +81,10 @@ function AlarmModal({ alarmData, userInfo }) {
             alarmData={alarmData[chooseIdx]}
           />
         ) : (
-          <RereviewModal isOpen={setOpenReview} alarmData={alarmData[chooseIdx]} />
+          <RereviewModal
+            isOpen={setOpenReview}
+            alarmData={alarmData[chooseIdx]}
+          />
         )
       ) : null}
     </Wrapper>

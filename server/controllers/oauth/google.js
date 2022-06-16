@@ -68,7 +68,7 @@ module.exports = {
         message: '구글 로그인 성공',
       });
     } catch (err) {
-      // console.log(err);
+      console.log(err);
       return res.status(500).json({ message: 'Server Error!' });
     }
   },

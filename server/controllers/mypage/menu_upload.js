@@ -23,7 +23,6 @@ module.exports = {
         imageArr.push({ key: key, location: location });
       }
 
-      console.log(req.files);
       await Menu.update(
         {
           image_src: JSON.stringify(imageArr),

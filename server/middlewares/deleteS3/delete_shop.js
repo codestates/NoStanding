@@ -13,7 +13,6 @@ const s3 = new aws.S3();
 
 module.exports = {
   delete: async (req, res) => {
-    console.log('리퀘스트라마미터아이디\n', req.params.id);
     try {
       await s3.deleteObject(
         {

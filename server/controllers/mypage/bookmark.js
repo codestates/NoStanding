@@ -60,8 +60,6 @@ module.exports = {
         bookmarkData.push(shopInfo);
       }
 
-      console.log(bookmarkData);
-
       res.status(200).send({ data: bookmarkData, message: '정보 전달 완료' });
     } catch (err) {
       console.log(err);
