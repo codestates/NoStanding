@@ -14,9 +14,6 @@ const Container = styled.div`
   z-index: 100;
   border: 2px solid black;
   overflow-y: scroll;
-  button {
-    flex-grow: 1;
-  }
 `;
 const H2 = styled.h2`
   margin: 1rem;
@@ -24,10 +21,16 @@ const H2 = styled.h2`
 `;
 const Div = styled.div`
   margin-bottom: 2rem;
+  margin-top: 2rem;
 `;
 const Button = styled.button`
-  height: 2rem;
+  width: 90px;
+  align-self: center;
   justify-self: flex-end;
+  margin-bottom: 1rem;
+  :hover{
+    background-color: tomato;
+  }
 `;
 const Input = styled.input`
   margin-bottom: 1rem;
@@ -78,6 +81,7 @@ function ReservationModal({ pickedShop, userInfo, setOpenReservation }) {
       .post(
         `${process.env.REACT_APP_API_URL}/mypage/reservation/${userInfo.user_name}`,
         {
+          shop_name:pickedShop.user.shop_name,
           menu_id: menu.id,
           date: `${date} ${sendChooseHour}`,
         },
@@ -87,12 +91,14 @@ function ReservationModal({ pickedShop, userInfo, setOpenReservation }) {
       )
       .then((resp) => {
         alert('예약 완료')
-        setOpenReservation(false)});
+        setOpenReservation(false)})
+        .catch((err)=> {
+          alert('에러')
+        })
   };
 
   return (
     <Container>
-      <H2>예약하기</H2>
       <Div>
         <h3>예약 날짜</h3>
         <Input type="date" onChange={onChangeDate} />

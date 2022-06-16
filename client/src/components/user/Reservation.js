@@ -4,31 +4,43 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import ReservationInfo from "./ReservationInfo";
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
-`;
-const H2 = styled.h2`
-  margin: 1em;
+  width: 600px;
+  margin: 0px auto;
+  h2{
+    margin: 1em;
+  }
 `;
 const Div = styled.div`
-  border-bottom: 2px solid black;
 `;
-const Flex = styled.div`
+const FlexRow = styled.div`
   display: flex;
-  flex-direction: ${(props) => props.direction};
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  height: 2em;
+  width: 100%;
+  margin-bottom: 10px;
 `;
 const ChooseDiv = styled.div`
-  width: 50%;
-  height: 100%;
+  margin-top: 1rem;
+  border: 1px solid rgb(231, 231, 231);
+  font-size: 15px;
+  font-weight: 550;
+  height: auto;
+  padding: 12px;
+  width: 12rem;
   text-align: center;
+  margin-bottom: 3rem;
+  flex-grow: 1;
+  color: ${(props) => (props.backgroundOn ===props.idx ? "white" : "black")};
   background-color: ${(props) =>
-    props.idx === props.isOn ? "rgba(0, 0, 0, 0.2)" : null};
+    props.backgroundOn === props.idx ? "rgb(21,64,99)" : null};
+   p{
+    :hover{
+      transform: scale(1.05);
+    }
+   } 
 `;
 const Span = styled.span`
   height: 100%;
@@ -87,17 +99,16 @@ function Reservation({ userInfo }) {
   return (
     <Container>
       <Div>
-        <H2>예약 내역</H2>
+        <h2>예약 내역</h2>
       </Div>
-      <Flex direction="row">
-        <ChooseDiv idx={1} onClick={() => clickChooseDiv(1)} isOn={chooseList}>
-          현재 예약 내역
+      <FlexRow>
+        <ChooseDiv idx={1} onClick={() => clickChooseDiv(1)} backgroundOn={chooseList}>
+         <p>현재 예약 내역</p>
         </ChooseDiv>
-        <Span></Span>
-        <ChooseDiv idx={2} onClick={() => clickChooseDiv(2)} isOn={chooseList}>
-          이전 예약 내역
+        <ChooseDiv idx={2} onClick={() => clickChooseDiv(2)} backgroundOn={chooseList}>
+          <p>이전 예약 내역</p>
         </ChooseDiv>
-      </Flex>
+      </FlexRow>
       <div>
         {reservationList.map((reservate) => (
           <ReservationInfo

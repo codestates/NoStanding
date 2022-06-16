@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import axios from "axios";
-import { getUserInfo, getUserLogin } from "../store/store";
+import { getUserInfo, getUserLogin, clickCheckBox } from "../store/store";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const RowDiv = styled.div`
   margin: 5px;
   display: flex;
-  width: 50%;
+  width: 70%;
   flex-direction: row;
   justify-content: ${(props) => (props.primary ? "none" : "space-around")};
 `;
@@ -27,7 +27,7 @@ const Logoimage = styled.img`
 `;
 const OauthLogin = styled.div`
   margin: 4px;
-  height: 4vh;
+  height: 5vh;
   width: 33vw;
   background-color: ${(props) =>
     props.primary === "1"
@@ -46,11 +46,25 @@ const OauthLogin = styled.div`
       ? "white"
       : "black"};
   text-align: center;
+  padding-top: 10px;
   flex: auto;
-  padding-top: 20px;
   border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  :hover{
+    transform: scale(1.02);
+  }
 `;
-
+const Button = styled.button`
+  width: 7rem;
+  background-color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  :hover{
+    transform: scale(1.03);
+    color: rebeccapurple;
+  }
+`
 const Xbutton = styled.button`
   height: 1vw;
   width: 1vw;
@@ -58,9 +72,10 @@ const Xbutton = styled.button`
   text-align: right;
   align-items: center;
   padding: 3px;
+  background-color: #fff;
 `;
 const Input = styled.input`
-  height: 1vw;
+  height: auto;
   width: 12vw;
 `;
 
@@ -71,12 +86,19 @@ const Span = styled.span`
   width: 60%;
 `;
 
-function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
+function LoginModal({
+  controlClose,
+  getUserInfo,
+  getUserLogin,
+  clickCheckBox,
+  holdLogin,
+}) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIslogin] = useState(false);
-  const navigate = useNavigate()
-  
+  const [isChecked, setIsChecked] = useState(false);
+  const navigate = useNavigate();
+
   const idSetter = (e) => {
     setId(e.target.value);
   };
@@ -127,8 +149,13 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
     }
   };
   const clickFindPwdBtn = () => {
-    navigate('/Findpassword')
-    controlClose(false)
+    navigate("/Findpassword");
+    controlClose(false);
+  };
+
+  const clickLoginState = () => {
+    clickCheckBox();
+    console.log(holdLogin);
   };
   return (
     <Modal
@@ -185,10 +212,14 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
         </RowDiv>
         <RowDiv>
           <RowDiv primary>
-            <input type="checkbox"></input>
+            <input
+              type="checkbox"
+              checked={holdLogin}
+              onChange={clickLoginState}
+            ></input>
             <div>로그인 유지하기</div>
           </RowDiv>
-          <button onClick={clickFindPwdBtn}>비밀번호 찾기</button>
+          <Button onClick={clickFindPwdBtn}>비밀번호 찾기</Button>
         </RowDiv>
         <OauthLogin primary="0" onClick={loginHandler}>
           로그인
@@ -203,7 +234,11 @@ function LoginModal({ controlClose, getUserInfo, getUserLogin }) {
     </Modal>
   );
 }
-
+const mapStateToProps = (state) => {
+  return {
+    holdLogin: state.checkLoginHold,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserInfo: (userInfo) => {
@@ -212,7 +247,10 @@ const mapDispatchToProps = (dispatch) => {
     getUserLogin: () => {
       dispatch(getUserLogin());
     },
+    clickCheckBox: () => {
+      dispatch(clickCheckBox());
+    },
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoginModal);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);

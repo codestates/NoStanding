@@ -6,12 +6,16 @@ import ReviewModal from "../ReviewModal";
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  border-bottom: 2px solid black;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
 `;
 const Img = styled.img`
   width: 8em;
   height: 8em;
   margin: 1em;
+  border-radius: 70%;
+  overflow: hidden;
 `;
 const Div = styled.div`
   margin: 1em;
@@ -20,11 +24,24 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `
-const Button = styled.button`
-  width: 7rem;
-  height: 3rem;
-  align-self: flex-end;
+const DateDiv = styled.div`
+  color: rgb(85,85,85,0.5);
+  margin-bottom: 1rem;
 `
+const Button = styled.button`
+  margin: 1em;
+  width: 10em;
+  height: 4em;
+  background-color: rgb(21,64,99);
+  color: white;
+  border-radius: 0.5rem;
+  align-self: flex-end;
+  :hover{
+    transform: scale(1.05);
+    background-color: tomato;
+  }
+`;
+
 const Textarea = styled.textarea`
   width: 100%;
   padding-bottom: 100px;
@@ -57,10 +74,10 @@ function ReservationInfo({ reservate, isToday, userInfo, getInfo }) {
         <Img src={img} />
       </div>
       <Div>
-        <div>{reservate.shop_name}</div>
+        <h2>{reservate.shop_name}</h2>
+        <DateDiv>{date}</DateDiv>
         <div>{reservate.name}</div>
         <div>{reservate.master_address}</div>
-        <div>{date}</div>
         {isToday === 1 ? (
           <Button onClick={clickCancleBtn}>예약 취소</Button>
         ) : (

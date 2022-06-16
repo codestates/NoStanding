@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.li`
@@ -20,6 +20,7 @@ const Img = styled.img`
   width: 100%;
   height: 60%;
   cursor: pointer;
+  transition: all 0.3s;
   &:hover {
     transform: scale(1.05);
   }
@@ -36,8 +37,6 @@ const FlexRow = styled.div`
   flex-direction: row;
   justify-content: space-around;
   margin-top: 7%;
-  svg {
-  }
 `;
 const ScoreDiv = styled.div`
   font-size: 14px;
@@ -53,7 +52,6 @@ const ReviewDiv = styled.div`
 `;
 
 function SearchList({ shopInfo }) {
-  console.log(shopInfo.id);
   const img = JSON.parse(shopInfo.image_src)[0]?.location;
   const score = shopInfo.score_average || 0;
   const reviewNum = shopInfo.total_views || 0;

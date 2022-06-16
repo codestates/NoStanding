@@ -44,7 +44,6 @@ function Review({ userInfo }) {
   };
 
   const reReviewPost = (reviewId) => {
-    // console.log(reviewId);
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/mypage/re_review/${reviewId}/${userInfo.user_name}`,
@@ -65,7 +64,7 @@ function Review({ userInfo }) {
         { withCredentials: true }
       )
       .then((resp) => {
-        // console.log(resp.data.data);
+        console.log(resp.data.data);
         setReview(resp.data.data.Reviews);
         setRereview(resp.data.data.ReReviews);
       });
@@ -73,9 +72,7 @@ function Review({ userInfo }) {
   useEffect(() => {
     getReviewInfo();
   }, [getReviewInfo]);
-  // useEffect(()=>{
-  //   axios.get(`{}`)
-  // },[])
+
   return (
     <Container>
       <Div>

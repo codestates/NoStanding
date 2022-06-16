@@ -21,7 +21,7 @@ module.exports = {
         {
           model: Models.Bookmark,
           as: 'Bookmarks',
-          attributes: ['is_marked'],
+          attributes: ['is_marked', 'user_id'],
         },
         {
           model: Models.Review,
@@ -33,7 +33,15 @@ module.exports = {
             'contents',
             'createdAt',
             'updatedAt',
-          ],include: [
+          ],
+          include: [
+            {
+              model: Models.User,
+              as: 'user',
+              attributes: ['id', 'user_name'],
+            },
+          ],
+          include: [
             {
               model: Models.User,
               as: 'user',

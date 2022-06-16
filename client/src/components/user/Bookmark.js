@@ -6,22 +6,19 @@ import styled from "styled-components";
 import BookmarkList from "./BookmarkList";
 
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
-`;
-const H2 = styled.h2`
-  margin: 1em;
-`;
-const Div = styled.div`
-  border-bottom: 2px solid black;
+  width: 600px;
+  margin: 0px auto;
+  h2{
+    margin: 1em;
+  }
 `;
 
 const ListView = styled.ul`
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
+  flex-direction: row;
   justify-content: center;
 `;
 
@@ -33,7 +30,6 @@ function Bookmark({ userInfo }) {
         `${process.env.REACT_APP_API_URL}/mypage/bookmark/${userInfo.user_name}`
       )
       .then((resp) => {
-        console.log(resp.data);
         setBookmarks(resp.data.data);
       });
   }, []);
@@ -43,9 +39,7 @@ function Bookmark({ userInfo }) {
   }, [getShopInfo]);
   return (
     <Container>
-      <Div>
-        <H2>즐겨찾기</H2>
-      </Div>
+        <h2>즐겨찾기</h2>
       <ListView>
         {bookmarks.map((shopInfo) => (
           <div key={shopInfo[0].id}>

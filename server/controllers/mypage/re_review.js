@@ -134,12 +134,12 @@ module.exports = {
   },
   post: async (req, res) => {
     try {
-      // const userInfo = await userAuth(req, res);
-      // if (!userInfo) {
-      //   return res.status(400).json({ message: '유저정보 없음' });
-      // }
-      // delete userInfo.dataValues.password;
-      // delete userInfo.dataValues.user_salt;
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
 
       const { review_id, user_name } = req.params;
 
@@ -166,6 +166,44 @@ module.exports = {
         contents: contents,
       });
 
+      await sequelize.transaction(async transaction => {
+        // 유저에게 알람 보내기
+        const newRe_review = await Models.ReReview.findOne(
+          //* 로그인한 고객의 id 찾기
+          {
+            include: [
+              {
+                model: Models.Review,
+                as: 'review',
+                where: { id: review_id },
+              },
+            ],
+            order: [['id', 'DESC']],
+          },
+          { transaction },
+        );
+
+        const curr = new Date();
+        const newCurr = curr.toLocaleDateString('ko-kr');
+        const updated = curr.setDate(curr.getDate() + 4);
+
+        const masterNotification = await Models.Notification.create(
+          //* 고객알림
+          {
+            user_id: newRe_review.dataValues.review.user_id,
+            rereview_id: newRe_review.dataValues.id,
+            contents: `${userInfo.dataValues.shop_name} 사장님이 ${newCurr} 고객님의 리뷰에 답글을 작성하셨습니다.`,
+            read: 0,
+            updated_date: updated,
+          },
+          { transaction },
+        );
+
+        if (!masterNotification) {
+          //* 유저 알림이 생성되지 않았다면 오류 메세지
+          throw new Error('masterNotification 생성 오류');
+        }
+      });
       res.status(200).send({ message: '리뷰 작성 완료' });
     } catch (err) {
       res.status(500).send({ message: 'Server Error' });

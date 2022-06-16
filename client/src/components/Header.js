@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import Login from "./Login.js";
 import axios from "axios";
 import { connect } from "react-redux";
-import { getUserLogout, getShopSearch, deleteUserInfo } from "../store/store";
+import {
+  getUserLogout,
+  getShopSearch,
+  deleteUserInfo,
+  getAlarm,
+} from "../store/store";
+import AlarmModal from "./AlarmModal.js";
 
 const Container = styled.div`
   padding-bottom: 1px solid black;
@@ -27,6 +33,12 @@ const Menu = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  svg{
+    color: ${(props)=> props.ringing? 'rgba(239,93,40)' : 'rgba(0,0,0,0.5)'};
+    :hover{
+      transform: scale(1.05);
+    }
+  }
 `;
 const Search = styled.form`
   display: flex;
@@ -35,13 +47,13 @@ const Search = styled.form`
   align-items: center;
   justify-content: center;
   border: 3px solid #154063;
-  border-radius: 8px;
+  border-radius: 20px;
   input {
     width: 100%;
     height: 3rem;
     background-color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 15px;
     &:focus {
       outline: none;
@@ -62,6 +74,19 @@ const Img = styled.img`
   width: 120px;
   height: 100%;
   margin-left: 1rem;
+  @keyframes logoHover {
+      50% {
+        transform: translateY(-3px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+  :hover{
+    animation-name: logoHover;
+    animation-duration : 0.8s;
+    animation-iteration-count : 2;
+  }
 `;
 const NavMenu = styled.div`
   position: relative;
@@ -75,11 +100,41 @@ const NavMenu = styled.div`
     transform: scale(1.05);
   }
 `;
-function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
+function Header({
+  userInfo,
+  loginState,
+  logout,
+  shopsearch,
+  deleteUserInfo,
+  getAlarmData,
+}) {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [searchedshop, setSearchedshop] = useState("");
   const [goMypage, setGoMypage] = useState("/");
+  const [alarmOpen, setAlarmOpen] = useState(false);
+  const [ringAlarm, setRingAlarm] = useState(false);
+  const logoImg = "img/nostandinglogo.png";
+  useEffect(() => {
+    if (loginState) {
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/mypage/notification/${userInfo.user_name}`,
+          {
+            withCredentials: true,
+          }
+        )
+        .then((resp) => {
+          getAlarmData(resp.data.data);
+          for (let i = 0; i < resp.data.data.length; i++) {
+            if (resp.data.data[i].read === 0) {
+              setRingAlarm(true);
+            }
+          }
+        });
+    }
+  }, []);
+
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
   };
@@ -109,12 +164,21 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
       setGoMypage("/Mypage");
     }
   };
+
+  const clickAlarm = () => {
+    if(loginState === false) {
+      alert("로그인이 필요합니다")
+    }else {
+    setAlarmOpen(!alarmOpen);
+    setRingAlarm(false)
+    }
+  };
   return (
     <Container>
       <Navbar>
         <Logo>
           <Link to="/">
-            <Img src="img/nostandinglogo.png" />
+            <Img src={logoImg} />
           </Link>
         </Logo>
         <Search onSubmit={searchShop}>
@@ -128,7 +192,7 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
             onClick={searchShop}
           ></FontAwesomeIcon>
         </Search>
-        <Menu>
+        <Menu ringing={ringAlarm} >
           {loginState ? (
             <>
               <WelcomeDiv>환영합니다 {userInfo.nickname}님</WelcomeDiv>
@@ -145,6 +209,8 @@ function Header({ userInfo, loginState, logout, shopsearch, deleteUserInfo }) {
           <Link to={goMypage}>
             <NavMenu onClick={clickMypage}>마이페이지</NavMenu>
           </Link>
+          <FontAwesomeIcon icon={faBell} onClick={clickAlarm}></FontAwesomeIcon>
+          {alarmOpen ? <AlarmModal /> : null}
           {isOpen ? <Login controlClose={controlClose} /> : null}
         </Menu>
       </Navbar>
@@ -168,6 +234,9 @@ function mapDispatchToProps(dispatch) {
     },
     shopsearch: (resp) => {
       dispatch(getShopSearch(resp));
+    },
+    getAlarmData: (data) => {
+      dispatch(getAlarm(data));
     },
   };
 }

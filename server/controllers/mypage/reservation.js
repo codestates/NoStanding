@@ -1,8 +1,15 @@
-const { Reservation, User } = require('../../models');
+const { Reservation } = require('../../models');
 const { QueryTypes } = require('sequelize');
 const db = require('../../models');
-const user = require('../user');
 const { userAuth } = require('../../middlewares/authorized/auth');
+
+const { sequelize } = require('../../models');
+const initModels = require('../../models/init-models');
+const Models = initModels(sequelize);
+const schedule = require('node-schedule');
+
+const { Sequelize } = require('../../models/index');
+const Op = Sequelize.Op;
 
 module.exports = {
   get: async (req, res) => {
@@ -22,9 +29,7 @@ module.exports = {
     // })
     // reservation - menu - shop
     if (userInfo.dataValues.is_master === 0) {
-
       const query = `SELECT R.id, R.user_id, U.shop_name, U.address_line1, M.name, R.date, S.id as shop_id, S.image_src from Reservation R
-
       Join Menu M ON M.id = R.menu_id
       Join Shop S ON S.id = M.shop_id
       Join User U ON S.user_id = U.id
@@ -42,7 +47,6 @@ module.exports = {
           .send({ data: reservationlist, message: '정보 전달 완료' });
       }
     } else {
-
       const query2 = `SELECT R.id ,R.user_id , R.date , M.name  FROM Reservation R Join Menu M On R.menu_id = M.id
 
       Join Shop S On M.shop_id = S.id
@@ -66,17 +70,14 @@ module.exports = {
   post: async (req, res) => {
     try {
       const userInfo = await userAuth(req, res);
-      console.log(userInfo);
       if (!userInfo) {
         return res.status(400).json({ message: '유저정보 없음' });
       }
       delete userInfo.dataValues.password;
       delete userInfo.dataValues.user_salt;
 
-      const { menu_id, date } = req.body;
+      const { menu_id, date, shop_name } = req.body;
 
-      console.log(req.params);
-      console.log(userInfo);
       const reservationPrev = await Reservation.findOne({
         where: {
           user_id: userInfo.dataValues.id,
@@ -90,6 +91,107 @@ module.exports = {
           user_id: userInfo.dataValues.id,
           menu_id: menu_id,
           date: date,
+        });
+
+        const newReservation = await Reservation.findOne(
+          //* 로그인한 고객의 id 찾기
+          {
+            where: { user_id: userInfo.dataValues.id },
+            order: [['id', 'DESC']],
+          },
+        );
+
+        await sequelize.transaction(async transaction => {
+          const newReservation = await Reservation.findOne(
+            //* 로그인한 고객의 id 찾기
+            {
+              where: { user_id: userInfo.dataValues.id },
+              order: [['id', 'DESC']],
+            },
+            { transaction },
+          );
+          let newdate = newReservation.dataValues.date;
+          let created = newdate.setHours(newdate.getHours() + 1);
+          let updated = newdate.setDate(newdate.getDate() + 4);
+
+          const userNotification = await Models.Notification.create(
+            //* 고객알림
+            {
+              reservation_id: newReservation.dataValues.id,
+              user_id: newReservation.dataValues.user_id,
+              contents: `${userInfo.dataValues.nickname}님 ${date} ${shop_name} 예약이 완료되었습니다.`,
+              read: 0,
+              created_date: created,
+              updated_date: updated,
+            },
+            { transaction },
+          );
+
+          if (!userNotification) {
+            //* 유저 알림이 생성되지 않았다면 오류 메세지
+            throw new Error('userNotification 생성 오류');
+          }
+
+          const shopInfo = await Models.User.findOne(
+            //* 점주의 id 찾기
+            {
+              model: Models.User,
+              as: 'user',
+              where: { shop_name: shop_name },
+              attributes: ['id', 'shop_name'],
+            },
+            { transaction },
+          );
+
+          const masterNotification = await Models.Notification.create(
+            //* 점주 알림
+            {
+              reservation_id: newReservation.dataValues.id,
+              user_id: shopInfo.dataValues.id,
+              contents: `${userInfo.dataValues.nickname}님께서 ${date} 에 사장님의 ${shop_name} 예약이 완료되었습니다.`,
+              read: 0,
+              created_date: null,
+              updated_date: updated,
+            },
+            { transaction },
+          );
+
+          if (!masterNotification) {
+            //* 점주 알림이 생성되지 않았다면 오류 메세지
+            throw new Error('masterNotification 생성 오류');
+          }
+        });
+
+        const newNotification = await Models.Notification.findOne(
+          //* 로그인한 고객의 id 찾기
+          {
+            where: {
+              user_id: userInfo.dataValues.id,
+              [Op.not]: [{ created_date: null }],
+            },
+            order: [['id', 'DESC']],
+          },
+        );
+
+        let createdDate = newNotification.dataValues.created_date;
+        //! 서버 바꾸면 밑에 로직 지우기
+        createdDate.setMinutes(createdDate.getMinutes() - 540);
+
+        const a = schedule.scheduleJob(createdDate, async function () {
+          await Models.Notification.create(
+            //* 고객알림
+            {
+              reservation_id: newReservation.dataValues.id,
+              user_id: newReservation.dataValues.user_id,
+              contents: `${userInfo.dataValues.nickname}님 ${date} ${shop_name}에서 즐거운 시간 보내셨다면,
+다른 분들을 위해 소중한 후기 남겨주세요.
+(후기 쓰기는 예약 이후 3일동안 가능합니다.)`,
+              read: 0,
+              created_date: null,
+              updated_date: newNotification.dataValues.updated_date,
+              review: 1,
+            },
+          );
         });
 
         res.status(200).send({

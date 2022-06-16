@@ -36,42 +36,20 @@ const Img = styled.img`
   border: 2px solid black;
 `;
 
-function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
-  console.log(shopId);
-  console.log(alarmData);
+function RereviewModal({ isOpen, userInfo, alarmData }) {
   const [writeReview, setWriteReview] = useState("");
-  const [imgList, setImgList] = useState([]);
-  const [score, setScore] = useState("1");
-  const [submitFormData, setSubmitFormData] = useState([]);
-  const radioNumber = [1, 2, 3, 4, 5];
   const submitReview = (e) => {
     e.preventDefault();
     axios
       .post(
-        `${process.env.REACT_APP_API_URL}/review/${userInfo.user_name}/${shopId}`,
+        `${process.env.REACT_APP_API_URL}/mypage/re_review/${alarmData.Review.id}/${userInfo.user_name}`,
         {
-          score: score,
           contents: writeReview,
         },
         {
           withCredentials: true,
         }
       )
-      .then((resp) => {
-        const formData = new FormData();
-
-        for (let i = 0; i < submitFormData.length; i++) {
-          formData.append("file", submitFormData[i]);
-        }
-
-        axios.post(
-          `${process.env.REACT_APP_API_URL}/review/upload/${userInfo.user_name}/${shopId}`,
-          formData,
-          {
-            withCredentials: true,
-          }
-        );
-      })
       .then((resp) => {
         if(alarmData) {
           console.log('알람에서 바로');
@@ -96,32 +74,6 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
 
   const clickExitBtn = () => {
     isOpen(false);
-  };
-
-  const changeScore = (e) => setScore(e.target.value);
-
-  const uploadImg = (e) => {
-    setSubmitFormData(e.target.files);
-    const currentImgList = Array.from(e.target.files).map((file) =>
-      URL.createObjectURL(file)
-    );
-    setImgList((prevImg) => prevImg.concat(currentImgList));
-    Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
-  };
-
-  const clickImgDelete = (id) => {
-    setImgList(imgList.filter((_, index) => index !== id));
-  };
-
-  const renderImg = (source) => {
-    return source.map((image, idx) => {
-      return (
-        <div key={idx}>
-          <Img src={image} alt="" />
-          <button onClick={() => clickImgDelete(idx)}>삭제</button>
-        </div>
-      );
-    });
   };
 
   return (
@@ -156,26 +108,11 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
       <Container>
         <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
-          <FlexDiv direction="row">
-            {radioNumber.map((val, idx) => (
-              <FlexDiv key={val} direction="column">
-                {val}점
-                <input
-                  type="radio"
-                  name="score"
-                  value={val}
-                  onChange={changeScore}
-                />
-              </FlexDiv>
-            ))}
-          </FlexDiv>
-          <div>{renderImg(imgList)}</div>
           <Textarea
             placeholder="리뷰를 작성해주세요."
             onChange={changeTextarea}
             value={writeReview}
           />
-          <input type="file" accept="image/*" multiple onChange={uploadImg} />
           <Button>리뷰 등록하기</Button>
         </form>
       </Container>
@@ -188,4 +125,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ReviewModal);
+export default connect(mapStateToProps)(RereviewModal);
