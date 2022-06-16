@@ -195,7 +195,7 @@ module.exports = {
           await Shop.create({
             user_id: newUser.dataValues.id,
             business_hour: null,
-            image_src: null,
+            image_src: JSON.stringify([null, null, null, null]),
             phone_number: phone_number,
             holiday: null,
             contents: null,

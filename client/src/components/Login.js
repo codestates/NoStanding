@@ -51,7 +51,7 @@ const OauthLogin = styled.div`
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  :hover{
+  :hover {
     transform: scale(1.02);
   }
 `;
@@ -60,11 +60,11 @@ const Button = styled.button`
   background-color: #fff;
   font-weight: 600;
   cursor: pointer;
-  :hover{
+  :hover {
     transform: scale(1.03);
     color: rebeccapurple;
   }
-`
+`;
 const Xbutton = styled.button`
   height: 1vw;
   width: 1vw;

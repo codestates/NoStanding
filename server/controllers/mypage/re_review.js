@@ -38,6 +38,7 @@ module.exports = {
         ],
         where: { user_name: user_name },
         attributes: ['is_master', 'nickname'],
+        order: [[{ model: Models.Review, as: 'Reviews' }, 'id', 'DESC']],
       });
       const is_master = userInfo2.dataValues.is_master;
 
@@ -122,6 +123,7 @@ module.exports = {
             },
           ],
           attributes: [],
+          order: [[{ model: Models.Review, as: 'Reviews' }, 'id', 'DESC']],
         });
 
         return res

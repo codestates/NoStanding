@@ -30,7 +30,8 @@ function Bookmark({ userInfo }) {
   const getShopInfo = useCallback(() => {
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/mypage/bookmark/${userInfo.user_name}`
+        `${process.env.REACT_APP_API_URL}/mypage/bookmark/${userInfo.user_name}`,
+        { withCredentials: true }
       )
       .then((resp) => {
         setBookmarks(resp.data.data);
@@ -49,7 +50,7 @@ function Bookmark({ userInfo }) {
         {bookmarks.map((shopInfo) => (
           <div key={shopInfo[0].id}>
             <Link to={`/ShopInfo/${shopInfo[0].id}`}>
-            <BookmarkList bookmarkInfo={shopInfo[0]} />
+              <BookmarkList bookmarkInfo={shopInfo[0]} />
             </Link>
           </div>
         ))}
