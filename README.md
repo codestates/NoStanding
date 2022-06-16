@@ -48,9 +48,12 @@
 <details><summary>김상한</summary>
 
 ***
+* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-
+Sangkan.K-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Back-End(Team Leader)**
-* GitHub : [**Sangkan-K**](https://github.com/Sangkan-K)
-
+* Stack : `Node` `Sequelize` `JWT` `Express` `MySQL` `Axios`
+* Contributions :
+  * A
 
 ***
 </details>
@@ -58,8 +61,49 @@
 <details><summary>박윤신</summary>
 
 ***
+* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-BaGyun0107-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Back-End**
-* GitHub : [**Bagyun0107**](https://github.com/BaGyun0107)
+* Stack : `Node` `Sequelize` `JWT` `Express` `MySQL` `Axios`
+* Contributions :
+  * **스키마 작성**
+  * **OAuth 계정연동 회원가입**
+  * **회원가입**
+    * 중복 확인
+    * 비밀번호 암호화
+       * util과 crypto 활용
+    * 이메일 인증 
+       * ejs와 nodemailer를 활용
+  * **로그인, 로그아웃**
+    * JWT를 이용한 로그인
+    * 로그아웃 시, 쿠키 만료
+  * **검색필터링** 
+    * 검색과 데이터베이스 간에 띄어쓰기 구분제거 (ex. 서 울 음 식 점 = 서울음식점)
+  * **마이페이지 ( 고객 )**
+    * 알림
+       * 예약 완료 시 알림
+       * 예약시간으로부터 한시간 뒤, 리뷰 작성유도 하기 위한 알림
+       * 점주님이 리뷰에 답글을 작성했을 시 알림
+    * 내가 쓴 후기
+    * 회원 정보 수정
+       * 닉네임 변경 시, 중복확인
+       * 비밀번호 변경 시, 암호화
+    * 회원탈퇴
+       * 회원탈퇴 시, 연결되있는 리뷰, 별점 등 데이터베이스 전부 삭제
+  * **마이페이지 ( 점주 )**
+    * 알림 
+      * 고객님이 예약 완료 시 알림
+      * 고객님이 리뷰 작성 했을 시 답글을 작성유도 하기 위한 알림
+    * 내 가게 관리 ( 메뉴, 가게설명 )
+      * 메뉴 추가 
+      * 가게 설명 수정
+    * 내 가게 후기
+    * 회원 정보 수정 
+      * 닉네임 변경 시, 중복확인
+      * 비밀번호 변경 시, 암호화
+    * 회원탈퇴 
+      * 회원탈퇴 시, 연결되있는 리뷰, 별점 등 데이터베이스 전부 삭제
+  * **댓글 수, 별점으로 필터링해서 재정렬**
+
 
 ***
 </details>
@@ -67,8 +111,11 @@
 <details><summary>윤선웅</summary>
 
 ***
+* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-Sun970324-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Front-End**
-* GitHub : [**Sun970324**](https://github.com/Sun970324)
+* Stack : `React` `Redux` `Redux Toolkit` `React-Router` `JavaScript` `Styled-Components` `Axios`
+* Contributions :
+  * A
 
 ***
 </details>
@@ -76,8 +123,11 @@
 <details><summary>박상하</summary>
 
 ***
+* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-gamemakerr-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Front-End**
-* GitHub : [**gamemakerr**](https://github.com/gamemakerr)
+* Stack : `React` `Redux` `Redux Toolkit` `React-Router` `JavaScript` `Styled-Components` `Axios`
+* Contributions :
+  * A
 
 ***
 </details>
