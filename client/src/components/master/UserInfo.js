@@ -98,7 +98,7 @@ function UserInfo({ userInfo, logout, deleteUserInfo }) {
       </Div>
       <Flex direction="column">
         <Flex direction="row">
-          <Img src="img/test2.png" />
+          <Img src="img/default.png" />
           <Flex direction="column">
             <Flex direction="row">
               <div>아이디 : </div>

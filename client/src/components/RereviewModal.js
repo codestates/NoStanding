@@ -62,7 +62,7 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
           {
             withCredentials: true,
           }
-        ).then((resp)=> console.log(resp))
+        ).then((resp)=> alert('리뷰 작성'))
         }
       })
       .then(() => isOpen(false));

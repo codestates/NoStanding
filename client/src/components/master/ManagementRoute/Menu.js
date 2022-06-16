@@ -138,8 +138,11 @@ const Menu = ({ userInfo }) => {
         console.log(resp.data.data.menuInfo.id);
 
         postPhoto(resp.data.data.menuInfo.id);
-        getMenu();
+        setMenu("");
+        setPrice("");
+        setImg(null);
         setIsmenu(!ismenu);
+        getMenu();
       })
       .catch((err) => console.log(err));
   };
@@ -165,7 +168,10 @@ const Menu = ({ userInfo }) => {
         formData,
         { withCredentials: true }
       )
-      .then((resp) => console.log(resp))
+      .then((resp) => {
+        getMenu();
+        console.log(resp);
+      })
       .catch((err) => console.log(err.response.data));
   };
   const renderImg = (el) => {
@@ -226,7 +232,7 @@ const Menu = ({ userInfo }) => {
         const menuid = menu.id;
         return (
           <MenuContainer key={menuid}>
-            <img src={menu.image_src[0].location}></img>
+            <img src={menu.image_src[0]?.location}></img>
             <div>{menu.name}</div>
             <div>{menu.price}</div>
             <button onClick={() => minusMenu(menu)}>삭제하기</button>

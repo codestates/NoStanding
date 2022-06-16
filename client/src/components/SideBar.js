@@ -103,7 +103,7 @@ function SideBar({ userInfo }) {
       ) : (
         <div>
           <Flex grow={3}>
-            <UserImg src="img/test2.png" />
+            <UserImg src="img/default.png" />
             <div>{userInfo.user_name}</div>
             <Div>점주회원</Div>
           </Flex>

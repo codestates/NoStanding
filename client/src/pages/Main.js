@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Banner from "../components/Banner";
 import SearchList from "../components/SearchList";
@@ -9,9 +8,11 @@ import { connect } from "react-redux";
 import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
-
-const Container = styled.div``;
+import {
+  faLocationDot,
+  faUtensils,
+  faMugHot,
+} from "@fortawesome/free-solid-svg-icons";
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,17 +21,20 @@ const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-around;
-  align-items: center;
-  border: 2px solid black;
-  height: 5vh;
+  justify-content: space-between;
+  height: 10vh;
   align-items: center;
   margin-top: 1rem;
   div {
     height: 100%;
+    width: auto;
     flex-grow: 1;
     text-align: center;
-    border-left: 2px solid black;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 10px;
   }
 `;
 const SortDiv = styled.div`
@@ -41,36 +45,50 @@ const SortDiv = styled.div`
   width: 100px;
   height: 4vh;
   select {
+    color: rgba(66, 66, 66, 0.6);
+    font-weight: 500;
+    border: 0px;
     width: 100%;
     height: 90%;
     font-size: 15px;
+    &:focus {
+      outline: none;
+    }
   }
 `;
 const CategoryList = styled.div`
-  background-color: ${(props) =>
-    String(props.idx) === props.backgroundOn ? "rgba(239,128,128, 0.2)" : null};
+  color: ${(props) =>
+    String(props.idx) === props.backgroundOn
+      ? "rgb(101,124,241)"
+      : "rgb(85,85,85)"};
   transition: 0.4s;
   font-size: 15px;
   font-weight: bold;
   padding-top: 1vh;
   cursor: pointer;
   :hover {
+    svg {
+      transform: scale(1.1);
+    }
     p {
       transform: scale(1.1);
     }
   }
 `;
 const CategortCityList = styled.div`
-  background-color: ${(props) =>
+  color: ${(props) =>
     String(props.idx) === props.backgroundCity
-      ? "rgba(239,128,128, 0.2)"
-      : null};
+      ? "rgb(251,176,64)"
+      : "rgb(85,85,85)"};
   transition: 0.4s;
   font-size: 15px;
   font-weight: bold;
   padding-top: 1vh;
   cursor: pointer;
   :hover {
+    svg {
+      transform: scale(1.1);
+    }
     p {
       transform: scale(1.1);
     }
@@ -84,7 +102,9 @@ const ListView = styled.ul`
 `;
 
 const BannerDiv = styled.div``;
-
+const LineDiv = styled.div`
+  border-top: 2px solid rgb(21, 64, 99);
+`;
 function Main({ searchWord }) {
   const category = ["음식점", "카페"];
   const categoryCity = [
@@ -187,63 +207,67 @@ function Main({ searchWord }) {
   };
   return (
     <>
-      <Container>
-        <BannerDiv className="Bannercontainer">
-          <Banner />
-        </BannerDiv>
-        <FlexCol>
-          <FlexRow>
-            {category.map((category, idx) => {
-              return (
-                <CategoryList
-                  key={idx}
-                  idx={idx}
-                  backgroundOn={backgroundOn}
-                  onClick={() => clickCategory(category, idx)}
-                >
-                  <p>{category}</p>
-                </CategoryList>
-              );
-            })}
-          </FlexRow>
-          <FlexRow>
-            {categoryCity.map((category, idx) => {
-              return (
-                <CategortCityList
-                  key={idx}
-                  idx={idx}
-                  backgroundCity={backgroundCity}
-                  onClick={() => clickCategoryCity(category, idx)}
-                >
-                  <p>{category}</p>
-                </CategortCityList>
-              );
-            })}
-          </FlexRow>
-          <SortDiv>
-            <select onChange={changeSort}>
-              <option value="">가나다 순</option>
-              <option value="view">리뷰 순</option>
-              <option value="score">별점 순</option>
-            </select>
-          </SortDiv>
-        </FlexCol>
-        <ListView>
-          {shop.slice(offset, offset + 12).map((shop) => {
+      <BannerDiv>
+        <Banner />
+      </BannerDiv>
+      <FlexCol>
+        <FlexRow>
+          {category.map((category, idx) => {
             return (
-              <div key={shop.id}>
-                <Link to={`/ShopInfo/${shop.id}`}>
-                  <SearchList shopInfo={shop}></SearchList>
-                </Link>
-              </div>
+              <CategoryList
+                key={idx}
+                idx={idx}
+                backgroundOn={backgroundOn}
+                onClick={() => clickCategory(category, idx)}
+              >
+                {idx === 0 ? (
+                  <FontAwesomeIcon icon={faUtensils} />
+                ) : (
+                  <FontAwesomeIcon icon={faMugHot} />
+                )}
+                <p>{category}</p>
+              </CategoryList>
             );
           })}
-          <div>{isLoading && <Loader />}</div>
-          <footer>
-            <Pagination total={shop.length} page={page} setPage={setPage} />
-          </footer>
-        </ListView>
-      </Container>
+        </FlexRow>
+        <FlexRow>
+          {categoryCity.map((category, idx) => {
+            return (
+              <CategortCityList
+                key={idx}
+                idx={idx}
+                backgroundCity={backgroundCity}
+                onClick={() => clickCategoryCity(category, idx)}
+              >
+                <FontAwesomeIcon icon={faLocationDot} />
+                <p>{category}</p>
+              </CategortCityList>
+            );
+          })}
+        </FlexRow>
+        <SortDiv>
+          <select onChange={changeSort}>
+            <option value="">가나다 순</option>
+            <option value="view">리뷰 순</option>
+            <option value="score">별점 순</option>
+          </select>
+        </SortDiv>
+      </FlexCol>
+      <ListView>
+        {shop.slice(offset, offset + 12).map((shop) => {
+          return (
+            <div key={shop.id}>
+              <Link to={`/ShopInfo/${shop.id}`}>
+                <SearchList shopInfo={shop}></SearchList>
+              </Link>
+            </div>
+          );
+        })}
+        <div>{isLoading && <Loader />}</div>
+        <footer>
+          <Pagination total={shop.length} page={page} setPage={setPage} />
+        </footer>
+      </ListView>
     </>
   );
 }
