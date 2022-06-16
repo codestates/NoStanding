@@ -92,7 +92,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
           logout();
           deleteUserInfo();
           navigate("/");
-        });
+        }).catch((err) => alert(err))
     }
   };
   return (
@@ -145,14 +145,6 @@ function UserInfo({ user, logout, deleteUserInfo }) {
             type="text"
             placeholder="전화번호를 입력하세요."
             onChange={inputPhoneNumber}
-          />
-        </FlexCol>
-        <FlexCol>
-          <TagDiv>이메일</TagDiv>
-          <Input
-            type="text"
-            placeholder="변경할 이메일을 입력하세요."
-            onChange={inputEmail}
           />
         </FlexCol>
         <Button onClick={submitModify}>수정하기</Button>

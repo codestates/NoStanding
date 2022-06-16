@@ -28,7 +28,9 @@ function Bookmark({ userInfo }) {
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/mypage/bookmark/${userInfo.user_name}`
-      )
+      , {
+        withCredentials:true
+      })
       .then((resp) => {
         setBookmarks(resp.data.data);
       });
