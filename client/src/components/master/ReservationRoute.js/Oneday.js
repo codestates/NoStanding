@@ -4,7 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 const Container = styled.div`
-  border: 2px solid black;
+  border: 2px solid rgb(231, 231, 231);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -47,12 +47,14 @@ const Oneday = ({ userInfo, pickeddate }) => {
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp.data.data[0].date.replace(/[^0-9]/g, "").slice(8, 10));
+        console.log(
+          resp.data.data[0]?.date.replace(/[^0-9]/g, "").slice(8, 10)
+        );
         setReservationlist(resp.data.data);
 
         console.log(realreservationlist);
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => console.log(err));
   }, []);
   useEffect(() => {
     getReservation();

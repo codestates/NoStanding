@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { deleteUserInfo, getUserLogout } from "../store/store";
 const Div = styled.div`
@@ -29,6 +30,7 @@ const Button = styled.button`
   height: 100%;
 `;
 function UserDelete({ userInfo, logout, deleteUserInfo }) {
+  const navigate = useNavigate()
   console.log(userInfo);
   const clickDeleteBtn = () => {
     axios
@@ -40,6 +42,8 @@ function UserDelete({ userInfo, logout, deleteUserInfo }) {
         console.log(resp);
         deleteUserInfo();
         logout();
+        alert('삭제 완료')
+        navigate('/')
       })
       .catch((err) => console.log(err.response.data));
   };
