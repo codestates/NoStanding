@@ -24,6 +24,8 @@ const Navbar = styled.nav`
   justify-content: space-around;
   padding: 10px;
   border-bottom: 1px solid rgba(85, 85, 85, 0.3);
+  align-items: center;
+  margin-bottom: 1rem;
 `;
 const Logo = styled.div``;
 

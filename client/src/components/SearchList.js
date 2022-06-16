@@ -9,9 +9,11 @@ const Container = styled.li`
   flex-direction: column;
   align-items: center;
   border-radius: 4px;
-  border: 1px solid black;
+  background-color: mintcream;
+  border: 1px solid transparent;
   overflow: hidden;
   cursor: default;
+  border-radius: 15px;
 `;
 
 const Img = styled.img`
