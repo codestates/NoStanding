@@ -8,19 +8,14 @@ import { connect } from "react-redux";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-`;
-const NameScoreContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border: 2px solid black;
+  width: 60%;
+  justify-self: center;
+  margin: 0px auto;
 `;
 const HeartContainer = styled.div`
-  align-items: flex-end;
   font-size: 30px;
   color: lightcoral;
   text-align: right;
-  margin-right: 10rem;
   margin-top: 1rem;
   cursor: pointer;
   p {
@@ -28,22 +23,6 @@ const HeartContainer = styled.div`
       color: red;
     }
   }
-`;
-
-const ShopName = styled.div`
-  font-size: 25px;
-  font-weight: bold;
-  align-self: center;
-  text-align: center;
-  margin-bottom: 15px;
-  flex-grow: 3;
-`;
-
-const ScoreStarDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 7;
-  border: 2px solid black;
 `;
 const Imgcontainer = styled.div`
   display: flex;
@@ -72,38 +51,64 @@ const Imgselectbox = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const NameScoreContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 3vh;
+`;
+const ShopName = styled.h2`
+font-weight: 800;
+font-size: 35px;
+  align-self: center;
+  margin-bottom: 15px;
+`;
+const ScoreStarDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-self: flex-end;
+  div{
+    font-size: 14px;
+    margin-right: 13px;
+    color: gray;
+  }
+`;
 
 const Box = styled.div`
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 100%;
   align-self: center;
 `;
-
-const NameandReviewbar = styled.div`
-  border: solid black 2px;
-  height: 200px;
-`;
-
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  div{
+    margin-right: 5px;
+  }
+`
 const MapContainer = styled.div`
-  border: solid black 2px;
   display: flex;
   height: 400px;
   align-items: center;
+  margin-top: 20px;
 `;
 
 const Info = styled.div`
-  border: solid black 2px;
-  height: 200px;
+  height: auto;
+  h2{
+    margin: 20px 0px;
+  }
 `;
 
 const Review = styled.div`
-  border: solid black 2px;
   height: auto;
+  h2{
+    margin: 20px 0px;
+  }
 `;
 
 const Bookbutton = styled.button`
-  border: 2px solid black;
   font-size: 20px;
   font-weight: bold;
   height: 50px;
@@ -146,6 +151,7 @@ function ShopInfo({ userInfo }) {
       });
     setIsLoading(false);
   }, []);
+  console.log(pickedShop);
   useEffect(() => {
     getPickedShopInfo();
   }, [getPickedShopInfo]);
@@ -197,20 +203,34 @@ function ShopInfo({ userInfo }) {
             <NameScoreContainer>
               <ShopName>{pickedShop.user.shop_name}</ShopName>
               <ScoreStarDiv>
-                <div>리뷰 : {pickedShop.total_views || 0}개</div>
-                <div>별점 : {pickedShop.score_average || 0}점</div>
+                <div>{pickedShop.total_views || 0}명의 평가</div>
+                <div>{pickedShop.score_average || 0}점</div>
               </ScoreStarDiv>
             </NameScoreContainer>
-            <NameandReviewbar>{pickedShop.contents}</NameandReviewbar>
+            <Info>
+              <h2>가게설명</h2>
+              <div>{pickedShop.contents}</div>
+              <h2>메뉴정보</h2>
+              {pickedShop.Menus.map((menu) => (
+                <MenuContainer>
+                  <div>{menu.name} ------</div>
+                  <div>{menu.price}원</div>
+                  </MenuContainer>
+              ))}
+              <h2>영업시간</h2>
+              <div>{pickedShop.business_hour}</div>
+              <h2>휴무일</h2>
+              <div>{pickedShop.holiday}</div>
+              <h2>전화번호</h2>
+              <div>{pickedShop.phone_number || '정보없음'}</div>
+              <h2>가게위치</h2>
+              <div>{pickedShop.user.address_line1 || '정보없음'}</div>
+              </Info>
             <MapContainer>
               <Map x={pickedShop.x} y={pickedShop.y}></Map>
             </MapContainer>
-            <Info>
-              <div>영업시간: {pickedShop.business_hour}</div>
-              <div>휴무일: {pickedShop.holiday} </div>
-              <div>전화번호: {pickedShop.phone_number} </div>
-            </Info>
             <Review>
+              <h2>{pickedShop.total_views}건의 방문자 평가</h2>
               {pickedShop.Reviews.map((review, idx) => (
                 <ShopInfoReview key={idx} review={review} />
               ))}

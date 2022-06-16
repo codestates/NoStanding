@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  border: 2px solid black;
+  border-bottom: 1px solid rgba(65,65,65,0.3);
   display: flex;
   flex-direction: row;
   height: auto;
   justify-content: space-between;
+  margin-bottom: 20px;
 `
 const ContentDiv = styled.div`
   font-size: 16px;
@@ -36,6 +37,7 @@ const ScoreContainer = styled.div`
 const NameDiv = styled.div`
   font-size: 18px;
   font-weight: bold;
+  padding: 5px 0px;
 `
 function ShopInfoReview({review}) {
   const userName = (review.user.user_name)

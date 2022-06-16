@@ -51,7 +51,7 @@ function SideBar({ userInfo }) {
       {userInfo.is_master === 0 || null ? (
         <div>
           <Flex grow={3}>
-            <UserImg src="img/default.png" />
+            <UserImg src={require("../img/default.png")} />
             <NameDiv>{userInfo.user_name}</NameDiv>
             <MemberDiv>일반회원</MemberDiv>
           </Flex>
