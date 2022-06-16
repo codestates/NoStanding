@@ -10,6 +10,8 @@ import Loader from "../components/Loader";
 import Pagination from "../components/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+
+const Container = styled.div``;
 const FlexCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -185,61 +187,63 @@ function Main({ searchWord }) {
   };
   return (
     <>
-      <BannerDiv>
-        <Banner />
-      </BannerDiv>
-      <FlexCol>
-        <FlexRow>
-          {category.map((category, idx) => {
+      <Container>
+        <BannerDiv className="Bannercontainer">
+          <Banner />
+        </BannerDiv>
+        <FlexCol>
+          <FlexRow>
+            {category.map((category, idx) => {
+              return (
+                <CategoryList
+                  key={idx}
+                  idx={idx}
+                  backgroundOn={backgroundOn}
+                  onClick={() => clickCategory(category, idx)}
+                >
+                  <p>{category}</p>
+                </CategoryList>
+              );
+            })}
+          </FlexRow>
+          <FlexRow>
+            {categoryCity.map((category, idx) => {
+              return (
+                <CategortCityList
+                  key={idx}
+                  idx={idx}
+                  backgroundCity={backgroundCity}
+                  onClick={() => clickCategoryCity(category, idx)}
+                >
+                  <p>{category}</p>
+                </CategortCityList>
+              );
+            })}
+          </FlexRow>
+          <SortDiv>
+            <select onChange={changeSort}>
+              <option value="">가나다 순</option>
+              <option value="view">리뷰 순</option>
+              <option value="score">별점 순</option>
+            </select>
+          </SortDiv>
+        </FlexCol>
+        <ListView>
+          {shop.slice(offset, offset + 12).map((shop) => {
             return (
-              <CategoryList
-                key={idx}
-                idx={idx}
-                backgroundOn={backgroundOn}
-                onClick={() => clickCategory(category, idx)}
-              >
-                <p>{category}</p>
-              </CategoryList>
+              <div key={shop.id}>
+                <Link to={`/ShopInfo/${shop.id}`}>
+                  <SearchList shopInfo={shop}></SearchList>
+                </Link>
+              </div>
             );
           })}
-        </FlexRow>
-        <FlexRow>
-          {categoryCity.map((category, idx) => {
-            return (
-              <CategortCityList
-                key={idx}
-                idx={idx}
-                backgroundCity={backgroundCity}
-                onClick={() => clickCategoryCity(category, idx)}
-              >
-                <p>{category}</p>
-              </CategortCityList>
-            );
-          })}
-        </FlexRow>
-        <SortDiv>
-          <select onChange={changeSort}>
-            <option value="">가나다 순</option>
-            <option value="view">리뷰 순</option>
-            <option value="score">별점 순</option>
-          </select>
-        </SortDiv>
-      </FlexCol>
-      <ListView>
-        {shop.slice(offset, offset + 12).map((shop) => {
-          return (
-            <div key={shop.id}>
-              <Link to={`/ShopInfo/${shop.id}`}>
-                <SearchList shopInfo={shop}></SearchList>
-              </Link>
-            </div>
-          );
-        })}
-        <div>{isLoading && <Loader />}</div>
-        <footer>
-          <Pagination total={shop.length} page={page} setPage={setPage} />
-        </footer>
-      </ListView>
+          <div>{isLoading && <Loader />}</div>
+          <footer>
+            <Pagination total={shop.length} page={page} setPage={setPage} />
+          </footer>
+        </ListView>
+      </Container>
     </>
   );
 }

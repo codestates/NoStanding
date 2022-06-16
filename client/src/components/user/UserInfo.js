@@ -4,29 +4,48 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { deleteUserInfo, getUserLogout } from "../../store/store";
 import { useNavigate } from "react-router-dom";
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`;
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 350px;
+  margin: 0px auto;
+  h2 {
+    margin: 1em;
+  }
 `;
-const H2 = styled.h2`
-  margin: 1em;
-`;
-const Flex = styled.div`
+
+const FlexCol = styled.div`
   display: flex;
-  flex-direction: ${(props) => props.direction};
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  margin: 1em;
+  justify-content: center;
+  align-self: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
 `;
-const Img = styled.img`
-  height: 8em;
-  width: 8em;
+
+const TagDiv = styled.div`
+  align-self: start;
+  margin: 4px;
+  font-size: 15px;
+  font-weight: 600;
+`;
+const Input = styled.input`
+  width: 100%;
+  height: 5vh;
+  font-size: 15px;
+`;
+const Button = styled.button`
   margin: 1em;
+  width: 10em;
+  height: 4em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  :hover {
+    transform: scale(1.03);
+    background-color: tomato;
+  }
 `;
 function UserInfo({ user, logout, deleteUserInfo }) {
   const navigate = useNavigate();
@@ -78,73 +97,66 @@ function UserInfo({ user, logout, deleteUserInfo }) {
   };
   return (
     <Container>
-      <Div>
-        <H2>내 정보 수정</H2>
-      </Div>
-      <Flex direction="column">
-        <Flex direction="row">
-          <Img src="img/test2.png" />
-          <Flex direction="column">
-            <Flex direction="row">
-              <div>아이디 : </div>
-              <input type="text" value={user.user_name} disabled />
-            </Flex>
-            <Flex direction="row">
-              <div>현재 패스워드 :</div>
-              <input
-                placeholder="******"
-                type="password"
-                value={password}
-                onChange={inputPassword}
-              />
-            </Flex>
-            <Flex direction="row">
-              <div>변경할 패스워드 :</div>
-              <input
-                type="password"
-                placeholder="******"
-                value={changePwd}
-                onChange={inputchangePwd}
-              />
-            </Flex>
-            <Flex direction="row">
-              <div>변경할 패스워드 확인 :</div>
-              <input
-                type="password"
-                placeholder="******"
-                value={ckeckChangePwd}
-                onChange={inputChangeCheckPwd}
-              />
-              {pwdValid ? null : <div>비밀번호가 일치하지 않습니다.</div>}
-            </Flex>
-          </Flex>
-        </Flex>
-        <Flex direction="row">
-          <div>닉네임 변경하기 :</div>
-          <input
+      <h2>내 정보 수정</h2>
+      <FlexCol>
+        <FlexCol>
+          <TagDiv>아이디</TagDiv>
+          <Input type="text" value={user.user_name} disabled />
+        </FlexCol>
+        <FlexCol>
+          <TagDiv>현재 패스워드</TagDiv>
+          <Input
+            placeholder="******"
+            type="password"
+            value={password}
+            onChange={inputPassword}
+          />
+        </FlexCol>
+        <FlexCol>
+          <TagDiv>변경할 패스워드</TagDiv>
+          <Input
+            type="password"
+            placeholder="******"
+            value={changePwd}
+            onChange={inputchangePwd}
+          />
+        </FlexCol>
+        <FlexCol>
+          <TagDiv>변경할 패스워드 확인</TagDiv>
+          <Input
+            type="password"
+            placeholder="******"
+            value={ckeckChangePwd}
+            onChange={inputChangeCheckPwd}
+          />
+          {pwdValid ? null : <div>비밀번호가 일치하지 않습니다.</div>}
+        </FlexCol>
+        <FlexCol>
+          <TagDiv>닉네임 변경하기</TagDiv>
+          <Input
             type="text"
             placeholder="변경할 닉네임을 입력하세요"
             onChange={inputNickname}
           />
-        </Flex>
-        <Flex direction="row">
-          <div>핸드폰 번호 변경 :</div>
-          <input
+        </FlexCol>
+        <FlexCol>
+          <TagDiv>핸드폰 번호 변경</TagDiv>
+          <Input
             type="text"
             placeholder="전화번호를 입력하세요."
             onChange={inputPhoneNumber}
           />
-        </Flex>
-        <Flex direction="row">
-          <div>이메일 :</div>
-          <input
+        </FlexCol>
+        <FlexCol>
+          <TagDiv>이메일</TagDiv>
+          <Input
             type="text"
             placeholder="변경할 이메일을 입력하세요."
             onChange={inputEmail}
           />
-        </Flex>
-        <button onClick={submitModify}>수정하기</button>
-      </Flex>
+        </FlexCol>
+        <Button onClick={submitModify}>수정하기</Button>
+      </FlexCol>
     </Container>
   );
 }

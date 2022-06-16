@@ -22,8 +22,26 @@ router.post('/google', oauth.google.post);
  *      responses:
  *        "200":
  *          description: 카카오 로그인 성공
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "카카오 로그인 성공"}
  *        "500":
- *          description: Server Error
+ *          description: 예약 실패 / 로그인 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Server Error"}
  */
 
 /**
@@ -37,8 +55,26 @@ router.post('/google', oauth.google.post);
  *      responses:
  *        "200":
  *          description: 구글 로그인 성공
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "구글 로그인 성공"}
  *        "500":
- *          description: Server Error
+ *          description: 예약 실패 / 로그인 실패
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                data :
+ *                 type :  object
+ *                example :
+ *                    {message : "Server Error"}
  */
 
 module.exports = router;

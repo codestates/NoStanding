@@ -9,6 +9,8 @@ import styled from "styled-components";
 import CallbackGoogle from "./pages/CallbackGoogle";
 import CallbackKakao from "./pages/CallbackKakao";
 import FindPassword from "./pages/FindPassword";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Body = styled.div`
   height: auto;

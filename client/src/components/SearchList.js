@@ -9,15 +9,18 @@ const Container = styled.li`
   flex-direction: column;
   align-items: center;
   border-radius: 4px;
-  border: 1px solid black;
+  background-color: mintcream;
+  border: 1px solid transparent;
   overflow: hidden;
   cursor: default;
+  border-radius: 15px;
 `;
 
 const Img = styled.img`
   width: 100%;
   height: 60%;
   cursor: pointer;
+  transition: all 0.3s;
   &:hover {
     transform: scale(1.05);
   }
@@ -34,8 +37,6 @@ const FlexRow = styled.div`
   flex-direction: row;
   justify-content: space-around;
   margin-top: 7%;
-  svg {
-  }
 `;
 const ScoreDiv = styled.div`
   font-size: 14px;
