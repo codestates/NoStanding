@@ -195,4 +195,24 @@ module.exports = {
       res.status(500).send({ message: 'Server Error' });
     }
   },
+  delete : async(req, res) => {
+     
+    try {
+      const userInfo = await userAuth(req, res);
+      if (!userInfo) {
+        return res.status(400).json({ message: '유저정보 없음' });
+      }
+      delete userInfo.dataValues.password;
+      delete userInfo.dataValues.user_salt;
+
+      const { rereview_id } = req.params;
+  
+      await Models.ReReview.destroy({ where: { id: rereview_id } });
+
+      res.status(201).send({ message: '대댓글 삭제 완료' });
+    } catch (err) {
+      console.log(err);
+      res.status(500).send({ message: 'Server Error' });
+    }
+  },
 };
