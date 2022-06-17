@@ -84,6 +84,7 @@ function Review({ userInfo }) {
     setRereviewopen(!rereviewopen);
     setReviewId(id);
   };
+  const deleteRereview = () => {};
   const getReviewInfo = useCallback(async () => {
     await axios
       .get(
@@ -158,6 +159,9 @@ function Review({ userInfo }) {
                         <UserNameDiv>{userInfo.user_name}</UserNameDiv>
                         <div>{Rereview.contents}</div>
                         <DateDiv>{Rereview.updatedAt}</DateDiv>
+                        <ReviewButton
+                          onClick={() => deleteRereview(Rereview.id)}
+                        ></ReviewButton>
                       </FlexDiv>
                     );
                   })

@@ -29,9 +29,10 @@ const FlexDiv = styled.div`
   align-items: center;
   height: 100%;
 `;
+
 function MasterReviewmodal({ userInfo, isOpen, reviewId, getReviewInfo }) {
   const [re_review, setRe_review] = useState("");
-
+  
   const controlClose = (val) => {
     isOpen(val);
   };
@@ -80,12 +81,17 @@ function MasterReviewmodal({ userInfo, isOpen, reviewId, getReviewInfo }) {
       }}
     >
       <FlexDiv direction="column">
+        <h2>답글</h2>
         <Textarea
           onChange={(e) => setRe_review(e.target.value)}
           value={re_review}
         ></Textarea>
-        <Button onClick={postRereview} className="relpy">답글 달기</Button>
-        <Button onClick={() => isOpen(false)} className="close"> 닫기</Button>
+        <Button onClick={postRereview} className="relpy">
+          답글 달기
+        </Button>
+        <Button onClick={() => isOpen(false)} className="close">
+          닫기
+        </Button>
       </FlexDiv>
     </Modal>
   );
