@@ -24,6 +24,7 @@ function FindPassword() {
   const inputConfirmNum = (e) => setUserConfirmNum(e.target.value);
   const inputChangePwd = (e) => setChangePwd(e.target.value);
   const inputCheckPwd = (e) => setCheckPassword(e.target.value);
+  
   const submitCheckEmail = (e) => {
     e.preventDefault();
     setMinutes(2);
@@ -50,10 +51,11 @@ function FindPassword() {
         console.log(resp);
         alert("인증완료!");
         setCheckEmail(false);
-      }).catch((resp) => {
-        console.log(resp.data);
+      }).catch((err) => {
+       console.log(err.response.data.message);
       })
     }else {
+      setCheckEmail(false)
       alert('인증번호가 맞지 않습니다.')
     }
   };
