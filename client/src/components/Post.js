@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import DaumPostcode from "react-daum-postcode";
+import styled from "styled-components";
 
-const Post = ({ address, setAddress }) => {
+const Container = styled.div`
+
+`
+const Post = ({ setPopup, setAddress }) => {
   const onCompletePost = (data) => {
-    console.log(data);
-    setAddress(data.address);
+    setAddress(data);
   };
 
   const postCodeStyle = {
     display: "block",
     position: "absolute",
-    top: "20%",
+    top: "70%",
     width: "400px",
     height: "400px",
-    padding: "7px",
+    border: '2px solid black',
     zIndex: 100,
   };
 

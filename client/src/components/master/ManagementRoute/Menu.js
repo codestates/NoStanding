@@ -138,8 +138,11 @@ const Menu = ({ userInfo }) => {
         console.log(resp.data.data.menuInfo.id);
 
         postPhoto(resp.data.data.menuInfo.id);
-        getMenu();
+        setMenu("");
+        setPrice("");
+        setImg(null);
         setIsmenu(!ismenu);
+        getMenu();
       })
       .catch((err) => console.log(err));
   };
@@ -165,7 +168,10 @@ const Menu = ({ userInfo }) => {
         formData,
         { withCredentials: true }
       )
-      .then((resp) => console.log(resp))
+      .then((resp) => {
+        getMenu();
+        console.log(resp);
+      })
       .catch((err) => console.log(err.response.data));
   };
   const renderImg = (el) => {

@@ -1,34 +1,34 @@
 import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { deleteUserInfo, getUserLogout } from "../store/store";
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`;
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 600px;
+  margin: 0px auto;
+  h2{
+    margin: 1em;
+  }
 `;
-const H2 = styled.h2`
-  margin: 1em;
-`;
-const Flex = styled.div`
-  display: flex;
-  flex-direction: ${(props) => props.direction};
-  margin: ${(props) => (props.direction === "column" ? "5em" : "1em")};
-  align-items: center;
-  width: 100%;
-`;
+
 const Button = styled.button`
-  justify-content: center;
-  align-items: center;
-  width: 40%;
-  height: 100%;
+  margin: 5em;
+  width: 10em;
+  height: 4em;
+  background-color: rgb(21,64,99);
+  color: white;
+  border-radius: 0.5rem;
+  align-self: center;
+  :hover{
+    transform: scale(1.05);
+    background-color: tomato;
+  }
 `;
 function UserDelete({ userInfo, logout, deleteUserInfo }) {
+  const navigate = useNavigate()
   console.log(userInfo);
   const clickDeleteBtn = () => {
     axios
@@ -40,29 +40,15 @@ function UserDelete({ userInfo, logout, deleteUserInfo }) {
         console.log(resp);
         deleteUserInfo();
         logout();
+        alert('삭제 완료')
+        navigate('/')
       })
       .catch((err) => console.log(err.response.data));
   };
   return (
     <Container>
-      <Div>
-        <H2>회원탈퇴</H2>
-      </Div>
-      <Flex direction="column">
-        {/* <Flex direction="row">
-          <div>아이디:</div>
-          <input type="text" />
-        </Flex>
-        <Flex direction="row">
-          <div>비밀번호:</div>
-          <input type="password" />
-        </Flex>
-        <Flex direction="row">
-          <div>비밀번호 확인:</div>
-          <input type="password" />
-        </Flex> */}
+        <h2>회원탈퇴</h2>
         <Button onClick={clickDeleteBtn}>탈퇴하기</Button>
-      </Flex>
     </Container>
   );
 }

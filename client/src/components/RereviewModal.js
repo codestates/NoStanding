@@ -52,7 +52,6 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
       )
       .then((resp) => {
         if(alarmData) {
-          console.log('알람에서 바로');
         axios.patch(
           `${process.env.REACT_APP_API_URL}/mypage/notification/reviewpatch/${userInfo.user_name}`,
           {
@@ -62,7 +61,7 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
           {
             withCredentials: true,
           }
-        ).then((resp)=> console.log(resp))
+        ).then((resp)=> alert('리뷰 작성'))
         }
       })
       .then(() => isOpen(false));
@@ -80,7 +79,8 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
     <Modal
       ariaHideApp={false}
       isOpen={true}
-      style={{
+      style={
+        {
         overlay: {
           position: "fixed",
           top: 0,
@@ -94,7 +94,7 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
           top: "5%",
           left: "20%",
           right: "20%",
-          bottom: "50%",
+          bottom: "35%",
           border: "1px solid #ccc",
           background: "#fff",
           overflow: "auto",
@@ -109,11 +109,11 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
         <button onClick={clickExitBtn}>닫기</button>
         <form onSubmit={submitReview}>
           <Textarea
-            placeholder="리뷰를 작성해주세요."
+            placeholder="답글을 작성해주세요."
             onChange={changeTextarea}
             value={writeReview}
           />
-          <Button>리뷰 등록하기</Button>
+          <Button>답글 작성하기</Button>
         </form>
       </Container>
     </Modal>
