@@ -11,11 +11,16 @@ const Container = styled.div`
     margin: 1em;
   }
 `;
-const H2 = styled.h2`
-  margin: 1em;
-`;
+
 const Div = styled.div`
-  border-bottom: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 1rem;
+  width: 60%;
+  border: 2px solid rgb(21, 64, 99);
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 function Notification({ alarmData }) {

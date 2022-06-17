@@ -107,14 +107,7 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
     >
       <Container>
         <button onClick={clickExitBtn}>닫기</button>
-        <form onSubmit={submitReview}>
-          <Textarea
-            placeholder="리뷰를 작성해주세요."
-            onChange={changeTextarea}
-            value={writeReview}
-          />
-          <Button>리뷰 등록하기</Button>
-        </form>
+        
       </Container>
     </Modal>
   );
