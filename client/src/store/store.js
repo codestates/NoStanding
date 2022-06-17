@@ -1,5 +1,4 @@
 import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit";
-import axios from "axios";
 import {
   persistReducer,
   FLUSH,
@@ -10,7 +9,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; //로컬스토리지 사용
-// import session from 'redux-persist/lib/storage/session'; //세션스토리지 사용
+// import storage from 'redux-persist/lib/storage/session'; //세션스토리지 사용
 
 const alarmState = createSlice({
   name: "alarm",

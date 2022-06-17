@@ -5,33 +5,35 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 1px;
   margin: 16px;
 `;
 
 const Button = styled.button`
   border: none;
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
   padding: 8px;
   margin: 0;
-  background: black;
-  color: white;
+  background: #fbfbfb;
+  color: black;
+  border: 1px solid #d3d3d3;
   font-size: 1rem;
   transition: all 0.4s;
   &:hover {
-    background: navy;
     cursor: pointer;
     transform: translateY(-2px);
   }
 
   &[disabled] {
-    background: grey;
     cursor: revert;
     transform: revert;
   }
 
   &[aria-current] {
-    background: #154063;
+    border: 1px solid black;
+    background: #ffffff;
     font-weight: bold;
     cursor: revert;
     transform: revert;

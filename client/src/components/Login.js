@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import axios from "axios";
@@ -88,14 +88,6 @@ const Input = styled.input`
   height: auto;
   width: 12vw;
 `;
-
-const Span = styled.span`
-  text-align: center;
-  align-items: center;
-  padding: 5px;
-  width: 60%;
-`;
-
 function LoginModal({
   controlClose,
   getUserInfo,
@@ -106,7 +98,6 @@ function LoginModal({
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIslogin] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
 
   const idSetter = (e) => {
@@ -162,11 +153,6 @@ function LoginModal({
     navigate("/Findpassword");
     controlClose(false);
   };
-
-  const clickLoginState = () => {
-    clickCheckBox();
-    console.log(holdLogin);
-  };
   return (
     <Modal
       ariaHideApp={false}
@@ -199,7 +185,7 @@ function LoginModal({
     >
       <Xbutton onClick={() => controlClose(false)}>X</Xbutton>
       <ColumnDiv>
-        <Logoimage src="img/nostandinglogo2.jpeg"></Logoimage>
+        <Logoimage src={require("../img/nostandinglogo.png")}></Logoimage>
         <RowDiv>
           <ColumnDiv>
             <Div>아이디</Div>
@@ -221,14 +207,6 @@ function LoginModal({
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
-          <RowDiv primary>
-            <input
-              type="checkbox"
-              checked={holdLogin}
-              onChange={clickLoginState}
-            ></input>
-            <Div>로그인 유지하기</Div>
-          </RowDiv>
           <Button onClick={clickFindPwdBtn}>비밀번호 찾기</Button>
         </RowDiv>
         <OauthLogin primary="0" onClick={loginHandler}>

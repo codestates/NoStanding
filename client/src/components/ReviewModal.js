@@ -12,6 +12,46 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
   }
+  h2{
+    margin: 10px;
+  }
+`;
+const CloseBtn = styled.div`
+  width: 20px;
+  height: 20px;
+  align-self: flex-end;
+  cursor: pointer;
+  :hover {
+    font-weight: bold;
+  }
+`;
+const InputContainer = styled.div`
+  display: inline-block;
+  height: 40px;
+  vertical-align: middle;
+  width: auto;
+  margin-top: 5px;
+`;
+const InputLabel = styled.label`
+  display: inline-block;
+  width: auto;
+  height: 30px;
+  background-color: #999999;
+  color: white;
+  border-radius: 0.5rem;
+  text-align: center;
+  padding: 10px 5px;
+  :hover{
+    transform: scale(1.03);
+  }
+`;
+const Input = styled.input`
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 `;
 const FlexDiv = styled.div`
   display: flex;
@@ -19,10 +59,17 @@ const FlexDiv = styled.div`
   justify-content: space-between;
 `;
 const Button = styled.button`
-  width: 7rem;
-  height: 3rem;
+  margin: 1em;
+  width: 10em;
+  height: 3em;
+  background-color: rgb(21,64,99);
+  color: white;
+  border-radius: 0.5rem;
   align-self: flex-end;
-  justify-self: flex-end;
+  :hover{
+    transform: scale(1.05);
+    background-color: tomato;
+  }
 `;
 const Textarea = styled.textarea`
   width: 100%;
@@ -37,8 +84,6 @@ const Img = styled.img`
 `;
 
 function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
-  console.log(shopId);
-  console.log(alarmData);
   const [writeReview, setWriteReview] = useState("");
   const [imgList, setImgList] = useState([]);
   const [score, setScore] = useState("1");
@@ -73,21 +118,26 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
         );
       })
       .then((resp) => {
-        if(alarmData) {
-          console.log('알람에서 바로');
-        axios.patch(
-          `${process.env.REACT_APP_API_URL}/mypage/notification/reviewpatch/${userInfo.user_name}`,
-          {
-            id: alarmData.id,
-            review: 0,
-          },
-          {
-            withCredentials: true,
-          }
-        ).then((resp)=> console.log(resp))
+        if (alarmData) {
+          console.log("알람에서 바로");
+          axios
+            .patch(
+              `${process.env.REACT_APP_API_URL}/mypage/notification/reviewpatch/${userInfo.user_name}`,
+              {
+                id: alarmData.id,
+                review: 0,
+              },
+              {
+                withCredentials: true,
+              }
+            )
+            .then((resp) => console.log(resp));
         }
       })
-      .then(() => isOpen(false));
+      .then(() => {
+        alert("리뷰가 등록되었습니다.");
+        isOpen(false);
+      });
   };
 
   const changeTextarea = (e) => {
@@ -140,21 +190,21 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
         content: {
           position: "absolute",
           top: "5%",
-          left: "20%",
-          right: "20%",
-          bottom: "50%",
+          left: "30%",
+          right: "30%",
+          bottom: "45%",
           border: "1px solid #ccc",
           background: "#fff",
           overflow: "auto",
           WebkitOverflowScrolling: "touch",
           borderRadius: "4px",
           outline: "none",
-          padding: "20px",
         },
       }}
     >
       <Container>
-        <button onClick={clickExitBtn}>닫기</button>
+        <CloseBtn onClick={clickExitBtn}>X</CloseBtn>
+        <h2>리뷰작성</h2>
         <form onSubmit={submitReview}>
           <FlexDiv direction="row">
             {radioNumber.map((val, idx) => (
@@ -169,13 +219,16 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
               </FlexDiv>
             ))}
           </FlexDiv>
-          <div>{renderImg(imgList)}</div>
           <Textarea
             placeholder="리뷰를 작성해주세요."
             onChange={changeTextarea}
             value={writeReview}
           />
-          <input type="file" accept="image/*" multiple onChange={uploadImg} />
+          <div>{renderImg(imgList)}</div>
+          <InputContainer>
+          <InputLabel for="file">사진 등록하기</InputLabel>
+          <Input type="file" accept="image/*" multiple onChange={uploadImg} id="file" />
+          </InputContainer>
           <Button>리뷰 등록하기</Button>
         </form>
       </Container>

@@ -72,7 +72,6 @@ function UserInfo({ user, logout, deleteUserInfo }) {
 
   const submitModify = (e) => {
     e.preventDefault();
-    if (pwdValid === true) {
       axios
         .patch(
           `${process.env.REACT_APP_API_URL}/mypage/userinfo/${user.user_name}`,
@@ -92,8 +91,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
           logout();
           deleteUserInfo();
           navigate("/");
-        }).catch((err) => alert(err))
-    }
+        }).catch((err) => alert(err.response.data.message))
   };
   return (
     <Container>
