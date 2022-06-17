@@ -47,10 +47,13 @@ module.exports = {
 
       const { shop_id, name, price } = req.body;
 
+      const img = [null];
+
       const menuUpdate = await Models.Menu.create({
         shop_id: shop_id,
         name: name,
         price: price,
+        image_src: JSON.stringify(img),
       });
       res.status(200).send({
         data: { menuInfo: menuUpdate },
