@@ -102,9 +102,7 @@ const ListView = styled.ul`
 `;
 
 const BannerDiv = styled.div``;
-const LineDiv = styled.div`
-  border-top: 2px solid rgb(21, 64, 99);
-`;
+
 function Main({ searchWord }) {
   const category = ["음식점", "카페"];
   const categoryCity = [
@@ -126,6 +124,7 @@ function Main({ searchWord }) {
   const [page, setPage] = useState(1);
   const [order, setOrder] = useState("");
   const offset = (page - 1) * 12;
+  
   const getShopList = useCallback(async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/?order=${order}`)

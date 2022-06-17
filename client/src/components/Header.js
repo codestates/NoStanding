@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -113,6 +113,7 @@ function Header({
   const [goMypage, setGoMypage] = useState("/");
   const [alarmOpen, setAlarmOpen] = useState(false);
   const [ringAlarm, setRingAlarm] = useState(false);
+  
   useEffect(() => {
     if (loginState) {
       axios

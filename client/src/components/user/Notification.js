@@ -23,7 +23,7 @@ const Div = styled.div`
   padding: 10px;
   border-radius: 5px;
 `
-function Notification({ userInfo, alarmData }) {
+function Notification({ alarmData }) {
   console.log(alarmData);
   return (
     <Container>

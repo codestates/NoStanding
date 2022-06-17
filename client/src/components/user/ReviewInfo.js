@@ -31,9 +31,6 @@ const Div = styled.div`
   width: 70%;
   margin-right: 2rem;
 `;
-const DeleteBtn = styled.div`
-  color: black;
-`;
 const Button = styled.button`
   margin: 1em;
   width: 7em;
@@ -73,8 +70,8 @@ function ReviewInfo({ data, getReviewData }) {
               withCredentials: true,
             })
             .then((resp) => {
-              console.log(resp);
               getReviewData();
+              alert('리뷰가 삭제되었습니다.')
             });
         }
       });
@@ -93,7 +90,7 @@ function ReviewInfo({ data, getReviewData }) {
           </div>
           <Div>
             <ShopNameDiv>{data.shop_name}</ShopNameDiv>
-            <DateDiv>{data.createdAt}</DateDiv>
+            <DateDiv>{data.createdAt.split('T')[0]+' '+data.createdAt.split('T')[1].split('.')[0]}</DateDiv>
             <div>{data.contents}</div>
           </Div>
           <Button onClick={clickDeleteBtn}>리뷰 삭제</Button>
