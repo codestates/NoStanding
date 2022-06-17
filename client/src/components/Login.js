@@ -18,17 +18,24 @@ const ColumnDiv = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 1em;
 `;
-
+const Div = styled.div`
+  width: 100%;
+  display: block;
+  @media only screen and (max-width: 48rem) {
+    font-size: 0.5rem;
+  }
+`;
 const Logoimage = styled.img`
   margin: 10px;
-  width: 30vh;
-  height: 16vh;
+  width: 50%;
+  height: 30%;
 `;
 const OauthLogin = styled.div`
   margin: 4px;
   height: 5vh;
-  width: 33vw;
+  width: 22vw;
   background-color: ${(props) =>
     props.primary === "1"
       ? "yellow"
@@ -46,7 +53,7 @@ const OauthLogin = styled.div`
       ? "white"
       : "black"};
   text-align: center;
-  padding-top: 10px;
+  padding: 1em;
   flex: auto;
   border-radius: 10px;
   font-weight: bold;
@@ -63,6 +70,9 @@ const Button = styled.button`
   :hover {
     transform: scale(1.03);
     color: rebeccapurple;
+  }
+  @media only screen and (max-width: 48rem) {
+    font-size: 0.5rem;
   }
 `;
 const Xbutton = styled.button`
@@ -178,8 +188,8 @@ function LoginModal({
         <Logoimage src={require("../img/nostandinglogo.png")}></Logoimage>
         <RowDiv>
           <ColumnDiv>
-            <div>아이디</div>
-            <div>비밀번호</div>
+            <Div>아이디</Div>
+            <Div>비밀번호</Div>
           </ColumnDiv>
           <ColumnDiv>
             <Input
