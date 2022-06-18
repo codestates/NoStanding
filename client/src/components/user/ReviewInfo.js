@@ -50,7 +50,7 @@ function ReviewInfo({ data, getReviewData }) {
   const [checkEmail, setCheckEmail] = useState(false);
   const getImage = useCallback(async () => {
     const parsing = await JSON.parse(data.image_src);
-    if (parsing.length !== 0) {
+    if (parsing) {
       setImage(parsing);
     } else {
       setImage([{ location: "/img/default.png", key: 1 }]);
@@ -71,7 +71,7 @@ function ReviewInfo({ data, getReviewData }) {
             })
             .then((resp) => {
               getReviewData();
-              alert('리뷰가 삭제되었습니다.')
+              alert("리뷰가 삭제되었습니다.");
             });
         }
       });
@@ -90,7 +90,11 @@ function ReviewInfo({ data, getReviewData }) {
           </div>
           <Div>
             <ShopNameDiv>{data.shop_name}</ShopNameDiv>
-            <DateDiv>{data.createdAt.split('T')[0]+' '+data.createdAt.split('T')[1].split('.')[0]}</DateDiv>
+            <DateDiv>
+              {data.createdAt.split("T")[0] +
+                " " +
+                data.createdAt.split("T")[1].split(".")[0]}
+            </DateDiv>
             <div>{data.contents}</div>
           </Div>
           <Button onClick={clickDeleteBtn}>리뷰 삭제</Button>
