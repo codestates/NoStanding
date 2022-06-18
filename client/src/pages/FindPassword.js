@@ -19,7 +19,7 @@ function FindPassword() {
   const [checkPassword, setCheckPassword] = useState("");
   const [minutes, setMinutes] = useState(3);
   const [seconds, setSeconds] = useState(0);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const changeFindId = (e) => setFindId(e.target.value);
   const inputConfirmNum = (e) => setUserConfirmNum(e.target.value);
   const inputChangePwd = (e) => setChangePwd(e.target.value);
@@ -39,34 +39,38 @@ function FindPassword() {
     e.preventDefault();
     setEmailcheckOK(true);
     console.log(confirmNum, userConfirmNum);
-    if(Number(confirmNum) === Number(userConfirmNum)) {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/confirm`, {
-        user_name: findId,
-        confirmNumber: Number(confirmNum),
-        confirm_body: Number(userConfirmNum),
-      })
-      .then((resp) => {
-        console.log(resp);
-        alert("인증완료!");
-        setCheckEmail(false);
-      }).catch((resp) => {
-        console.log(resp.data);
-      })
-    }else {
-      alert('인증번호가 맞지 않습니다.')
+    if (Number(confirmNum) === Number(userConfirmNum)) {
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/confirm`, {
+          user_name: findId,
+          confirmNumber: Number(confirmNum),
+          confirm_body: Number(userConfirmNum),
+        })
+        .then((resp) => {
+          console.log(resp);
+          alert("인증완료!");
+          setCheckEmail(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+        });
+    } else {
+      setCheckEmail(false);
+      alert("인증번호가 맞지 않습니다.");
     }
   };
-  
+
   const clickModifyPwd = () => {
     if (changePwd === checkPassword) {
-      axios.post(`${process.env.REACT_APP_API_URL}/passwordchange`, {
-        user_name: findId,
-        password: changePwd,
-      }).then((resp) => {
-        alert('비밀번호가 변경되었습니다.')
-        navigate('/')
-      });
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/passwordchange`, {
+          user_name: findId,
+          password: changePwd,
+        })
+        .then((resp) => {
+          alert("비밀번호가 변경되었습니다.");
+          navigate("/");
+        });
     }
   };
 

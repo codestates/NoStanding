@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import ReviewModal from "./ReviewModal";
 
@@ -8,7 +9,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-`
+`;
 
 const P = styled.p`
   color: ${(props) => (props.isRead === 1 ? "gray" : "black")};
@@ -26,10 +27,10 @@ const Button = styled.button`
   }
 `;
 
-function Alarm({userInfo, data, idx }) {
+function Alarm({ userInfo, data, idx }) {
   const [openReview, setOpenReview] = useState(false);
   const [chooseIdx, setChooseIdx] = useState(0);
-
+  console.log(userInfo);
   const clickAlarm = (id) => {
     axios
       .patch(
@@ -42,7 +43,7 @@ function Alarm({userInfo, data, idx }) {
           withCredentials: true,
         }
       )
-      .then((resp) => console.log(resp));
+      .then((resp) => alert(resp.data.message));
   };
 
   const clickOpenReview = (id) => {
@@ -66,7 +67,11 @@ function Alarm({userInfo, data, idx }) {
         />
       ) : null}
     </Container>
-  )
+  );
 }
-
-export default Alarm;
+function mapStateToProps(state) {
+  return {
+    userInfo: state.loginInfo.userInfo,
+  };
+}
+export default connect(mapStateToProps)(Alarm);

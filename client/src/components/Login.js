@@ -211,14 +211,6 @@ function LoginModal({
           </ColumnDiv>
         </RowDiv>
         <RowDiv>
-          <RowDiv primary>
-            <input
-              type="checkbox"
-              checked={holdLogin}
-              onChange={clickLoginState}
-            ></input>
-            <div>로그인 유지하기</div>
-          </RowDiv>
           <Button onClick={clickFindPwdBtn}>비밀번호 찾기</Button>
         </RowDiv>
         <OauthLogin primary="0" onClick={loginHandler}>

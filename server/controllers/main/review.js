@@ -21,11 +21,15 @@ module.exports = {
           .status(400)
           .send({ message: '별점과 리뷰 작성은 필수입니다.' });
       }
+
+      const curr = new Date();
+
       await Models.Review.create({
         user_id: userInfo.dataValues.id,
         shop_id: shop_id,
         score: score,
         contents: contents,
+        createdAt: curr,
       });
 
       const reviewInfo = await Models.Review.findAll({
@@ -75,7 +79,6 @@ module.exports = {
           { transaction },
         );
 
-        const curr = new Date();
         const newCurr = curr.toLocaleDateString('ko-kr');
         const updated = curr.setDate(curr.getDate() + 4);
 

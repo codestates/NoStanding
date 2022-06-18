@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 450px;
   margin: 0px auto;
   h1 {
-    color: rgba(68,68,68,0.8);
+    color: rgba(68, 68, 68, 0.8);
     margin: 1rem;
     align-self: flex-start;
   }
@@ -44,21 +44,20 @@ const ChooseDiv = styled.div`
   margin-bottom: 3rem;
   flex-grow: 1;
   color: ${(props) => (props.backgroundOn ? "white" : "black")};
-  background-color: ${(props) =>
-    props.backgroundOn ? "rgb(21,64,99)" : null};
+  background-color: ${(props) => (props.backgroundOn ? "rgb(21,64,99)" : null)};
 `;
 const Input = styled.input`
   width: 100%;
   height: 6vh;
   font-size: 15px;
   margin-bottom: 10px;
-`
+`;
 const TagDiv = styled.div`
   align-self: start;
   margin: 4px;
   font-size: 15px;
   font-weight: 600;
-`
+`;
 const MessageDiv = styled.div`
   color: red;
   font-weight: bold;
@@ -68,25 +67,25 @@ const Form = styled.form`
   width: 100%;
   height: 100%;
   height: 6vh;
-`
+`;
 const CheckInput = styled.input`
   width: 67%;
   height: 6vh;
   font-size: 15px;
   margin-right: 3%;
-`
+`;
 const CheckBtn = styled.button`
   height: 6vh;
   width: 30%;
   border-radius: 0.3rem;
-  background-color: rgb(21,64,99);
+  background-color: rgb(21, 64, 99);
   color: white;
-`
+`;
 const Button = styled.button`
   margin: 1em;
   width: 10em;
   height: 4em;
-  background-color: rgb(21,64,99);
+  background-color: rgb(21, 64, 99);
   color: white;
   border-radius: 0.5rem;
 `;
@@ -94,15 +93,15 @@ const Select = styled.select`
   width: 100%;
   height: 5vh;
   text-align: center;
-`
+`;
 const RegExp = /^[a-zA-Z0-9]{4,12}$/;
 const nicknameRegExp = /^[가-힣a-zA-Z0-9]{2,10}$/;
-// const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 //!주석 풀면 비밀번호 유효성검사 가능
 
 function SingUp() {
   const [address, setAddress] = useState("");
-  const [addressLine, setAddressLine] = useState("")
+  const [addressLine, setAddressLine] = useState("");
   const [popup, setPopup] = useState(false);
   const [isMaster, setIsMaster] = useState(false);
   const [userName, setUserName] = useState("");
@@ -120,13 +119,13 @@ function SingUp() {
   const [confirmNum, setConfirmNum] = useState("");
   const [userConfirmNum, setUserConfirmNum] = useState("");
   const [emailCheckOK, setEmailcheckOK] = useState(false);
-  // const [onPwd, setOnPwd] = useState(true);
+  const [onPwd, setOnPwd] = useState(true);
   //!주석 풀면 비밀번호 유효성 검사 가능
   const [onCheckPwd, setOnCheckPwd] = useState(true);
   const [minutes, setMinutes] = useState(3);
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
-  const category = ["음식", "카페", "미용"];
+  const category = ["음식", "카페"];
   const categoryCity = [
     "서울",
     "부산",
@@ -143,17 +142,21 @@ function SingUp() {
   };
   const submitCheckEmail = (e) => {
     e.preventDefault();
-    if(email !== "") {
-    setMinutes(2);
-    setSeconds(59);
-    setCheckEmail(true);
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
-        email: email,
-      })
-      .then((resp) => setConfirmNum(resp.data.data));
-    }else {
-      alert('이메일을 입력해주세요')
+    if (email !== "") {
+      setMinutes(2);
+      setSeconds(59);
+
+      axios
+        .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
+          email: email,
+        })
+        .then((resp) => {
+          setCheckEmail(true);
+          setConfirmNum(resp.data.data);
+        })
+        .catch((err) => alert(err.response.data.message));
+    } else {
+      alert("이메일을 입력해주세요");
     }
   };
   const submitConfirmNum = (e) => {
@@ -193,7 +196,7 @@ function SingUp() {
   };
   const inputPwd = (e) => {
     setPassword(e.target.value);
-    // passwordRegex.test(e.target.value) ? setOnPwd(true) : setOnPwd(false);
+    passwordRegex.test(e.target.value) ? setOnPwd(true) : setOnPwd(false);
     //!주석 풀면 비밀번호 유효성 검사 가능
   };
   const inputCheckPwd = (e) => {
@@ -215,7 +218,7 @@ function SingUp() {
 
   const clickSignUpBtn = () => {
     console.log(checkEmail);
-    if (onId && onNickname /*&& onPwd */ && onCheckPwd && emailCheckOK) {
+    if (onId && onNickname && onPwd && onCheckPwd && emailCheckOK) {
       //!주석 풀면 비밀번호 유효성 검사 가능
       axios
         .post(
@@ -285,41 +288,52 @@ function SingUp() {
         </ChooseDiv>
       </FlexRow>
       <FlexCol>
-            <FlexCol>
-              <TagDiv value={userName}>* 아이디</TagDiv>
-              <Input type="text" onChange={inputUserName} value={userName} placeholder="아이디를 입력하세요." />
-              {onId ? null : (
-                <MessageDiv>
-                  아이디는 영문자, 숫자로 된 4~12 길이입니다.
-                </MessageDiv>
-              )}
-            </FlexCol>
-            <FlexCol>
-              <TagDiv value={password}>* 패스워드</TagDiv>
-              <Input type="password" onChange={inputPwd} value={password} placeholder="******"/>
-              {/* {onPwd ? null : (
-                <MessageDiv>
-                  비밀번호는 영문자, 숫자, 특수문자가 포함된 8자 이상입니다.
-                </MessageDiv>
-              )} 
-              !주석 풀면 비밀번호 유효성 검사 가능
-              */}
-            </FlexCol>
-            <FlexCol>
-              <TagDiv value={checkPassword}>* 패스워드 확인</TagDiv>
-              <Input
-                type="password"
-                onChange={inputCheckPwd}
-                value={checkPassword}
-                placeholder="******"
-              />
-              {onCheckPwd ? null : (
-                <MessageDiv>비밀번호가 맞지 않습니다.</MessageDiv>
-              )}
-            </FlexCol>
+        <FlexCol>
+          <TagDiv value={userName}>* 아이디</TagDiv>
+          <Input
+            type="text"
+            onChange={inputUserName}
+            value={userName}
+            placeholder="아이디를 입력하세요."
+          />
+          {onId ? null : (
+            <MessageDiv>아이디는 영문자, 숫자로 된 4~12 길이입니다.</MessageDiv>
+          )}
+        </FlexCol>
+        <FlexCol>
+          <TagDiv value={password}>* 패스워드</TagDiv>
+          <Input
+            type="password"
+            onChange={inputPwd}
+            value={password}
+            placeholder="******"
+          />
+          {onPwd ? null : (
+            <MessageDiv>
+              비밀번호는 영문자, 숫자, 특수문자가 포함된 8자 이상입니다.
+            </MessageDiv>
+          )}
+        </FlexCol>
+        <FlexCol>
+          <TagDiv value={checkPassword}>* 패스워드 확인</TagDiv>
+          <Input
+            type="password"
+            onChange={inputCheckPwd}
+            value={checkPassword}
+            placeholder="******"
+          />
+          {onCheckPwd ? null : (
+            <MessageDiv>비밀번호가 맞지 않습니다.</MessageDiv>
+          )}
+        </FlexCol>
         <FlexCol>
           <TagDiv value={nickname}> 닉네임</TagDiv>
-          <Input type="text" onChange={inputNickname} value={nickname} placeholder="닉네임을 입력하세요." />
+          <Input
+            type="text"
+            onChange={inputNickname}
+            value={nickname}
+            placeholder="닉네임을 입력하세요."
+          />
           {onNickname ? null : (
             <MessageDiv>
               닉네임은 영문자, 한글, 숫자로 된 2~10 길이만 가능합니다
@@ -353,22 +367,32 @@ function SingUp() {
             <FlexCol>
               <TagDiv value={address}>* 주소지</TagDiv>
               <FlexRow>
-              <CheckInput type="text" placeholder="우편번호" value={address.zonecode} disabled />
-              <CheckBtn
-                onClick={() => {
-                  setPopup(!popup);
-                }}
-              >
-                주소찾기
-              </CheckBtn>
+                <CheckInput
+                  type="text"
+                  placeholder="우편번호"
+                  value={address.zonecode}
+                  disabled
+                />
+                <CheckBtn
+                  onClick={() => {
+                    setPopup(!popup);
+                  }}
+                >
+                  주소찾기
+                </CheckBtn>
               </FlexRow>
               <Input
                 type="text"
                 value={address.address}
-                placeholder='주소'
+                placeholder="주소"
                 disabled
               />
-              <Input type="text" placeholder="상세주소" value={addressLine} onChange={(e)=> setAddressLine(e.target.value)}/>
+              <Input
+                type="text"
+                placeholder="상세주소"
+                value={addressLine}
+                onChange={(e) => setAddressLine(e.target.value)}
+              />
               {popup ? (
                 <Post setAddress={setAddress} setPopup={setPopup}></Post>
               ) : null}
@@ -376,36 +400,46 @@ function SingUp() {
           </>
         ) : null}
         <FlexCol>
-          <TagDiv value={phoneNumber} >핸드폰 번호</TagDiv>
-          <Input type="text" onChange={inputPhoneNum} value={phoneNumber} placeholder="010-****-****"/>
+          <TagDiv value={phoneNumber}>핸드폰 번호</TagDiv>
+          <Input
+            type="text"
+            onChange={inputPhoneNum}
+            value={phoneNumber}
+            placeholder="010-****-****"
+          />
         </FlexCol>
         <FlexCol>
           <TagDiv value={email}>* 이메일 중복확인</TagDiv>
           <Form onSubmit={submitCheckEmail}>
             <FlexRow>
-            <CheckInput type="text" onChange={inputEmail} value={email} placeholder="이메일을 입력하세요."/>
-            <CheckBtn disabled={checkEmail}>중복검사</CheckBtn>
+              <CheckInput
+                type="text"
+                onChange={inputEmail}
+                value={email}
+                placeholder="이메일을 입력하세요."
+              />
+              <CheckBtn disabled={checkEmail}>중복검사</CheckBtn>
             </FlexRow>
           </Form>
-          </FlexCol>
-          <FlexCol>
+        </FlexCol>
+        <FlexCol>
           {checkEmail ? (
             <Form onSubmit={submitConfirmNum}>
               <FlexRow>
-              <CheckInput
-                type="text"
-                placeholder="인증번호를 입력하세요"
-                value={userConfirmNum}
-                onChange={inputConfirmNum}
-              />
-              <CheckBtn>인증하기</CheckBtn>
+                <CheckInput
+                  type="text"
+                  placeholder="인증번호를 입력하세요"
+                  value={userConfirmNum}
+                  onChange={inputConfirmNum}
+                />
+                <CheckBtn>인증하기</CheckBtn>
               </FlexRow>
               <div>
                 남은 인증시간 {minutes}:{seconds}
               </div>
             </Form>
           ) : null}
-          </FlexCol>
+        </FlexCol>
         <Button onClick={clickSignUpBtn}>가입하기</Button>
       </FlexCol>
     </Container>
