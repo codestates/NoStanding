@@ -2,6 +2,8 @@
 
 # Nostanding
 
+### 배포링크 : [https://www.semicolon-nostanding.com](https://www.semicolon-nostanding.com/)
+
 ## **LOGO**
 
 <img src="https://user-images.githubusercontent.com/95327764/171786761-3ed710e3-a911-4527-89a0-50b1202f1ecb.png" width="170" height="100"/>
