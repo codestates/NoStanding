@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 600px;
   margin: 0px auto;
-  h2{
+  h2 {
     margin: 1em;
   }
 `;
@@ -40,9 +40,9 @@ function Review({ userInfo }) {
 
   return (
     <Container>
-        <h2>내가 쓴 후기</h2>
-      {reviewData.map((data) => (
-        <ReviewInfo data={data} getReviewData={getReviewData} />
+      <h2>내가 쓴 후기</h2>
+      {reviewData.map((data, index) => (
+        <ReviewInfo data={data} getReviewData={getReviewData} key={index} />
       ))}
     </Container>
   );
