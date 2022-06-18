@@ -29,18 +29,33 @@ const MenuContainer = styled.div`
   margin: 1em;
 `;
 const Button = styled.button`
-  display: flex;
-  align-self: center;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1;
-  margin: 20px;
-  padding: 1.2em 2.8em;
-  text-decoration: none;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 700;
+  width: 10em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
+`;
+
+const DeleteButton = styled.button`
+  width: 10em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
 `;
 
 const Img = styled.img`
@@ -254,16 +269,20 @@ const Menu = ({ userInfo }) => {
         const menuid = menu.id;
         return (
           <MenuContainer key={menuid}>
-            <Img src={menu.image_src[0]?.location}></Img>
+            {menu.image_src[0] ? (
+              <Img src={menu.image_src[0]?.location}></Img>
+            ) : (
+              <Img src="../../img/default.png"></Img>
+            )}
             <UserNameDiv>{menu.name}</UserNameDiv>
             <DateDiv>{menu.price}</DateDiv>
-            <button onClick={() => minusMenu(menu)}>삭제하기</button>
+            <Button onClick={() => minusMenu(menu)}>삭제하기</Button>
           </MenuContainer>
         );
       })}
-      <Button onClick={() => setIsmenu(!menu)}>
+      <DeleteButton onClick={() => setIsmenu(!menu)}>
         <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-      </Button>
+      </DeleteButton>
     </Container>
   );
 };

@@ -13,6 +13,7 @@ const Container = styled.div`
   }
   margin: 0px auto;
 `;
+const Previewimg = styled.img``;
 const ImgBox = styled.div`
   height: 100%;
   width: 100%;
@@ -25,13 +26,22 @@ const FlexDiv = styled.div`
   flex-direction: ${(props) => props.direction};
 `;
 const Plusimgbutton = styled.button`
-  width: 7rem;
-  height: 3rem;
-  align-self: flex-end;
-  justify-self: flex-end;
+  width: 10em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
 `;
 const Imgcontainerbox = styled.div`
   height: 50%;
+  width: 100;
   border-radius: 10px;
   border: 2px solid rgb(21, 64, 99);
 `;
@@ -44,7 +54,7 @@ const FlexDiv2 = styled.div`
 `;
 const Img = styled.img`
   height: 10em;
-  width: 10em;
+  width: 100%;
 `;
 
 const Input = styled.input`
@@ -75,6 +85,7 @@ const Photo = ({ userInfo }) => {
   const [imgstore, setImgstore] = useState([]);
   const [shopid, setShopid] = useState(null);
   const [submitFormData, setSubmitFormData] = useState("");
+  const [previewimg, setPreviewimg] = useState([]);
   const getPhoto = useCallback(async () => {
     await axios
       .get(
@@ -130,6 +141,7 @@ const Photo = ({ userInfo }) => {
       .then((resp) => {
         console.log(resp);
         getShopData();
+        getPhoto();
       })
       .catch((err) => console.log(err.response.data));
   };
@@ -147,19 +159,19 @@ const Photo = ({ userInfo }) => {
 
   const upLoadImg = (e) => {
     console.log(imgstore);
-    const nullorimg = imgstore.map((el) => {
-      if (el.location) {
-        return true;
-      } else {
-        return false;
-      }
-    });
+    // const nullorimg = imgstore.map((el) => {
+    //   if (el.location) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // });
     console.log(e.target.files);
     setSubmitFormData(e.target.files);
     const currentImgList = Array.from(e.target.files).map((file) =>
       URL.createObjectURL(file)
     );
-    console.log(currentImgList);
+    setPreviewimg([currentImgList]);
     setImgstore((previmg) => {
       console.log(previmg);
       previmg.concat(currentImgList);
@@ -171,10 +183,16 @@ const Photo = ({ userInfo }) => {
     return (
       <FlexDiv2 direction="row" className="이건가">
         {el?.map((img, idx) => {
+          console.log(el);
           return (
             <>
               <ImgBox>
-                <Img key={idx} src={img?.location} idx={idx} alt=""></Img>
+                <Img
+                  key={idx}
+                  src={img?.location ? img?.location : img[idx]}
+                  idx={idx}
+                  alt=""
+                ></Img>
                 <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
               </ImgBox>
             </>
@@ -201,6 +219,7 @@ const Photo = ({ userInfo }) => {
           multiple
           onChange={upLoadImg}
         ></Input>
+        {renderImg(previewimg)}
         <Plusimgbutton onClick={postPhoto}>추가하기</Plusimgbutton>
       </FlexDiv>
     </Container>
