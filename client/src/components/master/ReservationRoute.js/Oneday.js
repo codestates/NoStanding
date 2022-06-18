@@ -48,7 +48,8 @@ const Deletebutton = styled.button`
   top: -120%;
   :hover {
     transform: scale(1.05);
-    background-color: tomato;
+    background-color: aqua;
+    font-size: scale(1.05);
   }
   @media only screen and (max-width: 48rem) {
     font-size: 0.5rem;
@@ -99,7 +100,7 @@ const Oneday = ({ userInfo, pickeddate }) => {
         { withCredentials: true }
       )
       .then((resp) => {
-        getReservation(); 
+        getReservation();
         //알림날리는 axios 해야
       });
   };

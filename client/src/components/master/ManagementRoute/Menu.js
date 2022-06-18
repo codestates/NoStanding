@@ -7,11 +7,14 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 100%;
   height: 100%;
+  margin: 0px auto;
+  h2 {
+    margin: 1em;
+  }
 `;
 
 const FlexDiv = styled.div`
@@ -188,7 +191,7 @@ const Menu = ({ userInfo }) => {
 
   return (
     <Container>
-      <div>Menu</div>
+      <div>{`${userInfo.user_name}의 가게 메뉴!!`}</div>
 
       <Modal
         ariaHideApp={false}

@@ -8,6 +8,9 @@ const Container = styled.div`
   flex-direction: column;
   border: 2px solid black;
   height: 100%;
+  h2 {
+    margin: 1em;
+  }
 `;
 const Input = styled.input`
   text-align: center;
@@ -25,6 +28,11 @@ const InputshopInfo = styled.input`
 `;
 
 const Editbutton = styled.button``;
+
+const FlexDiv = styled.div`
+  
+
+`
 
 const Shopinfo = ({ userInfo }) => {
   const [shop, setShop] = useState({});
