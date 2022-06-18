@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import axios from "axios";
 import MasterReviewmodal from "./MasterReviewmodal";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 600px;
-  margin: 0px auto;
+  width: 70vw;
+  margin-left: 25em;
   h2 {
     margin: 1em;
   }
@@ -18,7 +18,7 @@ const Container = styled.div`
 const Div = styled.div``;
 const ReviewBox = styled.div`
   padding: 1rem;
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   border: 2px solid rgb(21, 64, 99);
@@ -84,7 +84,16 @@ function Review({ userInfo }) {
     setRereviewopen(!rereviewopen);
     setReviewId(id);
   };
-  const deleteRereview = () => {};
+  const deleteRereview = (id) => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/mypage/re_review/${id}`, {
+        withCredentials: true,
+      })
+      .then(() => {
+        getReviewInfo();
+      })
+      .catch((err) => alert(err));
+  };
   const getReviewInfo = useCallback(async () => {
     await axios
       .get(
@@ -161,7 +170,9 @@ function Review({ userInfo }) {
                         <DateDiv>{Rereview.updatedAt}</DateDiv>
                         <ReviewButton
                           onClick={() => deleteRereview(Rereview.id)}
-                        ></ReviewButton>
+                        >
+                          <FontAwesomeIcon icon={faXmark}></FontAwesomeIcon>
+                        </ReviewButton>
                       </FlexDiv>
                     );
                   })

@@ -7,7 +7,8 @@ import Oneday from "./ReservationRoute.js/Oneday";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 70vw;
+  margin-left: 25em;
 `;
 
 const H2 = styled.h2`
@@ -44,16 +45,18 @@ const Xbutton = styled.button`
 function Reservation({ userInfo }) {
   const [pickeddate, setPickeddate] = useState("");
   return (
-    <Reservationcontainer>
-      <Div>
-        <H2>예약 현황</H2>
-      </Div>
-      <input
-        type="date"
-        onChange={(e) => setPickeddate(e.target.value)}
-      ></input>
-      <Oneday pickeddate={pickeddate}></Oneday>
-    </Reservationcontainer>
+    <Container>
+      <Reservationcontainer>
+        <Div>
+          <H2>예약 현황</H2>
+        </Div>
+        <input
+          type="date"
+          onChange={(e) => setPickeddate(e.target.value)}
+        ></input>
+        <Oneday pickeddate={pickeddate}></Oneday>
+      </Reservationcontainer>
+    </Container>
   );
 }
 

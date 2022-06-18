@@ -6,25 +6,48 @@ import axios from "axios";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  border: 2px solid black;
   height: 100%;
+  h2 {
+    margin: 1em;
+  }
 `;
 const Input = styled.input`
   text-align: center;
   margin: 1vw;
   height: 2vw;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  width: 75%;
 `;
 const InputshopInfo = styled.input`
   margin: 1vw;
-  height: 8vw;
+  width: 75%;
+  height: 10vh;
   text-align: center;
-  margin-left: 10vw;
-  margin-right: 10vw;
 `;
 
-const Editbutton = styled.button``;
+const Editbutton = styled.button`
+  width: 15em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  right: -50%;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
+`;
+
+const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: ${(props) => props.direction};
+  width: 100%;
+  align-items: center;
+  padding: 0 2rem;
+  justify-content: space-between;
+`;
 
 const Shopinfo = ({ userInfo }) => {
   const [shop, setShop] = useState({});
@@ -78,31 +101,46 @@ const Shopinfo = ({ userInfo }) => {
   return (
     <>
       <Container>
-        <Input
-          placeholder={shop.user?.shop_name}
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-        ></Input>
-        <Input
-          placeholder={shop.business_hour}
-          value={runtime}
-          onChange={(e) => setRuntime(e.target.value)}
-        ></Input>
-        <Input
-          placeholder={shop.phone_number}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        ></Input>
-        <Input
-          placeholder={shop.holiday}
-          value={breaktime}
-          onChange={(e) => setBreaktime(e.target.value)}
-        ></Input>
-        <InputshopInfo
-          placeholder={shop.contents}
-          value={info}
-          onChange={(e) => setInfo(e.target.value)}
-        ></InputshopInfo>
+        <FlexDiv direction="row">
+          <div>가게이름</div>
+          <Input
+            placeholder={shop.user?.shop_name}
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          ></Input>
+        </FlexDiv>
+        <FlexDiv direction="row">
+          <div>운영시간(4자리숫자~4자리숫자 형식 요망)</div>
+          <Input
+            placeholder={shop.business_hour}
+            value={runtime}
+            onChange={(e) => setRuntime(e.target.value)}
+          ></Input>
+        </FlexDiv>
+        <FlexDiv direction="row">
+          <div>가게 전화 번호</div>
+          <Input
+            placeholder={shop.phone_number}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          ></Input>
+        </FlexDiv>
+        <FlexDiv direction="row">
+          <div>휴무일</div>
+          <Input
+            placeholder={shop.holiday}
+            value={breaktime}
+            onChange={(e) => setBreaktime(e.target.value)}
+          ></Input>
+        </FlexDiv>
+        <FlexDiv direction="row">
+          <div>가게 설명</div>
+          <InputshopInfo
+            placeholder={shop.contents}
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
+          ></InputshopInfo>
+        </FlexDiv>
         <Editbutton onClick={() => edit()}>수정</Editbutton>
       </Container>
     </>

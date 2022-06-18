@@ -7,38 +7,77 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  form {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 75%;
+  h2 {
+    margin: 1em;
   }
+  margin: 0px auto;
 `;
-
+const Previewimg = styled.img``;
+const ImgBox = styled.div`
+  height: 100%;
+  width: 100%;
+  margin-left: 5rem;
+  border: 2px solid rgb(21, 64, 99);
+  border-radius: 10px;
+`;
 const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
 `;
 const Plusimgbutton = styled.button`
-  width: 7rem;
-  height: 3rem;
-  align-self: flex-end;
-  justify-self: flex-end;
+  width: 10em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
 `;
 const Imgcontainerbox = styled.div`
-  height: 30vw;
+  height: 50%;
+  width: 100;
+  border-radius: 10px;
+  border: 2px solid rgb(21, 64, 99);
 `;
 const FlexDiv2 = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
-  height: 25%;
-  width: 100%;
-`;
-const Img = styled.img`
   height: 100%;
   width: 100%;
+  padding: 3rem;
+`;
+const Img = styled.img`
+  height: 10em;
+  width: 100%;
+`;
+
+const Input = styled.input`
+  margin: 1em;
 `;
 const Floatbutton = styled.button`
-  float: inline-end;
+  width: 3em;
+  height: 1em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
+`;
+const Div = styled.div`
+  background-color: aliceblue;
+  border-radius: 10px;
+  text-align: center;
 `;
 
 const Photo = ({ userInfo }) => {
@@ -46,6 +85,7 @@ const Photo = ({ userInfo }) => {
   const [imgstore, setImgstore] = useState([]);
   const [shopid, setShopid] = useState(null);
   const [submitFormData, setSubmitFormData] = useState("");
+  const [previewimg, setPreviewimg] = useState([]);
   const getPhoto = useCallback(async () => {
     await axios
       .get(
@@ -78,6 +118,8 @@ const Photo = ({ userInfo }) => {
         axios.delete(`${process.env.REACT_APP_API_URL}/mypage/${keys[idx]}`, {
           withCredentials: true,
         });
+        getPhoto();
+        getShopData();
       })
       .then((resp) => console.log(resp));
   };
@@ -96,7 +138,11 @@ const Photo = ({ userInfo }) => {
         formData,
         { withCredentials: true }
       )
-      .then((resp) => console.log(resp))
+      .then((resp) => {
+        console.log(resp);
+        getShopData();
+        getPhoto();
+      })
       .catch((err) => console.log(err.response.data));
   };
   const getShopData = useCallback(async () => {
@@ -112,24 +158,43 @@ const Photo = ({ userInfo }) => {
   }, []);
 
   const upLoadImg = (e) => {
+    console.log(imgstore);
+    // const nullorimg = imgstore.map((el) => {
+    //   if (el.location) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // });
     console.log(e.target.files);
     setSubmitFormData(e.target.files);
     const currentImgList = Array.from(e.target.files).map((file) =>
       URL.createObjectURL(file)
     );
-    console.log(currentImgList);
-    setImgstore((previmg) => previmg.concat(currentImgList));
+    setPreviewimg([currentImgList]);
+    setImgstore((previmg) => {
+      console.log(previmg);
+      previmg.concat(currentImgList);
+    });
     Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
   };
 
   const renderImg = (el) => {
     return (
-      <FlexDiv2 direction="row">
-        {el.map((img, idx) => {
+      <FlexDiv2 direction="row" className="이건가">
+        {el?.map((img, idx) => {
+          console.log(el);
           return (
             <>
-              <Img key={img?.key} src={img?.location} idx={idx} alt=""></Img>
-              <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
+              <ImgBox>
+                <Img
+                  key={idx}
+                  src={img?.location ? img?.location : img[idx]}
+                  idx={idx}
+                  alt=""
+                ></Img>
+                <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
+              </ImgBox>
             </>
           );
         })}
@@ -144,13 +209,17 @@ const Photo = ({ userInfo }) => {
   return (
     <Container>
       <FlexDiv direction="column">
-        <Imgcontainerbox>{renderImg(imgstore)}</Imgcontainerbox>
-        <input
+        <Imgcontainerbox>
+          <Div>이미지는 4개까지 게시가능합니다. </Div>
+          {renderImg(imgstore)}
+        </Imgcontainerbox>
+        <Input
           type="file"
           accept="image/*"
           multiple
           onChange={upLoadImg}
-        ></input>
+        ></Input>
+        {renderImg(previewimg)}
         <Plusimgbutton onClick={postPhoto}>추가하기</Plusimgbutton>
       </FlexDiv>
     </Container>

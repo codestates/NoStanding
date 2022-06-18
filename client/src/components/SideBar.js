@@ -104,7 +104,7 @@ function SideBar({ userInfo }) {
       ) : (
         <div>
           <Flex grow={3}>
-            <UserImg src="img/default.png" />
+            <UserImg src="../img/default.png" />
             <NameDiv>{userInfo.user_name}</NameDiv>
             <MemberDiv>점주회원</MemberDiv>
           </Flex>
@@ -112,28 +112,40 @@ function SideBar({ userInfo }) {
             <div>
               <H2>예약</H2>
               <Link to="masterreservation">
-                <Div idx='1' isOn={isOn} onClick={() => clickMenu("1")}>예약현황</Div>
+                <Div idx="1" isOn={isOn} onClick={() => clickMenu("1")}>
+                  예약현황
+                </Div>
               </Link>
               <Link to="masterreview">
-                <Div idx='2' isOn={isOn} onClick={() => clickMenu("2")}>내 가게 후기</Div>
+                <Div idx="2" isOn={isOn} onClick={() => clickMenu("2")}>
+                  내 가게 후기
+                </Div>
               </Link>
             </div>
             <div>
               <H2>알림</H2>
               <Link to="masternotification">
-                <Div idx='3' isOn={isOn} onClick={() => clickMenu("3")}>알림</Div>
+                <Div idx="3" isOn={isOn} onClick={() => clickMenu("3")}>
+                  알림
+                </Div>
               </Link>
             </div>
             <div>
               <H2>내 정보</H2>
               <Link to="mastermanagement">
-                <Div idx='4' isOn={isOn} onClick={() => clickMenu("4")}>내 가게 관리</Div>
+                <Div idx="4" isOn={isOn} onClick={() => clickMenu("4")}>
+                  내 가게 관리
+                </Div>
               </Link>
               <Link to="masteruserinfo">
-                <Div idx='5' isOn={isOn} onClick={() => clickMenu("5")}>회원 정보 수정</Div>
+                <Div idx="5" isOn={isOn} onClick={() => clickMenu("5")}>
+                  회원 정보 수정
+                </Div>
               </Link>
               <Link to="userdelete">
-                <Div idx='6' isOn={isOn} onClick={() => clickMenu("6")}>회원 탈퇴</Div>
+                <Div idx="6" isOn={isOn} onClick={() => clickMenu("6")}>
+                  회원 탈퇴
+                </Div>
               </Link>
             </div>
           </Flex>
