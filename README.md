@@ -42,6 +42,8 @@
 
 * [Wireframe](https://miro.com/app/board/uXjVOyoJqCo=/)
 * [flowchart](https://miro.com/app/board/uXjVOyoJqCo=/) 
+* [Api Docs](https://server.semicolon-nostanding.com/api-docs/)
+* [DB Schema](https://dbdiagram.io/d/62942ef6f040f104c1bb60ce)
 
 # Team Members
 

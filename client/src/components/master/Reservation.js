@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Oneday from "./ReservationRoute.js/Oneday";
 
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
   width: 90vw;
@@ -15,17 +14,14 @@ const H2 = styled.h2`
   margin: 1em;
 `;
 
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`;
+const Div = styled.div``;
 
 const Reservationcontainer = styled.div`
-  border: solid black 2px;
   width: 100%;
 `;
 
 const ReservationbyTime = styled.div`
-  border: solid black 2px;
+  border: 2px solid rgb(231, 231, 231);
   display: flex;
   flex-direction: row;
 `;
