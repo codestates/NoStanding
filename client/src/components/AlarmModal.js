@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { getAlarm } from "../store/store";
 import styled from "styled-components";
 import axios from "axios";
 import ReviewModal from "./ReviewModal";
@@ -37,7 +38,8 @@ const Button = styled.button`
     transform: scale(1.03);
   }
 `;
-function AlarmModal({ alarmData, userInfo }) {
+function AlarmModal({ alarmData, userInfo, setRingAlarm, getAlarmData, loginState}) {
+  console.log(alarmData);
   const [openReview, setOpenReview] = useState(false);
   const [chooseIdx, setChooseIdx] = useState(0);
   const clickAlarm = (id) => {
@@ -52,7 +54,23 @@ function AlarmModal({ alarmData, userInfo }) {
           withCredentials: true,
         }
       )
-      .then((resp) => console.log(resp));
+      .then((resp)=> {
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/mypage/notification/${userInfo.user_name}`,
+            {
+              withCredentials: true,
+            }
+          )
+          .then((resp) => {
+            getAlarmData(resp.data.data);
+            for (let i = 0; i < resp.data.data.length; i++) {
+              if (resp.data.data[i].read === 0) {
+                setRingAlarm(true);
+              }
+            }
+          });
+      });
   };
   const clickOpenReview = (id) => {
     setOpenReview(true);
@@ -93,8 +111,16 @@ function AlarmModal({ alarmData, userInfo }) {
 function mapStateToProps(state) {
   return {
     alarmData: state.alarmState,
+    loginState: state.loginState.userLoginState,
     userInfo: state.loginInfo.userInfo,
   };
 }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAlarmData: (data) => {
+      dispatch(getAlarm(data));
+    },
+  };
+}
 
-export default connect(mapStateToProps)(AlarmModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AlarmModal);

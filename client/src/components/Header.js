@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -114,7 +114,7 @@ function Header({
   const [alarmOpen, setAlarmOpen] = useState(false);
   const [ringAlarm, setRingAlarm] = useState(false);
   
-  useEffect(() => {
+  const getData = useCallback(() => {
     if (loginState) {
       axios
         .get(
@@ -132,7 +132,10 @@ function Header({
           }
         });
     }
-  }, []);
+  },[])
+  useEffect(() => {
+    getData()
+  }, [getData]);
 
   const clickLoginButton = () => {
     setIsOpen(!isOpen);
@@ -209,7 +212,7 @@ function Header({
             <NavMenu onClick={clickMypage}>마이페이지</NavMenu>
           </Link>
           <FontAwesomeIcon icon={faBell} onClick={clickAlarm}></FontAwesomeIcon>
-          {alarmOpen ? <AlarmModal /> : null}
+          {alarmOpen ? <AlarmModal setRingAlarm={setRingAlarm}/> : null}
           {isOpen ? <Login controlClose={controlClose} /> : null}
         </Menu>
       </Navbar>
