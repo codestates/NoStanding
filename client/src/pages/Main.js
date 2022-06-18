@@ -127,13 +127,15 @@ function Main({ searchWord }) {
   const [order, setOrder] = useState("");
   const offset = (page - 1) * 12;
   const getShopList = useCallback(async () => {
-    await axios
-      .get(`${process.env.REACT_APP_API_URL}/?order=${order}`)
-      .then((resp) => {
-        setShop(resp.data.data);
-      });
-    setIsLoading(false);
-  }, [order]);
+    if (!chooseCategory && !chooseCategoryCity) {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/?order=${order}`)
+        .then((resp) => {
+          setShop(resp.data.data);
+        });
+      setIsLoading(false);
+    }
+  }, [order, chooseCategory, chooseCategoryCity]);
   useEffect(() => {
     getShopList();
   }, [getShopList]);
@@ -153,19 +155,19 @@ function Main({ searchWord }) {
     if (chooseCategory !== "" && chooseCategoryCity !== "") {
       await axios
         .get(
-          `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}`
+          `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&shop_category_city=${chooseCategoryCity}&order=${order}`
         )
         .then((resp) => setShop(resp.data.data));
     } else if (chooseCategory === "") {
       await axios
         .get(
-          `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}`
+          `${process.env.REACT_APP_API_URL}/category?shop_category_city=${chooseCategoryCity}&order=${order}`
         )
         .then((resp) => setShop(resp.data.data));
     } else if (chooseCategoryCity === "") {
       await axios
         .get(
-          `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}`
+          `${process.env.REACT_APP_API_URL}/category?shop_category=${chooseCategory}&order=${order}`
         )
         .then((resp) => setShop(resp.data.data));
     } else {
@@ -174,7 +176,7 @@ function Main({ searchWord }) {
         .then((resp) => setShop(resp.data.data));
     }
     setIsLoading(false);
-  }, [chooseCategory, chooseCategoryCity]);
+  }, [chooseCategory, chooseCategoryCity, order]);
 
   useEffect(() => {
     pickCategory();
