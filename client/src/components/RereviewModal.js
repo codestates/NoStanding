@@ -27,6 +27,7 @@ const Textarea = styled.textarea`
 `;
 
 function RereviewModal({ isOpen, userInfo, alarmData }) {
+  console.log(alarmData);
   const [writeReview, setWriteReview] = useState("");
   const submitReview = (e) => {
     e.preventDefault();
@@ -41,17 +42,19 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
         }
       )
       .then((resp) => {
-        if(alarmData) {
-        axios.patch(
-          `${process.env.REACT_APP_API_URL}/mypage/notification/reviewpatch/${userInfo.user_name}`,
-          {
-            id: alarmData.id,
-            review: 0,
-          },
-          {
-            withCredentials: true,
-          }
-        ).then((resp)=> alert('리뷰 작성'))
+        if (alarmData) {
+          axios
+            .patch(
+              `${process.env.REACT_APP_API_URL}/mypage/notification/reviewpatch/${userInfo.user_name}`,
+              {
+                id: alarmData.id,
+                review: 0,
+              },
+              {
+                withCredentials: true,
+              }
+            )
+            .then((resp) => alert("리뷰 작성"));
         }
       })
       .then(() => isOpen(false));
@@ -69,8 +72,7 @@ function RereviewModal({ isOpen, userInfo, alarmData }) {
     <Modal
       ariaHideApp={false}
       isOpen={true}
-      style={
-        {
+      style={{
         overlay: {
           position: "fixed",
           top: 0,

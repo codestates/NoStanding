@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 600px;
   margin: 0px auto;
-  h2{
+  h2 {
     margin: 1em;
   }
 `;
@@ -40,10 +40,11 @@ function Review({ userInfo }) {
 
   return (
     <Container>
-        <h2>내가 쓴 후기</h2>
+      <h2>내가 쓴 후기</h2>
       {reviewData.map((data, index) => (
         <ReviewInfo data={data} getReviewData={getReviewData} key={index} />
       ))}
+      {reviewData.length ===0? <div>작성된 후기가 없습니다.</div>:null}
     </Container>
   );
 }

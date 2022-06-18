@@ -7,11 +7,14 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 75%;
   height: 100%;
+  margin: 0px auto;
+  h2 {
+    margin: 1em;
+  }
 `;
 
 const FlexDiv = styled.div`
@@ -19,22 +22,45 @@ const FlexDiv = styled.div`
   flex-direction: ${(props) => props.direction};
 `;
 const MenuContainer = styled.div`
-  border: 2px solid black;
+  padding: 1em;
+  border: 2px solid rgb(21, 64, 99);
+  border-radius: 10px;
   height: 100%;
+  margin: 1em;
 `;
 const Button = styled.button`
-  display: flex;
-  align-self: center;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1;
-  margin: 20px;
-  padding: 1.2em 2.8em;
-  text-decoration: none;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
-  font-weight: 700;
+  width: 10em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
+`;
+
+const DeleteButton = styled.button`
+  width: 10em;
+  height: 5em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+  margin: 1em;
+`;
+
+const Img = styled.img`
+  width: 10%;
+  height: 10%;
 `;
 
 const Menubar = styled.div`
@@ -42,6 +68,17 @@ const Menubar = styled.div`
   width: 100%;
   height: 100%;
 `;
+const UserNameDiv = styled.div`
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+const DateDiv = styled.div`
+  font-size: small;
+  color: rgb(85, 85, 85);
+  margin-bottom: 1rem;
+`;
+
 const Menu = ({ userInfo }) => {
   const [menu, setMenu] = useState(""); //입력하는 메뉴
   const [img, setImg] = useState([]); //넣는 이미지
@@ -188,7 +225,7 @@ const Menu = ({ userInfo }) => {
 
   return (
     <Container>
-      <div>Menu</div>
+      <div>{`${userInfo.user_name}의 가게 메뉴!!`}</div>
 
       <Modal
         ariaHideApp={false}
@@ -232,16 +269,20 @@ const Menu = ({ userInfo }) => {
         const menuid = menu.id;
         return (
           <MenuContainer key={menuid}>
-            <img src={menu.image_src[0]?.location}></img>
-            <div>{menu.name}</div>
-            <div>{menu.price}</div>
-            <button onClick={() => minusMenu(menu)}>삭제하기</button>
+            {menu.image_src[0] ? (
+              <Img src={menu.image_src[0]?.location}></Img>
+            ) : (
+              <Img src="../../img/default.png"></Img>
+            )}
+            <UserNameDiv>{menu.name}</UserNameDiv>
+            <DateDiv>{menu.price}</DateDiv>
+            <Button onClick={() => minusMenu(menu)}>삭제하기</Button>
           </MenuContainer>
         );
       })}
-      <Button onClick={() => setIsmenu(!menu)}>
+      <DeleteButton onClick={() => setIsmenu(!menu)}>
         <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-      </Button>
+      </DeleteButton>
     </Container>
   );
 };

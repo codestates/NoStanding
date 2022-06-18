@@ -8,8 +8,8 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; //로컬스토리지 사용
-// import storage from 'redux-persist/lib/storage/session'; //세션스토리지 사용
+// import storage from "redux-persist/lib/storage"; //로컬스토리지 사용
+import storage from "redux-persist/lib/storage/session"; //세션스토리지 사용
 
 const alarmState = createSlice({
   name: "alarm",

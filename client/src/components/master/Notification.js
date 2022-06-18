@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { getAlarm } from "../../store/store";
 import Alarm from "../Alarm";
+import axios from "axios";
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 70vw;
+  margin-left: 25em;
   h2 {
     margin: 1em;
   }
@@ -23,7 +25,19 @@ const Div = styled.div`
   border-radius: 5px;
 `;
 
-function Notification({ alarmData }) {
+function Notification({ alarmData,userInfo,getAlarmData }) {
+  useEffect(()=> {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/mypage/notification/${userInfo.user_name}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        getAlarmData(resp.data.data);
+      });
+}, [])
   console.log(alarmData);
   return (
     <>
@@ -41,6 +55,15 @@ function Notification({ alarmData }) {
 function mapStateToProps(state) {
   return {
     alarmData: state.alarmState,
+    userInfo: state.loginInfo.userInfo,
   };
 }
-export default connect(mapStateToProps)(Notification);
+function mapDispatchToProps(dispatch) {
+  return {
+    getAlarmData: (data) => {
+      dispatch(getAlarm(data));
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);
