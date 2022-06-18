@@ -38,7 +38,7 @@ const Button = styled.button`
     transform: scale(1.03);
   }
 `;
-function AlarmModal({ alarmData, userInfo, setRingAlarm, getAlarmData, loginState}) {
+function AlarmModal({ alarmData, userInfo, setRingAlarm, getAlarmData}) {
   console.log(alarmData);
   const [openReview, setOpenReview] = useState(false);
   const [chooseIdx, setChooseIdx] = useState(0);
@@ -111,7 +111,6 @@ function AlarmModal({ alarmData, userInfo, setRingAlarm, getAlarmData, loginStat
 function mapStateToProps(state) {
   return {
     alarmData: state.alarmState,
-    loginState: state.loginState.userLoginState,
     userInfo: state.loginInfo.userInfo,
   };
 }
