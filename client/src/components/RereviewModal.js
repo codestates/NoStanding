@@ -13,11 +13,6 @@ const Container = styled.div`
     flex-direction: column;
   }
 `;
-const FlexDiv = styled.div`
-  display: flex;
-  flex-direction: ${(props) => props.direction};
-  justify-content: space-between;
-`;
 const Button = styled.button`
   width: 7rem;
   height: 3rem;
@@ -29,11 +24,6 @@ const Textarea = styled.textarea`
   padding-bottom: 100px;
   text-align: start;
   justify-content: start;
-`;
-const Img = styled.img`
-  width: 50px;
-  height: 50px;
-  border: 2px solid black;
 `;
 
 function RereviewModal({ isOpen, userInfo, alarmData }) {

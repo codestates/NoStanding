@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass, faBell } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -32,9 +32,10 @@ const Menu = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  svg{
-    color: ${(props)=> props.ringing? 'rgba(239,93,40)' : 'rgba(0,0,0,0.5)'};
-    :hover{
+  svg {
+    color: ${(props) =>
+      props.ringing ? "rgba(239,93,40)" : "rgba(0,0,0,0.5)"};
+    :hover {
       transform: scale(1.05);
     }
   }
@@ -74,17 +75,17 @@ const Img = styled.img`
   height: 100%;
   margin-left: 1rem;
   @keyframes logoHover {
-      50% {
-        transform: translateY(-3px);
-      }
-      100% {
-        transform: translateY(0px);
-      }
+    50% {
+      transform: translateY(-3px);
     }
-  :hover{
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  :hover {
     animation-name: logoHover;
-    animation-duration : 0.8s;
-    animation-iteration-count : 2;
+    animation-duration: 0.8s;
+    animation-iteration-count: 2;
   }
 `;
 const NavMenu = styled.div`
@@ -113,6 +114,7 @@ function Header({
   const [goMypage, setGoMypage] = useState("/");
   const [alarmOpen, setAlarmOpen] = useState(false);
   const [ringAlarm, setRingAlarm] = useState(false);
+  
   useEffect(() => {
     if (loginState) {
       axios
@@ -159,16 +161,20 @@ function Header({
       alert("로그인이 필요한 서비스입니다.");
       setGoMypage("/");
     } else if (loginState === true) {
-      setGoMypage("/Mypage");
+      if (userInfo.is_master === 1) {
+        setGoMypage("/Mypage/masterreservation");
+      } else if (userInfo.is_master === 0) {
+        setGoMypage("/Mypage/reservation");
+      }
     }
   };
 
   const clickAlarm = () => {
-    if(loginState === false) {
-      alert("로그인이 필요합니다")
-    }else {
-    setAlarmOpen(!alarmOpen);
-    setRingAlarm(false)
+    if (loginState === false) {
+      alert("로그인이 필요합니다");
+    } else {
+      setAlarmOpen(!alarmOpen);
+      setRingAlarm(false);
     }
   };
   return (
@@ -190,7 +196,7 @@ function Header({
             onClick={searchShop}
           ></FontAwesomeIcon>
         </Search>
-        <Menu ringing={ringAlarm} >
+        <Menu ringing={ringAlarm}>
           {loginState ? (
             <>
               <WelcomeDiv>환영합니다 {userInfo.nickname || userInfo.user_name}님</WelcomeDiv>

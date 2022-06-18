@@ -4,59 +4,87 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
 import axios from "axios";
+import MasterReviewmodal from "./MasterReviewmodal";
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 600px;
+  margin: 0px auto;
+  h2 {
+    margin: 1em;
+  }
 `;
-const H2 = styled.h2`
-  margin: 1em;
-`;
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`;
+
+const Div = styled.div``;
 const ReviewBox = styled.div`
+  padding: 1rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  border-bottom: solid gray 2px;
+  border: 2px solid rgb(21, 64, 99);
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
 `;
 const ReviewButton = styled.button`
-  position: absolute;
-  transform: translateX(3750%);
+  margin: 1em;
+  width: 4em;
+  height: 2em;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  margin-left: auto;
+  border-radius: 0.5rem;
+
+  :hover {
+    transform: scale(1.05);
+    background-color: tomato;
+  }
 `;
 const Rereviewbox = styled.div`
   display: flex;
   flex-direction: column;
-  border: solid gray 2px;
+  border-radius: 10px;
+  border: 2px solid rgb(21, 64, 99);
+`;
+const Img = styled.img`
+  width: 4em;
+  height: 4em;
+  margin: 1em;
+`;
+const UserNameDiv = styled.div`
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+const DateDiv = styled.div`
+  font-size: small;
+  color: rgb(85, 85, 85);
+  margin-bottom: 1rem;
+`;
+const StarDiv = styled.div`
+  color: #ef5e28;
+  margin-right: 5px;
+`;
+const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: ${(props) => props.primary};
 `;
 function Review({ userInfo }) {
+  const [img, setImg] = useState([]);
   const [rereview, setRereview] = useState([]);
   const [review, setReview] = useState([]);
-  const [open, isOpen] = useState(false);
+  const [open, isOpen] = useState(false); //리리뷰 펼치기
+  const [rereviewopen, setRereviewopen] = useState(false);
   const [buttonNum, setButtonNum] = useState(0);
   const [masterreview, setMasterreview] = useState("");
-  const RereviewOpen = (idx) => {
-    console.log(idx);
-    setButtonNum(idx);
+  const [reviewId, setReviewId] = useState("");
+  const stars = ["★", "★★", "★★★", "★★★★", "★★★★★"];
 
-    isOpen(!open);
+  //리리뷰창을 열었을때 그 리뷰의 아이디를 전송해주고 모달창을 여는 작업이 필요
+  const sendDate = (id) => {
+    setRereviewopen(!rereviewopen);
+    setReviewId(id);
   };
-
-  const reReviewPost = (reviewId) => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/mypage/re_review/${reviewId}/${userInfo.user_name}`,
-        {
-          contents: `${masterreview}`,
-        },
-        { withCredentials: true }
-      )
-      .then(() => {
-        getReviewInfo();
-        setMasterreview("");
-      });
-  };
+  const deleteRereview = () => {};
   const getReviewInfo = useCallback(async () => {
     await axios
       .get(
@@ -64,7 +92,17 @@ function Review({ userInfo }) {
         { withCredentials: true }
       )
       .then((resp) => {
-        console.log(resp.data.data);
+        console.log(resp.data.data.Reviews);
+        const filterimg = resp.data.data.Reviews.map((img) => {
+          if (img.image_src) {
+            img.image_src = JSON.parse(img.image_src)[0];
+          } else {
+            return;
+          }
+          return;
+        });
+        console.log(resp.data.data.Reviews);
+
         setReview(resp.data.data.Reviews);
         setRereview(resp.data.data.ReReviews);
       });
@@ -72,57 +110,76 @@ function Review({ userInfo }) {
   useEffect(() => {
     getReviewInfo();
   }, [getReviewInfo]);
+  console.log(rereview);
 
   return (
     <Container>
       <Div>
-        <H2>내 가게 후기</H2>
+        <h2>내 가게 후기</h2>
       </Div>
+
       {review?.map((Review, idx) => {
-        const reviewId = Review.id;
-        const selectedRereview = rereview.filter((rereview) => {
-          return Review.id === rereview.review_id;
+        const reviewid = Review.id;
+        const filteredRereview = rereview?.filter((Rereview) => {
+          return Rereview.review_id === reviewid;
         });
-        console.log(selectedRereview);
         return (
           <ReviewBox key={idx}>
-            <ReviewButton onClick={() => RereviewOpen(idx)} idx={idx}>
-              답글
-            </ReviewButton>
-            <div>{Review.user.nickname}</div>
-            <div>{Review.contents}</div>
-            <div>score: {Review.score}</div>
-            <div>{Review.updatedAt}</div>
-            {
-              open && buttonNum === idx && selectedRereview.length
-                ? selectedRereview?.map((rereview, idx) => {
-                    return (
-                      <Rereviewbox key={idx}>
-                        <FontAwesomeIcon icon={faArrowAltCircleRight} />
+            <FlexDiv primary="row">
+              {Review.image_src ? (
+                <Img src={Review.image_src.location}></Img>
+              ) : null}
+              <ReviewButton onClick={() => sendDate(reviewid)} idx={idx}>
+                답글
+              </ReviewButton>
+            </FlexDiv>
 
-                        <div>{userInfo.user_name}</div>
-                        <div>{rereview.contents}</div>
-                        <div>{rereview.updatedAt}</div>
-                      </Rereviewbox>
+            <UserNameDiv>{Review.user.nickname}</UserNameDiv>
+            <div>{Review.contents}</div>
+            <StarDiv>{stars[Review.score - 1]}</StarDiv>
+            <DateDiv>{Review.updatedAt}</DateDiv>
+            <ReviewButton
+              onClick={() => {
+                isOpen(!open);
+                setButtonNum(idx);
+              }}
+            >
+              펼치기
+            </ReviewButton>
+            {open && buttonNum === idx ? (
+              <Rereviewbox>
+                {!(filteredRereview.length === 0) ? (
+                  filteredRereview?.map((Rereview, idx) => {
+                    console.log(Rereview);
+                    return (
+                      <FlexDiv primary="column" key={idx}>
+                        {userInfo.image_src ? (
+                          <Img src={userInfo.image_src}></Img>
+                        ) : null}
+                        <UserNameDiv>{userInfo.user_name}</UserNameDiv>
+                        <div>{Rereview.contents}</div>
+                        <DateDiv>{Rereview.updatedAt}</DateDiv>
+                        <ReviewButton
+                          onClick={() => deleteRereview(Rereview.id)}
+                        ></ReviewButton>
+                      </FlexDiv>
                     );
                   })
-                : null
-              // <Rereviewbox>
-              //   <FontAwesomeIcon icon={faArrowAltCircleRight} />
-              //   <input type="text" placeholder="리댓을 달아주세욤."></input>
-              //   <button>확인</button>
-              // </Rereviewbox>
-            }
-            <input
-              type="text"
-              placeholder="리댓을 달아주세욤."
-              onChange={(e) => setMasterreview(e.target.value)}
-              value={masterreview}
-            ></input>
-            <button onClick={() => reReviewPost(reviewId)}>확인</button>
+                ) : (
+                  <div>리댓을 작성해주세요!!!</div>
+                )}
+              </Rereviewbox>
+            ) : null}
           </ReviewBox>
         );
       })}
+      {rereviewopen ? (
+        <MasterReviewmodal
+          isOpen={setRereviewopen}
+          reviewId={reviewId}
+          getReviewInfo={getReviewInfo}
+        ></MasterReviewmodal>
+      ) : null}
     </Container>
   );
 }

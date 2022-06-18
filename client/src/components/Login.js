@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 import axios from "axios";
@@ -18,17 +18,24 @@ const ColumnDiv = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 1em;
 `;
-
+const Div = styled.div`
+  width: 100%;
+  display: block;
+  @media only screen and (max-width: 48rem) {
+    font-size: 0.5rem;
+  }
+`;
 const Logoimage = styled.img`
   margin: 10px;
-  width: 30vh;
-  height: 16vh;
+  width: 50%;
+  height: 30%;
 `;
 const OauthLogin = styled.div`
   margin: 4px;
   height: 5vh;
-  width: 33vw;
+  width: 22vw;
   background-color: ${(props) =>
     props.primary === "1"
       ? "yellow"
@@ -46,7 +53,7 @@ const OauthLogin = styled.div`
       ? "white"
       : "black"};
   text-align: center;
-  padding-top: 10px;
+  padding: 1em;
   flex: auto;
   border-radius: 10px;
   font-weight: bold;
@@ -64,6 +71,9 @@ const Button = styled.button`
     transform: scale(1.03);
     color: rebeccapurple;
   }
+  @media only screen and (max-width: 48rem) {
+    font-size: 0.5rem;
+  }
 `;
 const Xbutton = styled.button`
   height: 1vw;
@@ -78,14 +88,6 @@ const Input = styled.input`
   height: auto;
   width: 12vw;
 `;
-
-const Span = styled.span`
-  text-align: center;
-  align-items: center;
-  padding: 5px;
-  width: 60%;
-`;
-
 function LoginModal({
   controlClose,
   getUserInfo,
@@ -96,7 +98,6 @@ function LoginModal({
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIslogin] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
 
   const idSetter = (e) => {
@@ -152,11 +153,6 @@ function LoginModal({
     navigate("/Findpassword");
     controlClose(false);
   };
-
-  const clickLoginState = () => {
-    clickCheckBox();
-    console.log(holdLogin);
-  };
   return (
     <Modal
       ariaHideApp={false}
@@ -176,7 +172,7 @@ function LoginModal({
           top: "40px",
           left: "29%",
           right: "32%",
-          bottom: "30%",
+          bottom: "40%",
           border: "1px solid #ccc",
           background: "#fff",
           overflow: "auto",
@@ -189,11 +185,11 @@ function LoginModal({
     >
       <Xbutton onClick={() => controlClose(false)}>X</Xbutton>
       <ColumnDiv>
-        <Logoimage src="img/nostandinglogo2.jpeg"></Logoimage>
+        <Logoimage src={require("../img/nostandinglogo.png")}></Logoimage>
         <RowDiv>
           <ColumnDiv>
-            <div>아이디</div>
-            <div>비밀번호</div>
+            <Div>아이디</Div>
+            <Div>비밀번호</Div>
           </ColumnDiv>
           <ColumnDiv>
             <Input

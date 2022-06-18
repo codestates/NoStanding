@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Post from "../components/Post";
-import PopupDom from "../components/PopupDom";
 import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   display: flex;
@@ -80,6 +79,11 @@ const CheckBtn = styled.button`
   border-radius: 0.3rem;
   background-color: rgb(21, 64, 99);
   color: white;
+  &[disabled] {
+    cursor: revert;
+    transform: revert;
+    background-color: rgb(65, 65, 65);
+  }
 `;
 const Button = styled.button`
   margin: 1em;
@@ -140,12 +144,13 @@ function SingUp() {
   const clickChooseBtn = (value) => {
     setIsMaster(value);
   };
+
   const submitCheckEmail = (e) => {
     e.preventDefault();
     if (email !== "") {
       setMinutes(2);
       setSeconds(59);
-
+      setCheckEmail(true);
       axios
         .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
           email: email,
@@ -154,11 +159,16 @@ function SingUp() {
           setCheckEmail(true);
           setConfirmNum(resp.data.data);
         })
-        .catch((err) => alert(err.response.data.message));
+        .catch((err) => {
+          setCheckEmail(false);
+          alert(err.response.data.message);
+        });
     } else {
       alert("이메일을 입력해주세요");
+      setCheckEmail(false);
     }
   };
+
   const submitConfirmNum = (e) => {
     e.preventDefault();
     if (Number(confirmNum) === Number(userConfirmNum)) {

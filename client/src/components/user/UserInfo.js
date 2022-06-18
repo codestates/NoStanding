@@ -79,6 +79,7 @@ function UserInfo({ user, logout, deleteUserInfo }) {
           password: changePwd || null,
           nickname: nickname || null,
           phone_number: phoneNumber || null,
+          email: email || null,
           is_master: user.is_master,
         },
         {

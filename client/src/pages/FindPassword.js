@@ -24,6 +24,7 @@ function FindPassword() {
   const inputConfirmNum = (e) => setUserConfirmNum(e.target.value);
   const inputChangePwd = (e) => setChangePwd(e.target.value);
   const inputCheckPwd = (e) => setCheckPassword(e.target.value);
+
   const submitCheckEmail = (e) => {
     e.preventDefault();
     setMinutes(2);
