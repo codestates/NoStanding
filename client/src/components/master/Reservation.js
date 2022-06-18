@@ -44,6 +44,7 @@ const Xbutton = styled.button`
 `;
 function Reservation({ userInfo }) {
   const [pickeddate, setPickeddate] = useState("");
+  console.log(new Date());
   return (
     <Container>
       <Reservationcontainer>
