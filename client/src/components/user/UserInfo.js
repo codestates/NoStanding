@@ -72,26 +72,27 @@ function UserInfo({ user, logout, deleteUserInfo }) {
 
   const submitModify = (e) => {
     e.preventDefault();
-      axios
-        .patch(
-          `${process.env.REACT_APP_API_URL}/mypage/userinfo/${user.user_name}`,
-          {
-            password: changePwd || null,
-            nickname: nickname || null,
-            phone_number: phoneNumber || null,
-            email: email || null,
-            is_master: user.is_master,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((resp) => {
-          alert(`수정이 완료되었습니다. 다시 로그인해주세요.`);
-          logout();
-          deleteUserInfo();
-          navigate("/");
-        }).catch((err) => alert(err.response.data.message))
+    axios
+      .patch(
+        `${process.env.REACT_APP_API_URL}/mypage/userinfo/${user.user_name}`,
+        {
+          password: changePwd || null,
+          nickname: nickname || null,
+          phone_number: phoneNumber || null,
+          email: email || null,
+          is_master: user.is_master,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((resp) => {
+        alert(`수정이 완료되었습니다. 다시 로그인해주세요.`);
+        logout();
+        deleteUserInfo();
+        navigate("/");
+      })
+      .catch((err) => alert(err.response.data.message));
   };
   return (
     <Container>

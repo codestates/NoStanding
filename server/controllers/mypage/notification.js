@@ -108,7 +108,7 @@ module.exports = {
       );
       return res.status(200).send({
         data: { notificationInfo: notificationUpdate },
-        message: '정보 입력 완료',
+        message: '알림 확인',
       });
     } catch (err) {
       res.status(500).send({ message: 'Server Error' });
