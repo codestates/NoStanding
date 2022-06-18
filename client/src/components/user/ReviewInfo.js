@@ -45,9 +45,9 @@ const Button = styled.button`
   }
 `;
 function ReviewInfo({ data, getReviewData }) {
+  console.log(data);
   const [image, setImage] = useState([]);
   const [loding, setLoding] = useState(false);
-  const [checkEmail, setCheckEmail] = useState(false);
   const getImage = useCallback(async () => {
     const parsing = await JSON.parse(data.image_src);
     if (parsing === null) {
@@ -87,9 +87,11 @@ function ReviewInfo({ data, getReviewData }) {
       {loding ? (
         <>
           <div>
-            {image.map((img) => {
-              return <Img src={img.location} key={img.key} />;
-            })}
+            {image.map((img, idx) => (
+              <div key={idx}>
+                <Img src={img.location} />
+              </div>
+            ))}
           </div>
           <Div>
             <ShopNameDiv>{data.shop_name}</ShopNameDiv>

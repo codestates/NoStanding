@@ -226,7 +226,7 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
           />
           <div>{renderImg(imgList)}</div>
           <InputContainer>
-          <InputLabel for="file">사진 등록하기</InputLabel>
+          <InputLabel htmlfor="file">사진 등록하기</InputLabel>
           <Input type="file" accept="image/*" multiple onChange={uploadImg} id="file" />
           </InputContainer>
           <Button>리뷰 등록하기</Button>

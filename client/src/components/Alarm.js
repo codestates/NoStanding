@@ -4,10 +4,11 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { getAlarm } from "../store/store";
 import ReviewModal from "./ReviewModal";
+import RereviewModal from "./RereviewModal";
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
 `;
 
@@ -33,7 +34,6 @@ const Button = styled.button`
 function Alarm({ userInfo, data, idx, getAlarmData }) {
   const [openReview, setOpenReview] = useState(false);
   const [chooseIdx, setChooseIdx] = useState(0);
-  console.log(userInfo);
   const clickAlarm = (id) => {
     axios
       .patch(
@@ -59,10 +59,8 @@ function Alarm({ userInfo, data, idx, getAlarmData }) {
           })
       );
   };
-
-  const clickOpenReview = (id) => {
+  const clickOpenReview = () => {
     setOpenReview(true);
-    setChooseIdx(id);
   };
 
   return (
@@ -71,14 +69,22 @@ function Alarm({ userInfo, data, idx, getAlarmData }) {
         {data.contents}
       </P>
       {data.review === 1 || data.rereview === 1 ? (
-        <Button onClick={() => clickOpenReview(idx)}>리뷰 작성하기</Button>
+        userInfo.is_master === 0 ? (
+          <Button onClick={() => clickOpenReview()}>리뷰 작성하기</Button>
+        ) : (
+          <Button onClick={() => clickOpenReview()}>답글 작성하기</Button>
+        )
       ) : null}
       {openReview ? (
-        <ReviewModal
-          isOpen={setOpenReview}
-          shopId={data[chooseIdx].reservation.menu.shop_id}
-          alarmData={data[chooseIdx]}
-        />
+        userInfo.is_master === 0 ? (
+          <ReviewModal
+            isOpen={setOpenReview}
+            shopId={data.reservation.menu.shop_id}
+            alarmData={data}
+          />
+        ) : (
+          <RereviewModal isOpen={setOpenReview} alarmData={data} />
+        )
       ) : null}
     </Container>
   );

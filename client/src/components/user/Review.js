@@ -44,6 +44,7 @@ function Review({ userInfo }) {
       {reviewData.map((data, index) => (
         <ReviewInfo data={data} getReviewData={getReviewData} key={index} />
       ))}
+      {reviewData.length ===0? <div>작성된 후기가 없습니다.</div>:null}
     </Container>
   );
 }

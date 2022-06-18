@@ -217,7 +217,7 @@ function Header({
             <NavMenu onClick={clickMypage}>마이페이지</NavMenu>
           </Link>
           <FontAwesomeIcon icon={faBell} onClick={clickAlarm}></FontAwesomeIcon>
-          {alarmOpen ? <AlarmModal setRingAlarm={setRingAlarm}/> : null}
+          {alarmOpen ? <AlarmModal setRingAlarm={setRingAlarm} /> : null}
           {isOpen ? <Login controlClose={controlClose} /> : null}
         </Menu>
       </Navbar>
