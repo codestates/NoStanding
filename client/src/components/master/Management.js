@@ -18,6 +18,7 @@ const Container = styled.div`
 `;
 const H2 = styled.h2`
   margin: 1em;
+  transform: translateX(25%);
 `;
 const Div = styled.div``;
 const Div2 = styled.div`

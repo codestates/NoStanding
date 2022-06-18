@@ -9,7 +9,7 @@ import Modal from "react-modal";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 75%;
   height: 100%;
   margin: 0px auto;
   h2 {
@@ -22,8 +22,11 @@ const FlexDiv = styled.div`
   flex-direction: ${(props) => props.direction};
 `;
 const MenuContainer = styled.div`
-  border: 2px solid black;
+  padding: 1em;
+  border: 2px solid rgb(21, 64, 99);
+  border-radius: 10px;
   height: 100%;
+  margin: 1em;
 `;
 const Button = styled.button`
   display: flex;
@@ -40,11 +43,27 @@ const Button = styled.button`
   font-weight: 700;
 `;
 
+const Img = styled.img`
+  width: 10%;
+  height: 10%;
+`;
+
 const Menubar = styled.div`
   border: 2px solid black;
   width: 100%;
   height: 100%;
 `;
+const UserNameDiv = styled.div`
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 1rem;
+`;
+const DateDiv = styled.div`
+  font-size: small;
+  color: rgb(85, 85, 85);
+  margin-bottom: 1rem;
+`;
+
 const Menu = ({ userInfo }) => {
   const [menu, setMenu] = useState(""); //입력하는 메뉴
   const [img, setImg] = useState([]); //넣는 이미지
@@ -235,9 +254,9 @@ const Menu = ({ userInfo }) => {
         const menuid = menu.id;
         return (
           <MenuContainer key={menuid}>
-            <img src={menu.image_src[0]?.location}></img>
-            <div>{menu.name}</div>
-            <div>{menu.price}</div>
+            <Img src={menu.image_src[0]?.location}></Img>
+            <UserNameDiv>{menu.name}</UserNameDiv>
+            <DateDiv>{menu.price}</DateDiv>
             <button onClick={() => minusMenu(menu)}>삭제하기</button>
           </MenuContainer>
         );

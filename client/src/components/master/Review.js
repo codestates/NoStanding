@@ -8,18 +8,17 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin: 0px auto;
+  width: 70vw;
+  margin-left: 25em;
   h2 {
     margin: 1em;
-    transform: translateX(30%);
   }
 `;
 
 const Div = styled.div``;
 const ReviewBox = styled.div`
   padding: 1rem;
-  width: 100%;
+  width: 70%;
   display: flex;
   flex-direction: column;
   border: 2px solid rgb(21, 64, 99);

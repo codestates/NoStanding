@@ -7,9 +7,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 75%;
   h2 {
     margin: 1em;
   }
+  margin: 0px auto;
 `;
 const ImgBox = styled.div`
   height: 100%;
@@ -41,8 +43,12 @@ const FlexDiv2 = styled.div`
   padding: 3rem;
 `;
 const Img = styled.img`
-  height: 15vh;
-  width: 15vw;
+  height: 10em;
+  width: 10em;
+`;
+
+const Input = styled.input`
+  margin: 1em;
 `;
 const Floatbutton = styled.button`
   width: 3em;
@@ -140,6 +146,14 @@ const Photo = ({ userInfo }) => {
   }, []);
 
   const upLoadImg = (e) => {
+    console.log(imgstore);
+    const nullorimg = imgstore.map((el) => {
+      if (el.location) {
+        return true;
+      } else {
+        return false;
+      }
+    });
     console.log(e.target.files);
     setSubmitFormData(e.target.files);
     const currentImgList = Array.from(e.target.files).map((file) =>
@@ -181,12 +195,12 @@ const Photo = ({ userInfo }) => {
           <Div>이미지는 4개까지 게시가능합니다. </Div>
           {renderImg(imgstore)}
         </Imgcontainerbox>
-        <input
+        <Input
           type="file"
           accept="image/*"
           multiple
           onChange={upLoadImg}
-        ></input>
+        ></Input>
         <Plusimgbutton onClick={postPhoto}>추가하기</Plusimgbutton>
       </FlexDiv>
     </Container>

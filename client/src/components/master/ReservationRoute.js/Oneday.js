@@ -29,6 +29,7 @@ const Timebar = styled.div`
   border: 2px solid rgb(21, 64, 99);
   border-radius: 5px;
   height: 10vh;
+  width: 40vw;
   vertical-align: middle;
   margin-top: 10px;
   display: flex;
