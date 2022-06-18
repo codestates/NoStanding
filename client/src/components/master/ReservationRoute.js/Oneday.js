@@ -29,6 +29,7 @@ const Timebar = styled.div`
   border: 2px solid rgb(21, 64, 99);
   border-radius: 5px;
   height: 10vh;
+  width: 40vw;
   vertical-align: middle;
   margin-top: 10px;
   display: flex;
@@ -48,7 +49,8 @@ const Deletebutton = styled.button`
   top: -120%;
   :hover {
     transform: scale(1.05);
-    background-color: tomato;
+    background-color: aqua;
+    font-size: scale(1.05);
   }
   @media only screen and (max-width: 48rem) {
     font-size: 0.5rem;
@@ -99,7 +101,7 @@ const Oneday = ({ userInfo, pickeddate }) => {
         { withCredentials: true }
       )
       .then((resp) => {
-        getReservation(); 
+        getReservation();
         //알림날리는 axios 해야
       });
   };

@@ -7,27 +7,38 @@ import Shopinfo from "./ManagementRoute/Shopinfo";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 100%;
+  height: 100%;
+  margin: 0px auto;
+  h2 {
+    margin: 1em;
+  }
 `;
 const H2 = styled.h2`
   margin: 1em;
+  transform: translateX(25%);
 `;
-const Div = styled.div`
-  border-bottom: 2px solid black;
-`;
+const Div = styled.div``;
 const Div2 = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 `;
 const Menubar = styled.div`
-  border: 2px solid black;
-  width: 30vw;
+  border: 2px solid rgb(21, 64, 99);
+  width: 15vw;
   height: 5vw;
+  margin: 1rem;
+  border-radius: 10px;
+  font-size: large;
   text-align: center;
   padding: 2vw 0;
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
 `;
 
 function Management() {

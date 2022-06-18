@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import Alarm from "../Alarm";
 const Container = styled.div`
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
-  width: 90vw;
+  width: 70vw;
+  margin-left: 25em;
   h2 {
     margin: 1em;
   }
