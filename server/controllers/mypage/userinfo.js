@@ -64,38 +64,51 @@ module.exports = {
             }
           }
 
-          // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
-          const salt = crypto.randomBytes(64).toString('base64');
-          // password를 salt를 첨가하여 sha512 알고리즘으로 305943번 해싱 후 64바이트 buffer 형식으로 반환
-          const key = await pbkdf2Promise(password, salt, 305943, 64, 'sha512');
-          // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
-          const hashedPassword = key.toString('base64');
+          if (password) {
+            // 64바이트 Salt 생성, buffer 형식이므로 base64 문자열로 변환
+            const salt = crypto.randomBytes(64).toString('base64');
+            // password를 salt를 첨가하여 sha512 알고리즘으로 305943번 해싱 후 64바이트 buffer 형식으로 반환
+            const key = await pbkdf2Promise(
+              password,
+              salt,
+              305943,
+              64,
+              'sha512',
+            );
+            // key값은 buffer 형식이므로 base64 문자열로 변환한 값을 hashedPassword 변수에 넣는다.
+            const hashedPassword = key.toString('base64');
+
+            await User.update(
+              {
+                user_salt: salt ? salt : userInfo.dataValues.salt,
+                user_name: userInfo.dataValues.user_name,
+                password: hashedPassword
+                  ? hashedPassword
+                  : userInfo.dataValues.password,
+                nickname: nickname ? nickname : userInfo.dataValues.nickname,
+                phone_number: phone_number
+                  ? phone_number
+                  : userInfo.dataValues.nickname,
+              },
+              { where: { id: userInfo.dataValues.id } },
+            );
+            return res.status(200).send({ message: '변경 완료' });
+          }
 
           await User.update(
             {
-              user_salt: salt ? salt : userInfo.dataValues.salt,
-              user_name,
-              password: hashedPassword
-                ? hashedPassword
-                : userInfo.dataValues.password,
+              user_salt: userInfo.dataValues.salt,
+              user_name: userInfo.dataValues.user_name,
+              password: userInfo.dataValues.password,
               nickname: nickname ? nickname : userInfo.dataValues.nickname,
               phone_number: phone_number
                 ? phone_number
                 : userInfo.dataValues.nickname,
-              email,
             },
             { where: { id: userInfo.dataValues.id } },
           );
 
-          const newUserInfo = await User.findOne({
-            where: { id: userInfo.dataValues.id },
-          });
-          delete newUserInfo.dataValues.password;
-          delete newUserInfo.dataValues.user_salt;
-
-          return res
-            .status(200)
-            .send({ data: { userInfo: newUserInfo }, message: '변경 완료' });
+          return res.status(200).send({ message: '변경 완료' });
         }
 
         if (is_master === 1) {

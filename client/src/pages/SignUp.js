@@ -82,7 +82,7 @@ const CheckBtn = styled.button`
   &[disabled] {
     cursor: revert;
     transform: revert;
-    background-color: rgb(65,65,65);
+    background-color: rgb(65, 65, 65);
   }
 `;
 const Button = styled.button`
@@ -129,7 +129,7 @@ function SingUp() {
   const [minutes, setMinutes] = useState(3);
   const [seconds, setSeconds] = useState(0);
   const navigate = useNavigate();
-  const category = ["음식", "카페", "미용"];
+  const category = ["음식", "카페"];
   const categoryCity = [
     "서울",
     "부산",
@@ -150,7 +150,7 @@ function SingUp() {
     if (email !== "") {
       setMinutes(2);
       setSeconds(59);
-      setCheckEmail(true)
+      setCheckEmail(true);
       axios
         .post(`${process.env.REACT_APP_API_URL}/emailcheck`, {
           email: email,
@@ -160,12 +160,12 @@ function SingUp() {
           setConfirmNum(resp.data.data);
         })
         .catch((err) => {
-          setCheckEmail(false)
-          alert(err.response.data.message)
+          setCheckEmail(false);
+          alert(err.response.data.message);
         });
     } else {
       alert("이메일을 입력해주세요");
-      setCheckEmail(false)
+      setCheckEmail(false);
     }
   };
 

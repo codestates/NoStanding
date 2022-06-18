@@ -50,10 +50,12 @@ function ReviewInfo({ data, getReviewData }) {
   const [checkEmail, setCheckEmail] = useState(false);
   const getImage = useCallback(async () => {
     const parsing = await JSON.parse(data.image_src);
-    if (parsing.length !== 0) {
-      setImage(parsing);
+    if (parsing === null) {
+      setImage([{ location: require("../../img/default.png"), key: 1 }]);
+    } else if (parsing.length === 0) {
+      setImage([{ location: require("../../img/default.png"), key: 1 }]);
     } else {
-      setImage([{ location: "/img/default.png", key: 1 }]);
+      setImage(parsing);
     }
     setLoding(true);
   }, []);
@@ -64,16 +66,17 @@ function ReviewInfo({ data, getReviewData }) {
       })
       .then((resp) => {
         const keys = image.map((el) => el.key);
-        for (let i = 0; i < keys.length; i++) {
-          axios
-            .delete(`${process.env.REACT_APP_API_URL}/${keys[i]}`, {
+        if (image.map((el) => el.key)[0] !== 1) {
+          for (let i = 0; i < keys.length; i++) {
+            axios.delete(`${process.env.REACT_APP_API_URL}/${keys[i]}`, {
               withCredentials: true,
-            })
-            .then((resp) => {
-              getReviewData();
-              alert("리뷰가 삭제되었습니다.");
             });
+          }
         }
+      })
+      .then((resp) => {
+        getReviewData();
+        alert("리뷰가 삭제되었습니다.");
       });
   };
   useEffect(() => {

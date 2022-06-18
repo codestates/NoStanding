@@ -14,8 +14,8 @@ const Container = styled.div`
 const P = styled.p`
   color: ${(props) => (props.isRead === 1 ? "gray" : "black")};
   :hover {
-      cursor: pointer;
-    }
+    cursor: pointer;
+  }
 `;
 
 const Button = styled.button`
