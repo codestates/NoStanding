@@ -38,7 +38,6 @@ function FindPassword() {
   };
   const submitConfirmNum = (e) => {
     e.preventDefault();
-    setEmailcheckOK(true);
     console.log(confirmNum, userConfirmNum);
     if(Number(confirmNum) === Number(userConfirmNum)) {
     axios
@@ -50,6 +49,7 @@ function FindPassword() {
       .then((resp) => {
         console.log(resp);
         alert("인증완료!");
+        setEmailcheckOK(true);
         setCheckEmail(false);
       }).catch((err) => {
        console.log(err.response.data.message);

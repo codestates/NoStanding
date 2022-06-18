@@ -2,17 +2,20 @@ import axios from "axios";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
+import { getAlarm } from "../store/store";
 import ReviewModal from "./ReviewModal";
-
 const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-`
+`;
 
 const P = styled.p`
   color: ${(props) => (props.isRead === 1 ? "gray" : "black")};
+  :hover {
+      cursor: pointer;
+    }
 `;
 
 const Button = styled.button`
@@ -27,7 +30,7 @@ const Button = styled.button`
   }
 `;
 
-function Alarm({userInfo, data, idx }) {
+function Alarm({ userInfo, data, idx, getAlarmData }) {
   const [openReview, setOpenReview] = useState(false);
   const [chooseIdx, setChooseIdx] = useState(0);
   console.log(userInfo);
@@ -43,7 +46,18 @@ function Alarm({userInfo, data, idx }) {
           withCredentials: true,
         }
       )
-      .then((resp) => alert(resp.data.message));
+      .then((resp) =>
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/mypage/notification/${userInfo.user_name}`,
+            {
+              withCredentials: true,
+            }
+          )
+          .then((resp) => {
+            getAlarmData(resp.data.data);
+          })
+      );
   };
 
   const clickOpenReview = (id) => {
@@ -67,11 +81,19 @@ function Alarm({userInfo, data, idx }) {
         />
       ) : null}
     </Container>
-  )
+  );
 }
 function mapStateToProps(state) {
   return {
+    alarmData: state.alarmState,
     userInfo: state.loginInfo.userInfo,
-  }
+  };
 }
-export default connect(mapStateToProps)(Alarm);
+function mapDispatchToProps(dispatch) {
+  return {
+    getAlarmData: (data) => {
+      dispatch(getAlarm(data));
+    },
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Alarm);
