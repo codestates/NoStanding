@@ -41,8 +41,8 @@ function Review({ userInfo }) {
   return (
     <Container>
         <h2>내가 쓴 후기</h2>
-      {reviewData.map((data) => (
-        <ReviewInfo data={data} getReviewData={getReviewData} />
+      {reviewData.map((data, index) => (
+        <ReviewInfo data={data} getReviewData={getReviewData} key={index} />
       ))}
     </Container>
   );
