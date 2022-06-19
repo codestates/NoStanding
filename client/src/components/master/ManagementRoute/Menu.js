@@ -22,6 +22,15 @@ const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
 `;
+
+const Div = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+  align-items: flex-end;
+  width: 100%;
+  height: 25%;
+`;
 const MenuContainer = styled.div`
   padding: 1em;
   border: 2px solid rgb(21, 64, 99);
@@ -46,7 +55,20 @@ const Button = styled.button`
   }
   margin: 1em;
 `;
+const PlusButton = styled.button`
+  width: 50%;
+  height: 40%;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+  position: relative;
+  float: right;
 
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
+`;
 const DeleteButton = styled.button`
   width: 50%;
   height: 30%;
@@ -74,12 +96,13 @@ const Menubar = styled.div`
 const UserNameDiv = styled.div`
   font-size: larger;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin: 1em;
 `;
 const DateDiv = styled.div`
-  font-size: small;
+  font-size: larger;
+
   color: rgb(85, 85, 85);
-  margin-bottom: 1rem;
+  margin: 1em;
 `;
 const Div1 = styled.div`
   width: 20%;
@@ -101,6 +124,14 @@ const Div4 = styled.div`
   text-align: center;
   justify-content: center;
   width: 75%;
+`;
+
+const NameinputForm = styled.div`
+  margin: 1em;
+`;
+
+const PriceinputForm = styled.div`
+  margin: 1em;
 `;
 const Menu = ({ userInfo }) => {
   const [menu, setMenu] = useState(""); //입력하는 메뉴
@@ -266,7 +297,7 @@ const Menu = ({ userInfo }) => {
             top: "30%",
             left: "29%",
             right: "32%",
-            bottom: "50%",
+            bottom: "40%",
             border: "1px solid #ccc",
             background: "#fff",
             overflow: "auto",
@@ -277,14 +308,22 @@ const Menu = ({ userInfo }) => {
           },
         }}
       >
-        <div>메뉴추가하기</div>
-        <div>이름</div>
-        <input onChange={(e) => setMenu(e.target.value)} value={menu}></input>
-        <div>가격</div>
-        <input onChange={(e) => setPrice(e.target.value)} value={price}></input>
-        <input type="file" accept="image/*" onChange={upLoadImg}></input>
-        <div>{renderImg(img)}</div>
-        <button onClick={() => plusMenu()}>추가하기</button>
+        <UserNameDiv>메뉴추가하기</UserNameDiv>
+        <NameinputForm>
+          <div>이름</div>
+          <input onChange={(e) => setMenu(e.target.value)} value={menu}></input>
+        </NameinputForm>
+        <PriceinputForm>
+          <div>가격</div>
+          <input
+            onChange={(e) => setPrice(e.target.value)}
+            value={price}
+          ></input>
+        </PriceinputForm>
+        <Div direction="row" className="pluscontainer">
+          <input type="file" accept="image/*" onChange={upLoadImg}></input>
+          <PlusButton onClick={() => plusMenu()}>추가하기</PlusButton>
+        </Div>
       </Modal>
       {menubar.map((menu, idx) => {
         const menuid = menu.id;
@@ -299,7 +338,7 @@ const Menu = ({ userInfo }) => {
             </Div1>
             <Div2>
               <UserNameDiv>{menu.name}</UserNameDiv>
-              <DateDiv>{menu.price}</DateDiv>
+              <DateDiv>{`${menu.price}원`}</DateDiv>
             </Div2>
             <Div3>
               <DeleteButton onClick={() => minusMenu(menu)}>

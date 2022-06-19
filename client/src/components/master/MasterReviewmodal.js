@@ -32,7 +32,7 @@ const FlexDiv = styled.div`
 
 function MasterReviewmodal({ userInfo, isOpen, reviewId, getReviewInfo }) {
   const [re_review, setRe_review] = useState("");
-  
+
   const controlClose = (val) => {
     isOpen(val);
   };
@@ -47,8 +47,10 @@ function MasterReviewmodal({ userInfo, isOpen, reviewId, getReviewInfo }) {
       .then((resp) => {
         setRe_review("");
         isOpen(false);
+        alert("답글이 정상적으로 작성되었습니다.");
         getReviewInfo();
-      });
+      })
+      .catch((err) => alert(err.response.data.message));
   };
   return (
     <Modal
