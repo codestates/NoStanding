@@ -5,6 +5,7 @@ import axios from "axios";
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
   height: 100%;
   h2 {
@@ -29,7 +30,7 @@ const Editbutton = styled.button`
   height: 5em;
   background-color: rgb(21, 64, 99);
   color: white;
-  right: -50%;
+
   border-radius: 0.5rem;
   position: relative;
   float: right;
@@ -43,7 +44,7 @@ const Editbutton = styled.button`
 const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
-  width: 100%;
+  width: 75%;
   align-items: center;
   padding: 0 2rem;
   justify-content: space-between;
@@ -110,9 +111,9 @@ const Shopinfo = ({ userInfo }) => {
           ></Input>
         </FlexDiv>
         <FlexDiv direction="row">
-          <div>운영시간(4자리숫자~4자리숫자 형식 요망)</div>
+          <div>운영시간</div>
           <Input
-            placeholder={shop.business_hour}
+            placeholder={`${shop.business_hour}(이와같은형식으로 기입해야함)`}
             value={runtime}
             onChange={(e) => setRuntime(e.target.value)}
           ></Input>

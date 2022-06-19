@@ -137,7 +137,9 @@ function Review({ userInfo }) {
             <FlexDiv primary="row">
               {Review.image_src ? (
                 <Img src={Review.image_src.location}></Img>
-              ) : null}
+              ) : (
+                <Img src={require("../../img/default.png")}></Img>
+              )}
               <ReviewButton onClick={() => sendDate(reviewid)} idx={idx}>
                 답글
               </ReviewButton>
