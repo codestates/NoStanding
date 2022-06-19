@@ -25,12 +25,15 @@ module.exports = {
       }
       // const image = {key : req.file.key , src : req.file.location}
 
-      const reviewInfo = Models.Review.findOne({
+      const reviewInfo = await Models.Review.findOne({
         where: {
           user_id: userInfo.dataValues.id,
           shop_id: shop_id,
         },
+        order: [['id', 'DESC']],
       });
+
+      console.log(reviewInfo);
 
       if (!reviewInfo) {
         await Models.Review.create({
@@ -45,8 +48,7 @@ module.exports = {
           },
           {
             where: {
-              user_id: userInfo.dataValues.id,
-              shop_id: shop_id,
+              id: reviewInfo.dataValues.id,
             },
           },
         );
