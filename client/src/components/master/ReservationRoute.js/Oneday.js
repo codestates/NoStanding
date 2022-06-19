@@ -14,11 +14,11 @@ const OneRes = styled.div`
   border: 2px solid rgb(21, 64, 99);
   border-radius: 10px;
   align-items: center;
-  width: 10vw;
+  width: 30%;
   display: inline-block;
   text-align: center;
-  height: 5vh;
-  margin: 10px;
+  height: 85%;
+  margin: 1em;
   padding: 0.5rem;
   justify-content: space-between;
   @media only screen and (max-width: 48rem) {
@@ -29,6 +29,7 @@ const Timebar = styled.div`
   border: 2px solid rgb(21, 64, 99);
   border-radius: 5px;
   height: 10vh;
+  align-items: center;
   width: 40vw;
   vertical-align: middle;
   margin-top: 10px;
