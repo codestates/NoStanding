@@ -158,15 +158,18 @@ const Review = styled.div`
 
 const Bookbutton = styled.button`
   font-size: 20px;
-  font-weight: bold;
-  height: 50px;
+  font-weight: 500;
+  height: 40px;
   width: 100%;
   position: sticky;
   bottom: 0px;
   z-index: 100;
   align-self: center;
   justify-self: flex-end;
-  background-color: rgba(21, 64, 99, 0.5);
+  border-top-left-radius:7px;
+  border-top-right-radius:7px;
+  color: white;
+  background-color: rgba(21, 64, 99,0.9);
   p {
     :hover {
       transform: scale(1.05);
