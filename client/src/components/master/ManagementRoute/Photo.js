@@ -110,6 +110,7 @@ const InputContainer = styled.div`
   width: auto;
   margin-top: 5px;
 `;
+const PreviewDeletebutton = styled.button``;
 const Photo = ({ userInfo }) => {
   console.log(userInfo);
   const [imgstore, setImgstore] = useState([]);
@@ -133,7 +134,7 @@ const Photo = ({ userInfo }) => {
           setImgstore(parsing);
         }
       })
-      .catch((err) => err.response);
+      .catch((err) => alert(err.response.data.message))
   }, []);
   const deletePhoto = (idx) => {
     axios
@@ -151,7 +152,8 @@ const Photo = ({ userInfo }) => {
         getPhoto();
         getShopData();
       })
-      .then((resp) => console.log(resp));
+      .then((resp) => console.log(resp))
+      .catch((err) => alert(err.response.data.message));
   };
   const postPhoto = (e) => {
     e.preventDefault();
@@ -258,8 +260,10 @@ const Photo = ({ userInfo }) => {
           function () {
             var image = new Image();
             image.height = 100;
+            image.width = 100;
             image.title = file.name;
             image.src = this.result;
+
             preview.appendChild(image);
           },
           false
@@ -299,18 +303,20 @@ const Photo = ({ userInfo }) => {
           <Div>이미지는 4개까지 게시가능합니다. </Div>
           <div> {renderImg(imgstore)} </div>
         </Imgcontainerbox>
-        <div id="preview"></div>
-        <InputContainer>
-          <InputLabel for="file">사진 등록하기</InputLabel>
-          <Input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={upLoadImg}
-            id="file"
-          ></Input>
-        </InputContainer>
+        <FlexDiv direction="row">
+          <InputContainer>
+            <InputLabel for="file">사진 등록하기</InputLabel>
 
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={upLoadImg}
+              id="file"
+            ></Input>
+          </InputContainer>
+          <div id="preview"></div>
+        </FlexDiv>
         <Plusimgbutton onClick={postPhoto}>추가하기</Plusimgbutton>
       </FlexDiv>
     </Container>
