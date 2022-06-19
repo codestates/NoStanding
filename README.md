@@ -56,7 +56,40 @@
 * Position: **Back-End(Team Leader)**
 * Stack : `Node` `Sequelize` `JWT` `Express` `MySQL` `Axios`
 * Contributions :
-  * A
+  * **서버 환경 구축** 
+  * **API 문서 작성**
+    * Swagger 활용
+  * **스키마 작성**
+  * **OAuth 계정연동 회원가입**
+  * **카테고리 필터**
+    * 선택 카테고리 별 필터링 된 Data 제공
+    * 별점순, 리뷰순으로 정렬 가능
+  * **회원가입**
+    * 점주 회원가입 시 주소 데이터를 위도,경도 변환 후 데이터 저장
+  * **예약하기**
+    * 가게 선택 후 시간,메뉴 채택하여 예약 가능
+  * **마이페이지 ( 고객 )**
+    * 예약 내역 조회
+       * 고객의 예약 내역 제공
+       * 예약 취소 가능
+    * 즐겨찾기
+       * 즐겨찾기 된 가게 정보 제공
+       * 추가 및 삭제 가능
+    * 리뷰 추가
+       * 사진 업로드 기능/삭제 가능(Multer 활용)
+  * **마이페이지 ( 점주 )**
+    * 예약 현황 조회
+       * 내 가게의 예약 정보를 제공
+    * 가게 정보 수정
+       * 메뉴 이미지 업로드/삭제 가능(Multer 활용)
+       * 사진 정보 수정 , 이미지 업로드/삭제 가능(Multer 활용)
+  * **https 배포**
+    * client
+      * S3 , CloudFront 활용
+    * server
+      * EC2 , RDS , ELB 활용
+    * client-server 연결
+      * Router53 활용
 
 ***
 </details>
@@ -69,6 +102,8 @@
 * Stack : `Node` `Sequelize` `JWT` `Express` `MySQL` `Axios`
 * Contributions :
   * **스키마 작성**
+  * **API 문서 작성**
+    * Swagger 활용
   * **OAuth 계정연동 회원가입**
   * **회원가입**
     * 중복 확인
@@ -116,10 +151,45 @@
 ***
 * <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-Sun970324-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Front-End**
-* Stack : `React` `Redux` `Redux Toolkit` `React-Router` `JavaScript` `Styled-Components` `Axios`
+* Stack : `React` `React-Router` `React-Redux` `Redux-Toolkit` `Redux-Persist` `JavaScript` `Styled-Components` `Axios`
 * Contributions :
-  * A
-
+  * **Basic**
+    * Figma를 통한 전체 구조 틀 계획
+    * Flowchart 계획
+  * **Front**
+    * 라우팅 구성 및 중첩라우팅 구성
+    * 로딩 인디케이터 구현
+    * React-Redux를 통한 State 관리
+    * 메인페이지
+      * 구조 및 CSS
+      * 페이지네이션
+      * 검색 기능
+      * 카테고리 기능
+      * 알림 기능
+    * 매장 상세 페이지
+      * 구조 및 CSS
+      * 즐겨찾기 등록/해제
+      * 매장 위치 기반 카카오 지도 마커 구현
+      * 예약기능
+    * 마이페이지 (고객회원)
+      * 구조 및 CSS
+      * 현재 시간을 기준으로 나눈 과거/현재 예약내역 구분
+      * 과거 예약내역 리뷰작성 기능
+      * 현재 예약내역 예약취소 기능
+      * 리뷰작성 별점, 사진추가하기
+      * 작성된 리뷰 삭제하기
+      * 알림 기능
+      * 회원정보 수정 구현
+      * 회원탈퇴
+    * 로그인/로그아웃 구현
+      * OAuth 2.0 소셜 회원가입 및 로그인 (카카오, 구글)
+      * Redux-persist를 활용한 로그인 유지기능
+      * 비밀번호 찾기 기능
+    * 회원가입 구현
+      * 구조 및 CSS
+      * 고객회원/점주회원 구분한 회원가입
+      * 유효성 검사 기능
+      * 이메일 중복 검사 기능
 ***
 </details>
 
@@ -130,7 +200,7 @@
 * Position: **Front-End**
 * Stack : `React` `Redux` `Redux Toolkit` `React-Router` `JavaScript` `Styled-Components` `Axios`
 * Contributions :
-  * A
+  * 
 
 ***
 </details>
