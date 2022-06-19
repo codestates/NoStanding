@@ -12,7 +12,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
   }
-  h2{
+  h2 {
     margin: 10px;
   }
 `;
@@ -41,7 +41,7 @@ const InputLabel = styled.label`
   border-radius: 0.5rem;
   text-align: center;
   padding: 10px 5px;
-  :hover{
+  :hover {
     transform: scale(1.03);
   }
 `;
@@ -62,11 +62,11 @@ const Button = styled.button`
   margin: 1em;
   width: 10em;
   height: 3em;
-  background-color: rgb(21,64,99);
+  background-color: rgb(21, 64, 99);
   color: white;
   border-radius: 0.5rem;
   align-self: flex-end;
-  :hover{
+  :hover {
     transform: scale(1.05);
     background-color: tomato;
   }
@@ -226,8 +226,14 @@ function ReviewModal({ isOpen, userInfo, shopId, alarmData }) {
           />
           <div>{renderImg(imgList)}</div>
           <InputContainer>
-          <InputLabel for="file">사진 등록하기</InputLabel>
-          <Input type="file" accept="image/*" multiple onChange={uploadImg} id="file" />
+            <InputLabel for="file">사진 등록하기</InputLabel>
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={uploadImg}
+              id="file"
+            />
           </InputContainer>
           <Button>리뷰 등록하기</Button>
         </form>
