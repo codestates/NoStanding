@@ -39,7 +39,6 @@ const Button = styled.button`
   }
 `;
 function AlarmModal({ alarmData, userInfo, setRingAlarm, getAlarmData}) {
-  console.log(alarmData);
   const [openReview, setOpenReview] = useState(false);
   const [chooseIdx, setChooseIdx] = useState(0);
   const clickAlarm = (id) => {

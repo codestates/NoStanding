@@ -68,9 +68,9 @@ const shopSearch = createSlice({
 });
 
 const persistConfig = {
-  key: "root",
-  storage,
-  whitelist: ["loginInfo", "loginState", "checkLoginHold"],
+  key: "root", // reducer 객체가 어디서 부터 저장될 것인지 설정하는 key, root부터 시작한다고 지정해준다.
+  storage, // 어느 storage를 사용할 것인지 설정해준다. 위에서 import해온 local, session storage 중 선택하여 설정했다.
+  whitelist: ["loginInfo", "loginState", "checkLoginHold"]
 };
 
 const rootReducer = combineReducers({

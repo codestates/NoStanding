@@ -17,13 +17,15 @@ const Previewimg = styled.img``;
 const ImgBox = styled.div`
   height: 100%;
   width: 100%;
-  margin-left: 5rem;
+  margin-right: 5%;
   border: 2px solid rgb(21, 64, 99);
   border-radius: 10px;
+  padding: 1em;
 `;
 const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
+  align-items: center;
 `;
 const Plusimgbutton = styled.button`
   width: 10em;
@@ -41,7 +43,8 @@ const Plusimgbutton = styled.button`
 `;
 const Imgcontainerbox = styled.div`
   height: 50%;
-  width: 100;
+  width: 70%;
+  position: relative;
   border-radius: 10px;
   border: 2px solid rgb(21, 64, 99);
 `;
@@ -58,28 +61,56 @@ const Img = styled.img`
 `;
 
 const Input = styled.input`
-  margin: 1em;
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
 `;
 const Floatbutton = styled.button`
   width: 3em;
-  height: 1em;
+  height: 3em;
   background-color: rgb(21, 64, 99);
   color: white;
-  border-radius: 0.5rem;
-  position: relative;
+  border-radius: 50%;
+  top: 80%;
+  position: absolute;
   float: right;
   :hover {
     transform: scale(1.05);
-    background-color: aqua;
+    background-color: tomato;
   }
-  margin: 1em;
 `;
 const Div = styled.div`
   background-color: aliceblue;
   border-radius: 10px;
+  height: 8vh;
   text-align: center;
+  padding: 3vh;
 `;
 
+const InputLabel = styled.label`
+  display: inline-block;
+  width: auto;
+  height: 30px;
+  background-color: #999999;
+  color: white;
+  border-radius: 0.5rem;
+  text-align: center;
+  padding: 10px 5px;
+  :hover {
+    transform: scale(1.03);
+  }
+`;
+const InputContainer = styled.div`
+  display: inline-block;
+  height: 40px;
+  vertical-align: middle;
+  width: auto;
+  margin-top: 5px;
+`;
+const PreviewDeletebutton = styled.button``;
 const Photo = ({ userInfo }) => {
   console.log(userInfo);
   const [imgstore, setImgstore] = useState([]);
@@ -103,7 +134,7 @@ const Photo = ({ userInfo }) => {
           setImgstore(parsing);
         }
       })
-      .catch((err) => err.response);
+      .catch((err) => alert(err.response.data.message))
   }, []);
   const deletePhoto = (idx) => {
     axios
@@ -121,7 +152,8 @@ const Photo = ({ userInfo }) => {
         getPhoto();
         getShopData();
       })
-      .then((resp) => console.log(resp));
+      .then((resp) => console.log(resp))
+      .catch((err) => alert(err.response.data.message));
   };
   const postPhoto = (e) => {
     e.preventDefault();
@@ -156,50 +188,108 @@ const Photo = ({ userInfo }) => {
         setShopid(resp.data.data[0].id);
       });
   }, []);
-
+  const createPreviewimg = () => {
+    setPreviewimg();
+    console.log(previewimg);
+  };
   const upLoadImg = (e) => {
+    previewFiles();
     console.log(imgstore);
-    // const nullorimg = imgstore.map((el) => {
-    //   if (el.location) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // });
+
     console.log(e.target.files);
     setSubmitFormData(e.target.files);
+
+    console.log(submitFormData);
     const currentImgList = Array.from(e.target.files).map((file) =>
       URL.createObjectURL(file)
     );
-    setPreviewimg([currentImgList]);
+
+    console.log(previewimg);
     setImgstore((previmg) => {
-      console.log(previmg);
       previmg.concat(currentImgList);
     });
+    console.log(imgstore);
     Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
+    createPreviewimg();
+    getPhoto();
   };
 
   const renderImg = (el) => {
     return (
-      <FlexDiv2 direction="row" className="이건가">
+      <FlexDiv2 direction="row" className="플렉스디브2">
         {el?.map((img, idx) => {
-          console.log(el);
-          return (
-            <>
-              <ImgBox>
-                <Img
-                  key={idx}
-                  src={img?.location ? img?.location : img[idx]}
-                  idx={idx}
-                  alt=""
-                ></Img>
-                <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
-              </ImgBox>
-            </>
-          );
+          if (img) {
+            return (
+              <>
+                <ImgBox className="나냐?">
+                  <Img key={idx} src={img?.location} idx={idx} alt=""></Img>
+                  <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
+                </ImgBox>
+              </>
+            );
+          } else {
+            return (
+              <>
+                <ImgBox className="나냐?">
+                  <Img
+                    key={idx}
+                    src={require("../../../img/default.png")}
+                    idx={idx}
+                    alt=""
+                  ></Img>
+                  <Floatbutton onClick={() => deletePhoto(idx)}>X</Floatbutton>
+                </ImgBox>
+              </>
+            );
+          }
         })}
       </FlexDiv2>
     );
+  };
+  function previewFiles() {
+    var preview = document.querySelector("#preview");
+    var files = document.querySelector("input[type=file]").files;
+
+    function readAndPreview(file) {
+      // `file.name` 형태의 확장자 규칙에 주의하세요
+      if (/\.(jpe?g|png|gif)$/i.test(file.name)) {
+        var reader = new FileReader();
+
+        reader.addEventListener(
+          "load",
+          function () {
+            var image = new Image();
+            image.height = 100;
+            image.width = 100;
+            image.title = file.name;
+            image.src = this.result;
+
+            preview.appendChild(image);
+          },
+          false
+        );
+
+        reader.readAsDataURL(file);
+      }
+    }
+
+    if (files) {
+      [].forEach.call(files, readAndPreview);
+    }
+  }
+  const clickImgDelete = (id) => {
+    setPreviewimg(previewimg.filter((_, index) => index !== id));
+  };
+  const renderImg2 = (source) => {
+    console.log(source);
+    return source.map((image, idx) => {
+      return (
+        <div key={idx}>
+          <Img src={image.location} alt="" />
+          <button onClick={() => clickImgDelete(idx)}>삭제</button>
+        </div>
+      );
+    });
   };
 
   useEffect(() => {
@@ -209,17 +299,24 @@ const Photo = ({ userInfo }) => {
   return (
     <Container>
       <FlexDiv direction="column">
-        <Imgcontainerbox>
+        <Imgcontainerbox className="이미지 컨테이너">
           <Div>이미지는 4개까지 게시가능합니다. </Div>
-          {renderImg(imgstore)}
+          <div> {renderImg(imgstore)} </div>
         </Imgcontainerbox>
-        <Input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={upLoadImg}
-        ></Input>
-        {renderImg(previewimg)}
+        <FlexDiv direction="row">
+          <InputContainer>
+            <InputLabel for="file">사진 등록하기</InputLabel>
+
+            <Input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={upLoadImg}
+              id="file"
+            ></Input>
+          </InputContainer>
+          <div id="preview"></div>
+        </FlexDiv>
         <Plusimgbutton onClick={postPhoto}>추가하기</Plusimgbutton>
       </FlexDiv>
     </Container>

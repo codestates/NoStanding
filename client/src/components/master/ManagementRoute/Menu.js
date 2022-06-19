@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faClipboardList } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 
 const Container = styled.div`
+  padding: 0 0 0 10em;
   display: flex;
   flex-direction: column;
   width: 75%;
@@ -21,12 +22,24 @@ const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.direction};
 `;
+
+const Div = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+  align-items: flex-end;
+  width: 100%;
+  height: 25%;
+`;
 const MenuContainer = styled.div`
   padding: 1em;
   border: 2px solid rgb(21, 64, 99);
   border-radius: 10px;
-  height: 100%;
+  height: 10%;
+  width: 75%;
   margin: 1em;
+  display: flex;
+  flex-direction: row;
 `;
 const Button = styled.button`
   width: 10em;
@@ -35,32 +48,44 @@ const Button = styled.button`
   color: white;
   border-radius: 0.5rem;
   position: relative;
-  float: right;
+
   :hover {
     transform: scale(1.05);
     background-color: aqua;
   }
   margin: 1em;
 `;
-
-const DeleteButton = styled.button`
-  width: 10em;
-  height: 5em;
+const PlusButton = styled.button`
+  width: 50%;
+  height: 40%;
   background-color: rgb(21, 64, 99);
   color: white;
   border-radius: 0.5rem;
   position: relative;
   float: right;
+
   :hover {
     transform: scale(1.05);
     background-color: aqua;
   }
-  margin: 1em;
+`;
+const DeleteButton = styled.button`
+  width: 50%;
+  height: 30%;
+  background-color: rgb(21, 64, 99);
+  color: white;
+  border-radius: 0.5rem;
+
+  :hover {
+    transform: scale(1.05);
+    background-color: aqua;
+  }
 `;
 
 const Img = styled.img`
-  width: 10%;
-  height: 10%;
+  width: 50%;
+  height: 5em;
+  margin: 1em;
 `;
 
 const Menubar = styled.div`
@@ -71,14 +96,43 @@ const Menubar = styled.div`
 const UserNameDiv = styled.div`
   font-size: larger;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin: 1em;
 `;
 const DateDiv = styled.div`
-  font-size: small;
+  font-size: larger;
+
   color: rgb(85, 85, 85);
-  margin-bottom: 1rem;
+  margin: 1em;
+`;
+const Div1 = styled.div`
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+`;
+const Div2 = styled.div`
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+`;
+const Div3 = styled.div`
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const Div4 = styled.div`
+  text-align: center;
+  justify-content: center;
+  width: 75%;
 `;
 
+const NameinputForm = styled.div`
+  margin: 1em;
+`;
+
+const PriceinputForm = styled.div`
+  margin: 1em;
+`;
 const Menu = ({ userInfo }) => {
   const [menu, setMenu] = useState(""); //입력하는 메뉴
   const [img, setImg] = useState([]); //넣는 이미지
@@ -225,8 +279,6 @@ const Menu = ({ userInfo }) => {
 
   return (
     <Container>
-      <div>{`${userInfo.user_name}의 가게 메뉴!!`}</div>
-
       <Modal
         ariaHideApp={false}
         isOpen={ismenu}
@@ -245,7 +297,7 @@ const Menu = ({ userInfo }) => {
             top: "30%",
             left: "29%",
             right: "32%",
-            bottom: "50%",
+            bottom: "40%",
             border: "1px solid #ccc",
             background: "#fff",
             overflow: "auto",
@@ -256,33 +308,51 @@ const Menu = ({ userInfo }) => {
           },
         }}
       >
-        <div>메뉴추가하기</div>
-        <div>이름</div>
-        <input onChange={(e) => setMenu(e.target.value)} value={menu}></input>
-        <div>가격</div>
-        <input onChange={(e) => setPrice(e.target.value)} value={price}></input>
-        <input type="file" accept="image/*" onChange={upLoadImg}></input>
-        <div>{renderImg(img)}</div>
-        <button onClick={() => plusMenu()}>추가하기</button>
+        <UserNameDiv>메뉴추가하기</UserNameDiv>
+        <NameinputForm>
+          <div>이름</div>
+          <input onChange={(e) => setMenu(e.target.value)} value={menu}></input>
+        </NameinputForm>
+        <PriceinputForm>
+          <div>가격</div>
+          <input
+            onChange={(e) => setPrice(e.target.value)}
+            value={price}
+          ></input>
+        </PriceinputForm>
+        <Div direction="row" className="pluscontainer">
+          <input type="file" accept="image/*" onChange={upLoadImg}></input>
+          <PlusButton onClick={() => plusMenu()}>추가하기</PlusButton>
+        </Div>
       </Modal>
       {menubar.map((menu, idx) => {
         const menuid = menu.id;
         return (
           <MenuContainer key={menuid}>
-            {menu.image_src[0] ? (
-              <Img src={menu.image_src[0]?.location}></Img>
-            ) : (
-              <Img src="../../img/default.png"></Img>
-            )}
-            <UserNameDiv>{menu.name}</UserNameDiv>
-            <DateDiv>{menu.price}</DateDiv>
-            <Button onClick={() => minusMenu(menu)}>삭제하기</Button>
+            <Div1>
+              {menu.image_src[0] ? (
+                <Img src={menu.image_src[0]?.location}></Img>
+              ) : (
+                <Img src="../../img/default.png"></Img>
+              )}
+            </Div1>
+            <Div2>
+              <UserNameDiv>{menu.name}</UserNameDiv>
+              <DateDiv>{`${menu.price}원`}</DateDiv>
+            </Div2>
+            <Div3>
+              <DeleteButton onClick={() => minusMenu(menu)}>
+                삭제하기
+              </DeleteButton>
+            </Div3>
           </MenuContainer>
         );
       })}
-      <DeleteButton onClick={() => setIsmenu(!menu)}>
-        <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-      </DeleteButton>
+      <Div4>
+        <Button onClick={() => setIsmenu(!menu)}>
+          <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+        </Button>
+      </Div4>
     </Container>
   );
 };

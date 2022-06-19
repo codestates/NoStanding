@@ -15,7 +15,9 @@ const Container = styled.div`
   }
 `;
 
-const Div = styled.div``;
+const Div = styled.div`
+  width: 100%;
+`;
 const ReviewBox = styled.div`
   padding: 1rem;
   width: 70%;
@@ -23,7 +25,7 @@ const ReviewBox = styled.div`
   flex-direction: column;
   border: 2px solid rgb(21, 64, 99);
   border-radius: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 const ReviewButton = styled.button`
   margin: 1em;
@@ -31,6 +33,8 @@ const ReviewButton = styled.button`
   height: 2em;
   background-color: rgb(21, 64, 99);
   color: white;
+  position: relative;
+  float: right;
   margin-left: auto;
   border-radius: 0.5rem;
 
@@ -40,6 +44,7 @@ const ReviewButton = styled.button`
   }
 `;
 const Rereviewbox = styled.div`
+  padding: 1em;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -48,25 +53,29 @@ const Rereviewbox = styled.div`
 const Img = styled.img`
   width: 4em;
   height: 4em;
-  margin: 1em;
+  margin: 1em 3em 1em 1em;
 `;
 const UserNameDiv = styled.div`
   font-size: larger;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 1em;
 `;
 const DateDiv = styled.div`
   font-size: small;
   color: rgb(85, 85, 85);
-  margin-bottom: 1rem;
 `;
+
 const StarDiv = styled.div`
+  margin-top: 1em;
   color: #ef5e28;
-  margin-right: 5px;
 `;
 const FlexDiv = styled.div`
   display: flex;
   flex-direction: ${(props) => props.primary};
+  height: 100%;
+  .content {
+    width: 70%;
+  }
 `;
 function Review({ userInfo }) {
   const [img, setImg] = useState([]);
@@ -120,7 +129,11 @@ function Review({ userInfo }) {
     getReviewInfo();
   }, [getReviewInfo]);
   console.log(rereview);
-
+  const makeDate = (val) => {
+    let front = val.substring(0, 10);
+    let back = val.substring(11, 19);
+    return front + " " + back;
+  };
   return (
     <Container>
       <Div>
@@ -128,33 +141,40 @@ function Review({ userInfo }) {
       </Div>
 
       {review?.map((Review, idx) => {
+        console.log(Review);
         const reviewid = Review.id;
         const filteredRereview = rereview?.filter((Rereview) => {
           return Rereview.review_id === reviewid;
         });
         return (
-          <ReviewBox key={idx}>
+          <ReviewBox key={idx} className="리뷰박스">
             <FlexDiv primary="row">
               {Review.image_src ? (
                 <Img src={Review.image_src.location}></Img>
-              ) : null}
-              <ReviewButton onClick={() => sendDate(reviewid)} idx={idx}>
-                답글
-              </ReviewButton>
+              ) : (
+                <Img src={require("../../img/default.png")}></Img>
+              )}
+              <FlexDiv primary="column" className="content">
+                <UserNameDiv>{Review.user.nickname}</UserNameDiv>
+                <Div>{Review.contents}</Div>
+                <StarDiv>{stars[Review.score - 1]}</StarDiv>
+                <DateDiv>{makeDate(Review.createdAt)}</DateDiv>
+              </FlexDiv>
+              <FlexDiv primary="column">
+                <ReviewButton onClick={() => sendDate(reviewid)} idx={idx}>
+                  답글
+                </ReviewButton>
+                <ReviewButton
+                  onClick={() => {
+                    isOpen(!open);
+                    setButtonNum(idx);
+                  }}
+                >
+                  펼치기
+                </ReviewButton>
+              </FlexDiv>
             </FlexDiv>
 
-            <UserNameDiv>{Review.user.nickname}</UserNameDiv>
-            <div>{Review.contents}</div>
-            <StarDiv>{stars[Review.score - 1]}</StarDiv>
-            <DateDiv>{Review.updatedAt}</DateDiv>
-            <ReviewButton
-              onClick={() => {
-                isOpen(!open);
-                setButtonNum(idx);
-              }}
-            >
-              펼치기
-            </ReviewButton>
             {open && buttonNum === idx ? (
               <Rereviewbox>
                 {!(filteredRereview.length === 0) ? (
@@ -162,12 +182,18 @@ function Review({ userInfo }) {
                     console.log(Rereview);
                     return (
                       <FlexDiv primary="column" key={idx}>
-                        {userInfo.image_src ? (
-                          <Img src={userInfo.image_src}></Img>
-                        ) : null}
-                        <UserNameDiv>{userInfo.user_name}</UserNameDiv>
-                        <div>{Rereview.contents}</div>
-                        <DateDiv>{Rereview.updatedAt}</DateDiv>
+                        <FlexDiv primary="row">
+                          {userInfo.image_src ? (
+                            <Img src={userInfo.image_src}></Img>
+                          ) : (
+                            <Img src={require("../../img/default.png")}></Img>
+                          )}
+                          <FlexDiv primary="column">
+                            <UserNameDiv>{userInfo.user_name}</UserNameDiv>
+                            <div>{Rereview.contents}</div>
+                            <DateDiv>{makeDate(Rereview.updatedAt)}</DateDiv>
+                          </FlexDiv>
+                        </FlexDiv>
                         <ReviewButton
                           onClick={() => deleteRereview(Rereview.id)}
                         >

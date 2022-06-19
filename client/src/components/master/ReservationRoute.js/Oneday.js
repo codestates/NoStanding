@@ -14,12 +14,14 @@ const OneRes = styled.div`
   border: 2px solid rgb(21, 64, 99);
   border-radius: 10px;
   align-items: center;
-  width: 10vw;
+  width: 30%;
   display: inline-block;
+  overflow: hidden;
   text-align: center;
-  height: 5vh;
-  margin: 10px;
-  padding: 0.5rem;
+  height: 90%;
+  padding-top: 1%;
+  margin: 1em;
+
   justify-content: space-between;
   @media only screen and (max-width: 48rem) {
     font-size: 0.5rem;
@@ -29,7 +31,9 @@ const Timebar = styled.div`
   border: 2px solid rgb(21, 64, 99);
   border-radius: 5px;
   height: 10vh;
+  align-items: center;
   width: 40vw;
+  align-items: center;
   vertical-align: middle;
   margin-top: 10px;
   display: flex;
@@ -38,15 +42,13 @@ const Timebar = styled.div`
 `;
 
 const Deletebutton = styled.button`
-  position: fixed;
-  width: 3em;
-  height: 1em;
+  width: 20%;
+  height: 50%;
   background-color: rgb(21, 64, 99);
   color: white;
   border-radius: 0.5rem;
-  position: relative;
+
   float: right;
-  top: -120%;
   :hover {
     transform: scale(1.05);
     background-color: aqua;
@@ -55,6 +57,19 @@ const Deletebutton = styled.button`
   @media only screen and (max-width: 48rem) {
     font-size: 0.5rem;
   }
+`;
+const Div1 = styled.div`
+  font-size: 70%;
+
+  font-display: inherit;
+`;
+const Div2 = styled.div`
+  font-size: 50%;
+`;
+const Reservationcontent = styled.div`
+  padding: 1%;
+  display: flex;
+  flex-direction: column;
 `;
 const Oneday = ({ userInfo, pickeddate }) => {
   let pickeddate2 = pickeddate.replace(/[^0-9]/g, "");
@@ -91,7 +106,7 @@ const Oneday = ({ userInfo, pickeddate }) => {
 
         console.log(realreservationlist);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.response.data.message));
   }, []);
 
   const deleteReservation = (id) => {
@@ -102,6 +117,7 @@ const Oneday = ({ userInfo, pickeddate }) => {
       )
       .then((resp) => {
         getReservation();
+        alert("예약이 삭제되었습니다.");
         //알림날리는 axios 해야
       });
   };
@@ -125,13 +141,15 @@ const Oneday = ({ userInfo, pickeddate }) => {
               console.log(time);
               return String(time) === hour ? (
                 <OneRes key={idx}>
-                  <div>{el.name}</div>
-                  <div>
-                    {time}시{el.date.replace(/[^0-9]/g, "").slice(10, 12)}분
-                  </div>
                   <Deletebutton onClick={() => deleteReservation(el.id)}>
                     <FontAwesomeIcon icon={faXmark}></FontAwesomeIcon>
                   </Deletebutton>
+                  <Reservationcontent>
+                    <Div1>{el.name}</Div1>
+                    <Div2>
+                      {time}시{el.date.replace(/[^0-9]/g, "").slice(10, 12)}분
+                    </Div2>
+                  </Reservationcontent>
                 </OneRes>
               ) : null;
             })}
