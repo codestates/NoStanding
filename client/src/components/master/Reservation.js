@@ -44,7 +44,7 @@ const Xbutton = styled.button`
 `;
 function Reservation({ userInfo }) {
   const [pickeddate, setPickeddate] = useState("");
-  console.log(new Date());
+  let today = new Date().toISOString().substring(0, 10);
   return (
     <Container>
       <Reservationcontainer>
@@ -53,6 +53,7 @@ function Reservation({ userInfo }) {
         </Div>
         <input
           type="date"
+          defaultValue={today}
           onChange={(e) => setPickeddate(e.target.value)}
         ></input>
         <Oneday pickeddate={pickeddate}></Oneday>
