@@ -47,6 +47,7 @@ module.exports = {
         const createUserInfo = await User.create({
           email,
           user_name: newUsername,
+          nickname: newUsername,
           is_master: 0,
           email_key: 'success',
         });

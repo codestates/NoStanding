@@ -128,8 +128,13 @@ module.exports = {
 
     const notificationDate = await Models.Notification.findOne({
       //* user_id를 이용하여 Notification테이블에 삭제할 기준의 날짜불러와 오름차순으로 정렬
-      where: { user_id: userInfo.dataValues.id },
-      order: [['updated_date', 'ASC']],
+      where: {
+        user_id: userInfo.dataValues.id,
+        updated_date: {
+          [Op.lte]: curr,
+        },
+      },
+      order: [['updated_date', 'DESC']],
     });
 
     if (curr > notificationDate?.dataValues?.updated_date) {

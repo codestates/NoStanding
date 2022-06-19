@@ -19,7 +19,7 @@ const OneRes = styled.div`
   text-align: center;
   height: 85%;
   margin: 1em;
-  padding: 0.5rem;
+  padding: 1em 0.5em;
   justify-content: space-between;
   @media only screen and (max-width: 48rem) {
     font-size: 0.5rem;
@@ -31,6 +31,7 @@ const Timebar = styled.div`
   height: 10vh;
   align-items: center;
   width: 40vw;
+  align-items: center;
   vertical-align: middle;
   margin-top: 10px;
   display: flex;
@@ -47,7 +48,7 @@ const Deletebutton = styled.button`
   border-radius: 0.5rem;
   position: relative;
   float: right;
-  top: -120%;
+  top: -150%;
   :hover {
     transform: scale(1.05);
     background-color: aqua;
@@ -56,6 +57,9 @@ const Deletebutton = styled.button`
   @media only screen and (max-width: 48rem) {
     font-size: 0.5rem;
   }
+`;
+const Div = styled.div`
+  font-size: 50%;
 `;
 const Oneday = ({ userInfo, pickeddate }) => {
   let pickeddate2 = pickeddate.replace(/[^0-9]/g, "");
@@ -126,10 +130,10 @@ const Oneday = ({ userInfo, pickeddate }) => {
               console.log(time);
               return String(time) === hour ? (
                 <OneRes key={idx}>
-                  <div>{el.name}</div>
-                  <div>
+                  <Div>{el.name}</Div>
+                  <Div>
                     {time}시{el.date.replace(/[^0-9]/g, "").slice(10, 12)}분
-                  </div>
+                  </Div>
                   <Deletebutton onClick={() => deleteReservation(el.id)}>
                     <FontAwesomeIcon icon={faXmark}></FontAwesomeIcon>
                   </Deletebutton>
