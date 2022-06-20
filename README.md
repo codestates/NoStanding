@@ -52,7 +52,8 @@
 <details><summary>김상한</summary>
 
 ***
-* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-Sangkan.K-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
+* <a href="https://github.com/Sangkan-K"><img src="https://img.shields.io/badge/GitHub-
+Sangkan.K-181717?style=for-the-badge&logo=GitHub&logoColor=white"/></a>
 * Position: **Back-End(Team Leader)**
 * Stack : `Node` `Sequelize` `JWT` `Express` `MySQL` `Axios`
 * Contributions :
@@ -200,8 +201,40 @@
 * Position: **Front-End**
 * Stack : `React` `Redux` `Redux Toolkit` `React-Router` `JavaScript` `Styled-Components` `Axios`
 * Contributions :
-  * 
+  * **Basic**
+    * Figma를 통한 전체 구조 틀 계획
+    * Flowchart 계획
+  * **Front**
+    * 라우팅 구성 및 중첩라우팅 구성
+    * React-Redux를 통한 State 관리
+    * 헤더
+      *헤더 구현
+      *로그인 모달 창 구현
+    * 메인페이지
+      * 구조 및 CSS
+      * react-slick 이용한 자동 슬라이드 구현 및 디자인
+
+    * 매장 상세 페이지
+      * 구조 및 CSS
+      * 매장 위치 기반 카카오 지도 구현
+    * 마이페이지 (점주회원)
+      * 구조 및 CSS
+      * 날짜 별 예약 현황 확인기능 ,예약 취소 기능 구현
+      * 고객이 단 리뷰를 보여주고 리리뷰를 작성하는 기능 구현
+      * 점주는 점주의 리리뷰만 삭제 가능하게 구현
+      * 가게 정보, 가게 사진, 가게 메뉴 변경 페이지 구현
+      * 가게 메뉴 이름,가격,사진 CRUD 기능 구현
+      * 가게 사진 CRUD 기능 구현
+      * 가게 상세정보 변경 기능 구현
+      * 알림 기능
+      * 회원정보 수정 구현
+      * 회원탈퇴
+    * 로그인/로그아웃 구현
+      * OAuth 2.0 소셜 회원가입 및 로그인 (카카오, 구글)
+      * Redux-persist를 활용한 로그인 유지기능
+    * 회원가입 구현
+      * 구조 및 CSS
+      * 점주회원 주소지 API 기능 구현           
 
 ***
 </details>
-
