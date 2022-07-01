@@ -40,6 +40,10 @@
 ## AWS
 <img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/Cloudfront-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/EC2-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/RDS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/LoadBalancer-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" width="150" height="50"/><img src="https://img.shields.io/badge/Route53-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" width="150" height="50"/>
 
+# 주요 기능별 시연 GIF
+
+### 노션 작성
+* [링크](https://codestates.notion.site/7-semicolon-Nostanding-297a7ffb182f4d1b852847f2628e6c26)
 
 # More Info
 
