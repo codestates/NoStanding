@@ -3,7 +3,7 @@
 # Nostanding
 
 ### 배포링크 : https://www.semicolon-nostanding.com
-### 노션링크 : https://codestates.notion.site/7-semicolon-Nostanding-297a7ffb182f4d1b852847f2628e6c26
+### 상세정보 : https://codestates.notion.site/7-semicolon-Nostanding-297a7ffb182f4d1b852847f2628e6c26
 
 ## **LOGO**
 
